@@ -1,12 +1,9 @@
 package com.project.user.service;
 
-import com.project.party_post.post_like.dto.LikeDto;
 import com.project.user.dao.FollowMapper;
 import com.project.user.dto.FollowDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LikeDto {
+public class LikesDto {
 
     private int likeId; //좋아요 ID
     private int postId; //게시글 ID

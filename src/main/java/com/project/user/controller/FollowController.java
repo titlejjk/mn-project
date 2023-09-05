@@ -1,15 +1,10 @@
 package com.project.user.controller;
 
-import com.project.party_post.post_like.dto.LikeDto;
 import com.project.user.dto.FollowDto;
 import com.project.user.service.FollowServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/follow")

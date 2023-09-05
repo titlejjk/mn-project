@@ -1,9 +1,9 @@
 package com.project.postTest;
 
 
-import com.project.party_post.post_like.controller.LikeController;
+import com.project.party_post.post_like.controller.LikesController;
 
-import com.project.party_post.post_like.service.LikeService;
+import com.project.party_post.post_like.service.LikesService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,20 +16,20 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class LikeControllerTest {
+class LikesControllerTest {
 
     private MockMvc mockMvc;
 
     @InjectMocks
-    private LikeController likeController;
+    private LikesController likesController;
 
     @Mock
-    private LikeService likeService;
+    private LikesService likesService;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(likeController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(likesController).build();
     }
 
     @Test
