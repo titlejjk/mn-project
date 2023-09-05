@@ -17,11 +17,11 @@ public class BoardDto {
     private int rcpNum;  //게시글 번호 (PK)
     private String writer;  //글 작성자
     private String title;  //글 제목
-    private String content;  //글 내용 (제목 하단의 설명)
+    private String content;  //조리순서
     private int servingSize;  //제공 분량
     private int cookingTime;  //조리 시간
     private String cookingLevel;  //난이도
-    private String cookingOrder;  //조리 순서
+    private String ingredients;  //재료
     private int viewCount;  //조회수
     private String regdate;  //글 작성일
 

@@ -1,20 +1,13 @@
 package com.project.user.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.user.dto.UserDto;
-import com.project.user.service.FollowService;
 import com.project.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 @Slf4j
 @Controller
