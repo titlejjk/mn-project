@@ -7,20 +7,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping("/notice")
 @RequiredArgsConstructor
 public class NoticeController {
 
 
     private final NoticeService noticeService;
     // 게시글 생성
-    @PostMapping
+    @PostMapping("/insert")
     public ResponseEntity<Void> savePost(@RequestBody NoticeDto params) {
         noticeService.savePost(params);
         return ResponseEntity.ok().build();
     }
     // 모든 게시글 목록 조회
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<NoticeDto>> getPostList() {
         List<NoticeDto> posts = noticeService.findAllPost();
         return ResponseEntity.ok(posts);

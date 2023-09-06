@@ -46,7 +46,7 @@ const RecipeCardList = () => {
     //cards 배열에서 offset ~ offeset+cardsperPages범위를 슬라이스해서 현재 페이지에 가져온다.
     const currentCards = cards.slice(offset, offset + cardsPerPage);
         
-    return (
+    return ( 
         <div className='board-card-list container'>
             <div className='board-list-top'>
                 <p className='list-total-count'>전체 {totalRecipeCount} 개 </p>
