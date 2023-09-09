@@ -31,13 +31,7 @@ public class CommentServiceImpl implements CommentService{
         commentMapper.deleteComment(commentId);
     }
 
-    //한명의 회원 댓글 조회
-    @Override
-    public CommentDto getCommentById(int commentId) {
-        return commentMapper.selectCommentById(commentId);
-    }
-
-    //하나의 게시글에 대한 댓글 조회
+    //게시글에 대한 댓글 조회
     @Override
     public List<CommentDto> getCommentsByPostId(int postId) {
         return commentMapper.selectCommentsByPostId(postId);

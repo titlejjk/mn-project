@@ -11,9 +11,12 @@
     <!-- 게시글 목록 조회 -->
     <select id="getList" resultType="com.project.party.post.dto.PostDto">
         SELECT
-            post_id AS postId, user_num AS userNum, title, content,
-            created_at AS createdAt, updated_at AS updatedAt, view_count AS viewCount
-        FROM party_post
+            p.post_id AS postId, p.user_num AS userNum, p.title, p.content,
+            p.created_at AS createdAt, p.updated_at AS updatedAt, p.view_count AS viewCount,
+            i.image_url AS imageUrl
+        FROM party_post p
+        JOIN user u ON p.user_num = u.user_num
+        LEFT JOIN post_image i ON p.post_id = i.post_id
     </select>
 
     <!-- 게시글 상세 조회 -->
