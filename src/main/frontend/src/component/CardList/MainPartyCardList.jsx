@@ -20,12 +20,13 @@ const RecipeCardList = () => {
    
 
     return (
+        <div className='main-card-list container'>
         <div className="card-list">
             {Array.isArray(cards) && cards.slice(0,4).map((card, index) => (
-                <Card key={index} card={card} showTitle={false}/>
+                <Card key={index} card={card} showTitle={false} showLikeBox={false}/>
             ))}
         </div>
-        
+        </div>
     );
 };
 

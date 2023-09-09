@@ -1,6 +1,7 @@
 package com.project.user.service;
 
 import com.project.exception.CustomException.NicknameAlreadyExistsException;
+import com.project.exception.CustomException.UserNotFoundException;
 import com.project.file_service.FileUploadService;
 import com.project.security.TokenProvider;
 import com.project.user.dao.PetMapper;
@@ -11,6 +12,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
 
 @Service
@@ -37,7 +44,7 @@ public class UserServiceImpl implements UserService {
         validateUserNickname(userDto.getUserNickname());
 
         // 이미지 업로드 후 저장 경로를 userProfile에 저장
-        String imagePath = uploadImageAndUpdateProfile(userDto, "users");
+        String imagePath = uploadImageAndUpdateProfile(userDto);
         userDto.setUserProfile(imagePath);
 
 
@@ -70,8 +77,8 @@ public class UserServiceImpl implements UserService {
     }
 
     // 이미지 업로드 및 프로필 경로 업데이트
-    private String uploadImageAndUpdateProfile(UserDto userDto, String subDirectory) {
-        return fileUploadService.uploadFile(userDto.getUserImage(), subDirectory);
+    private String uploadImageAndUpdateProfile(UserDto userDto) {
+        return fileUploadService.uploadFile(userDto.getUserImage());
     }
 
     // 새 토큰 생성
@@ -86,10 +93,16 @@ public class UserServiceImpl implements UserService {
         //사용자의 Status를 'INACTIVE'로 변경
         userMapper.updateUserStatus("INACTIVE", userNum);
     }
+    //유저소생 메서드(Update Status)
+    @Override
+    public void userActive(int userNum) {
+        //사용자의 Status를 'INACTIVE'로 변경
+        userMapper.userActive("ACTIVE", userNum);
+    }
 
     @Override
     public String updatePassword(UserDto userDto) {
-// 새 비밀번호를 BCrypt 알고리즘을 사용하여 암호화합니다.
+        // 새 비밀번호를 BCrypt 알고리즘을 사용하여 암호화합니다.
         String encryptedPassword = passwordEncoder.encode(userDto.getUserNewPassword());
 
         // 암호화된 새 비밀번호를 DTO에 설정합니다.
@@ -105,4 +118,10 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserProfileAndIntroduction(String userEmail) {
         return userMapper.findProfileAndIIntroduction(userEmail);
     }
+    //회원 목록 조회
+    @Override
+    public List<UserDto> getAllUsers() {
+        return userMapper.getAllUsers();
+    }
+
 }

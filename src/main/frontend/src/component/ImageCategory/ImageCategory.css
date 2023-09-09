@@ -1,8 +1,13 @@
-.category-list{
+.PetType-category-list{
     display: flex;
     justify-content: center;
     margin: 20px 0 50px;;
 }
+
+.User-category-list{
+    margin: 20px 0 80px;;
+}
+
 
 .images-category img{
     width:50px;

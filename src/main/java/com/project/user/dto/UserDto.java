@@ -41,5 +41,5 @@ public class UserDto {
         this.userNickname = signUpRequest.getUserNickname();
         this.petTypeIds = signUpRequest.getPetTypeIds();
     }
-
 }
+

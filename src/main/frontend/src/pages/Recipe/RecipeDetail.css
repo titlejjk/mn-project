@@ -40,6 +40,7 @@
   /* \n 입력 시 줄바꿈이 적용되도록 처리 */
   white-space: pre-line;
   margin: 10px 0;
+  line-height: 20px;
 }
 
 .recipe_detail_info {
@@ -71,6 +72,10 @@
 
 .recipe_detail_info > div > div {
   margin-top: 10px;
+}
+
+.dog{
+  filter: invert(38%) sepia(3%) saturate(8%) hue-rotate(323deg) brightness(94%) contrast(86%);
 }
 
 .recipe_detail_ingre {
@@ -107,6 +112,14 @@
   display: block;
   width: 100%;
   height: auto;
+}
+
+.recipe_detail_step_item_mqtt {
+  float: right;
+  width: 200px;
+  height: 30px;
+  border: 1px solid black;
+  line-height: 30px;
 }
 
 .recipe_detail_step_item > .ingre_container {

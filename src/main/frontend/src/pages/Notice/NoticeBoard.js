@@ -26,6 +26,7 @@ const NoticeBoard = ({ user}) => {
           axios.get('http://localhost:9999/notice/list')
             .then(response => {
               setPosts(response.data);
+              console.log(response.data)
             })
             .catch(error => {
               console.error('Error fetching posts:', error);

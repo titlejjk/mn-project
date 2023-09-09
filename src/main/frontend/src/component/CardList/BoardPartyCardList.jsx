@@ -20,7 +20,7 @@ const RecipeCardList = () => {
     // 추가
     
     useEffect(() => { 
-        axios.get('http://localhost:5000/partyList')
+        axios.get('http://localhost:9999/recipe/list')
         .then(response => {
             setCards(response.data);
             setTotalRecipeCount(response.data.length); // 레시피 개수 설정
@@ -54,7 +54,7 @@ const RecipeCardList = () => {
             </div>
             <div className="card-list">
                 {Array.isArray(currentCards) && currentCards.map((card, index) => (
-                    <Card key={index} card={card} showTitle={true} />
+                    <Card key={index} card={card} showTitle={true}  showLikeBox={true} />
                 ))}
                 </div>
                 <Pagination pageCount={Math.ceil(cards.length / cardsPerPage)} onPageChange={handlePageChange} />

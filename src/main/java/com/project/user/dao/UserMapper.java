@@ -1,6 +1,9 @@
 package com.project.user.dao;
 
 import com.project.user.dto.UserDto;
+
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -35,4 +38,11 @@ public interface UserMapper {
 
     //회원의 프로필 사진과 한 줄 소개 조회
     UserDto findProfileAndIIntroduction(String userEmail);
+
+    //회원들의 정보 추출
+    List<UserDto> getAllUsers();
+
+    //유저소셍(UserStatus Update)
+    void userActive(@Param("status") String status, @Param("userNum")int userNum);
+
 }

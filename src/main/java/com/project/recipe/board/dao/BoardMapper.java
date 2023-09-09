@@ -24,6 +24,8 @@ public interface BoardMapper {
     List<BoardDto> getMyList(BoardDto dto);
     //카테고리 별 게시글 목록 조회
     List<BoardDto> getByCategory(BoardDto dto);
+    //사용자 번호로 게시글 번호 조회
+    List<Integer> getRcpNum(int userNum);
 
     //전체 글 개수
     //int getCount(BoardDto dto);

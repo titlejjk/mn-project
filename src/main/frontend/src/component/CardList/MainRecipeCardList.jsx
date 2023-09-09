@@ -13,20 +13,20 @@ const RecipeCardList = () => {
             setCards(response.data);
         })
         .catch(error => {
-           //console.error('Error fetching data:', error);
+           console.error('메인 레시피 카드리스트 Error fetching data:', error);
         });
     }, [])
    
     return (
-        <div className='recipe-card-list container'>
+        <div className='main-card-list container'>
         <div className="card-list">
             {Array.isArray(cards) && cards.slice(0,4).map((card, index) => (
                 <Card key={index} card={card} />
             ))}
                 </div>
-               
+                </div>
            
-        </div>
+       
     );
 };
 

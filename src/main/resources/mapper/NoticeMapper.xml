@@ -8,7 +8,7 @@
 
     <!-- 공지사항 저장 -->
     <insert id="save" parameterType="com.project.notice.NoticeDto" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO tb_notice (
+          INSERT INTO tb_notice (
         id, title, content, writer, created_date
         ) VALUES (
         #{id}
@@ -17,6 +17,7 @@
         , #{writer}
         , NOW()
         )
+
     </insert>
 
 

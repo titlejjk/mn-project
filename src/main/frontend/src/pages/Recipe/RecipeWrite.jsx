@@ -62,7 +62,6 @@ function RecipeWrite() {
       setIngredients(e.target.value);
     }
 
-    //function: input onChange for attachments
     const handleSubImgs = (e) => {
       setSubImgs([...e.target.files]);
     };
@@ -79,23 +78,11 @@ function RecipeWrite() {
       formData.append("ingredients", ingredients);  //재료
       formData.append("content", content);  //글 내용
       formData.append("imageFile", mainImg[0]);  //썸네일 사진
-      formData.append("subImg", subImgs);  //조리 사진
+      subImgs.map((subImg) => (
+        formData.append("subImages", subImg)  //조리 사진
+      ));
       formData.append("viewCount", viewCount);  //조회수
-     
-      console.log(mainImg);
-      console.log(
-        "메인 이미지: " + mainImg +
-        "\n기준: " + servingSize +
-        "\n시간: " + cookingTime + 
-        "\n난이도: " + cookingLevel +
-        "\n제목: " + title + 
-        "\n내용: " + content + 
-        "\n조리 사진: " + subImgs
-      )
 
-      console.log(subImgs);
-      console.log(userNum);
-  
       axios
         .post("/recipe/insert", formData, {
           headers: {
@@ -115,16 +102,9 @@ function RecipeWrite() {
         });
     };
 
-    const handleRecipeSubmit = () => {
-      console.log(
-        "메인 이미지: " + mainImg +
-        "\n기준: " + servingSize +
-        "\n시간: " + cookingTime + 
-        "\n난이도: " + cookingLevel +
-        "\n제목: " + title + 
-        "\n내용: " + content + 
-        "\n조리 사진: " + subImgs
-      )
+    const handleCancelRecipe = () => {
+      alert("레시피 작성을 취소합니다");
+      navigate("/recipeBoard");
     }
 
     return (
@@ -273,7 +253,7 @@ function RecipeWrite() {
             </button>
             <button 
               className="cancel-button"
-              onClick={() => alert("취소")}>
+              onClick={handleCancelRecipe}>
               취소
             </button>
           </div>

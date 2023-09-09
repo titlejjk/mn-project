@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
-import "./Profile.css"; // 스타일 파일을 임포트하고 있다고 가정합니다.
+import "./Profile.css";
 
 const Profile = () => {
   const [profileData, setProfileData] = useState({
@@ -10,64 +9,72 @@ const Profile = () => {
     followers: 0,
     following: 0,
     bio: "",
-    profileImage: null, // 기본 프로필 이미지 경로
+    profileImage: null,
   });
-  const [nickname, setNickname] = useState("");
+
   useEffect(() => {
     const userToken = localStorage.getItem("login-token");
-    if (userToken) {
-      // 토큰 해석
-      const decodedToken = jwt_decode(userToken); // jwt 모듈을 사용하여 토큰 해석
 
-      if (decodedToken && decodedToken.userEmail) {
-        // 해석한 토큰에 이메일 정보가 있는지 확인하고, API를 통해 프로필 데이터를 가져옵니다.
-        axios
-          .get(`/profile/${decodedToken.userEmail}`)
-          .then((response) => {
-            const userData = response.data;
+    const fetchProfileData = async () => {
+      try {
+        if (userToken) {
+          const decodedToken = jwt_decode(userToken);
+
+          if (decodedToken && decodedToken.userEmail) {
+            const userEmail = decodedToken.userEmail; // 이메일 추출
+
+            // 프로필 데이터 가져오기
+            const profileResponse = await axios.get(
+              `/user/profile/${userEmail}`
+            );
+            const userData = profileResponse.data;
+            const userProfile = userData.userProfile; // 프로필 이미지 파일 이름으로 수정
+            console.log(userData);
+
+            // 팔로워 수 가져오기
+            const followersResponse = await axios.get(
+              `/follow/followers/count/${userEmail}`
+            );
+            const followerCount = followersResponse.data;
+
+            // 팔로잉 수 가져오기
+            const followingResponse = await axios.get(
+              `/follow/followings/count/${userEmail}`
+            );
+            const followingCount = followingResponse.data;
+
+            // 프로필 이미지 가져오기
+            const profileImageResponse = await axios.get(
+              `/user/image/${userProfile}`,
+              {
+                responseType: "arraybuffer", // 이미지 데이터로 받음
+              }
+            );
+            const profileImage = `data:image/jpeg;base64,${btoa(
+              new Uint8Array(profileImageResponse.data).reduce(
+                (data, byte) => data + String.fromCharCode(byte),
+                ""
+              )
+            )}`;
+
+            // 프로필 데이터 업데이트
             setProfileData({
               nickname: decodedToken.userNickname,
-              followers: userData.followers,
-              following: userData.following,
-              bio: userData.bio,
-              profileImage: userData.profileImage,
-            });
-          })
-          .catch((error) => {
-            console.error("프로필 데이터를 가져오는 중 오류 발생:", error);
-          });
-
-        // 팔로워 수 조회
-        axios
-          .get(`/followers/count/${decodedToken.userEmail}`)
-          .then((response) => {
-            const followerCount = response.data;
-            setProfileData((prevData) => ({
-              ...prevData,
+              bio: userData.userIntroduction,
+              profileImage: profileImage,
               followers: followerCount,
-            }));
-          })
-          .catch((error) => {
-            console.error("팔로워 수 조회 중 오류 발생:", error);
-          });
-
-        // 팔로잉 수 조회
-        axios
-          .get(`/followings/count/${decodedToken.userEmail}`)
-          .then((response) => {
-            const followingCount = response.data;
-            setProfileData((prevData) => ({
-              ...prevData,
               following: followingCount,
-            }));
-          })
-          .catch((error) => {
-            console.error("팔로잉 수 조회 중 오류 발생:", error);
-          });
-      } else {
-        console.error("토큰에서 이메일 정보를 찾을 수 없습니다.");
+            });
+          } else {
+            console.error("토큰에서 이메일 정보를 찾을 수 없습니다.");
+          }
+        }
+      } catch (error) {
+        console.error("프로필 데이터를 가져오는 중 오류 발생:", error);
       }
-    }
+    };
+
+    fetchProfileData();
   }, []);
 
   return (
