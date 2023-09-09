@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServic
 
 import java.io.File;
 
-@SpringBootApplication(exclude =  {UserDetailsServiceAutoConfiguration.class})
+@SpringBootApplication
 public class ProjectApplication {
 
 	public static void main(String[] args) {

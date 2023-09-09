@@ -11,8 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 public class PostImageDto {
 
-    private int imageId;
-    private int postId;
-    private String imageUrl;
-    private MultipartFile imageFile;
+    private int imageId;  //이미지 ID
+    private int postId;   //게시글 ID
+    private String imageUrl;  //이미지 경로
+    private MultipartFile imageFile;  //이미지 파일
 }
