@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -54,6 +55,19 @@ public class UserController {
         userService.deactivateUser(userNum);
         return new ResponseEntity<>("회원 탈퇴가 성공적으로 처리되었습니다", HttpStatus.OK);
     }
+    @GetMapping("/list")
+    public ResponseEntity<List<UserDto>> getUserList() {
+        List<UserDto> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    //회원 소생 메서드
+    @PostMapping("/active")
+    public ResponseEntity<String> userActive(@RequestParam int userNum){
+        userService.userActive(userNum);
+        return new ResponseEntity<>("죽은자의 소생이 성공적으로 처리되었습니다", HttpStatus.OK);
+    }
+
 
     //비밀번호 변경 메서드
     @PatchMapping("/updatePassword")
