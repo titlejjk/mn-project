@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/post/comment")
+@RequestMapping("/party/comment")
 @RequiredArgsConstructor
 public class CommentController {
 
@@ -35,11 +35,6 @@ public class CommentController {
         commentService.deleteComment(commentId);
         return ResponseEntity.ok().build();
     }
-
-//    @GetMapping("/{commentId}")
-//    public ResponseEntity<CommentDto> getCommentById(@PathVariable int commentId) {
-//        return ResponseEntity.ok(commentService.getCommentById(commentId));
-//    }
 
     //게시글 댓글 목록 조회
     @GetMapping("/rplList/{postId}")
