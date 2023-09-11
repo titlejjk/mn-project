@@ -29,6 +29,7 @@ public class BoardDto {
 
     private String userNickname; //글 작성자
     private String userEmail;  //글 작성자 이메일
+    private String userProfile;  //글 작성자 프로필
     private String mainOrgName;  //메인 이미지 원본 파일명
     private String mainSaveName;  //메인 이미지 저장 파일명
     private MultipartFile imageFile;  //이미지 파일 업로드 처리

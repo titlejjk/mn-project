@@ -4,8 +4,10 @@
 
     <!-- 게시글 생성 -->
     <insert id="insertPost">
-        INSERT INTO party_post(user_num, title, content)
-        VALUES(#{userNum}, #{title}, #{content})
+        INSERT INTO party_post
+        (user_num, title, content)
+        VALUES
+        (#{userNum}, #{title}, #{content})
     </insert>
 
     <!-- 게시글 목록 조회 -->
@@ -24,10 +26,11 @@
         SELECT
             p.post_id AS postId, p.user_num AS userNum, p.title, p.content,
             p.created_at AS createdAt, p.updated_at AS updatedAt, p.view_count AS viewCount,
+            u.user_nickname AS userNickname, u.user_email AS userEmail, u.user_profile AS userProfile,
             i.image_url AS imageUrl
         FROM party_post p
         JOIN user u ON p.user_num = u.user_num
-        LEFT JOIN post_image i ON p.post_id = i.post_id
+        JOIN post_image i ON p.post_id = i.post_id
         WHERE p.post_id = #{postId}
     </select>
 

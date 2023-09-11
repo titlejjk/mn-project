@@ -3,7 +3,6 @@
 # TeamProject
 Acorn 아카데미 Team Project 멍냥프로젝트
 - 프로젝트 주소 : https://github.com/titlejjk/mn-project
-  **프로젝트 관리 계획 수립**
 - 일정 계획 : 2023/08/12~2023/09/06 예정
 - 자원 계획 : FrontEnd 4명 BackEnd 3명
 
@@ -20,8 +19,7 @@ Acorn 아카데미 Team Project 멍냥프로젝트
 - 관리자의 회원 관리
 
 ### 동기
-
-반려동물을 위한 안전하고 영양가 있는 음식을 제공하고 싶어합니다. 그러나 대부분의 레시피는 신뢰할 수 없는 정보가 많고, 이를 해결하기 위해 이 프로젝트를 시작하게 되었습니다.
+학원에서 시켰습니다.
 
 ## 기술 스택
 
@@ -47,22 +45,36 @@ Acorn 아카데미 Team Project 멍냥프로젝트
 
 ### Git, GitHub
 
-- 소스 코드 버전 관리는 Git을 사용하고, 협업은 GitHub를 통해 이루어졌습니다. GitHub의 Pull Request와 Code Review 기능을 활용하여 코드 품질을 높였습니다.
+- 소스 코드 버전 관리는 Git을 사용하고, 협업은 GitHub를 통해 이루어졌습니다. 
+- GitHub의 Pull Request와 Code Review 기능을 활용하여 코드 품질을 높였습니다.
 - 또한 버전관리 전략으로는 Git Flow를 이용하여 진행하였습니다.
 
 
 ## 주요 클래스와 로직 설명
 
-- `AuthController.java`: 사용자 인증 관련 API를 담당. 회원가입, 로그인, 이메일 중복 확인 등을 제공합니다.
 
-- `RecipeController.java`: 레시피 관련 API를 처리. 레시피 업로드, 검색, 별점 주기, 삭제 등을 담당합니다.
+### Git Branch 관리 전략 
 
-- `UserService.java`: 사용자 관련 비즈니스 로직을 처리. 사용자 생성, 조회, 업데이트, 삭제 등을 수행합니다.
+Git Flow를 사용하여 브랜치를 관리하였습니다.
+모든 브랜치는 Pull Request에 리뷰를 진행한 후 merge를 진행합니다. 
+- Main : 배포시 사용합니다. 
+- Develop : 개발 종료 부분에 대해서만 merge를 진행합니다. 
+- Feature : 기능 개발 시 사용합니다. 
 
-- `UserMapper.java`: 사용자 데이터 CRUD를 SQL 쿼리로 처리하는 MyBatis 매퍼입니다.
+### 테스트 
+- JUnit을 활용한 테스트 코드 작성
+- Postman 활용 
 
-- `RecipeMapper.java`: 레시피 데이터 CRUD를 SQL 쿼리로 처리하는 MyBatis 매퍼입니다.
+## 화면 설계 
 
-- `application.yml`: 애플리케이션 설정, 데이터베이스 연결 정보, JWT 설정 등을 담고 있습니다.
+### 홈 화면
 
-- `WebSecurityConfig.java`: 스프링 시큐리티 설정, CORS, CSRF, 세션 설정 등을 포함합니다.
+### 레시피 게시판 
+
+### 축하파티 게시판 
+
+### 공지사항 
+
+##
+
+
