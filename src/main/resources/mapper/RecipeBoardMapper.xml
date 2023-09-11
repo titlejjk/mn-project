@@ -48,7 +48,6 @@
         FROM recipe r
         <include refid="searchCondition"/> <!--검색조건 포함-->
         ORDER BY r.rcp_num DESC
-<!--        LIMIT #{startRowNum}, #{endRowNum}-->
     </select>
 
     <!--게시글 상세 조회-->
@@ -72,7 +71,6 @@
         JOIN user u ON r.user_num = u.user_num
         WHERE r.user_num = #{userNum}
         ORDER BY r.rcp_num DESC
-        <!--        LIMIT #{startRowNum}, #{endRowNum} -->
     </select>
 
     <!--카테고리 별 게시물 조회-->
@@ -92,18 +90,13 @@
         WHERE rcp_num=#{rcpNum}
     </update>
 
-    <!--게시글 개수-->
-<!--    <select id="getCount" parameterType="com.project.recipe.board.dto.BoardDto" resultType="int">-->
-<!--        SELECT COUNT(*)-->
-<!--        FROM recipe-->
-<!--        <include refid="searchCondition"/>-->
-<!--    </select>-->
-
-    <!--나의 게시글 개수-->
-<!--    <select id="getRcpCount" parameterType="int" resultType="int">-->
-<!--        SELECT COUNT(*)-->
-<!--        FROM recipe-->
-<!--        WHERE user_num=#{userNum}-->
-<!--    </select>-->
+    <!--사용자 번호로 게시글 번호 조회-->
+    <select id="getRcpNum" parameterType="int" resultType="int">
+        SELECT
+            r.rcp_num AS rcpNum
+        FROM recipe r
+        JOIN user u ON r.user_num = u.user_num
+        WHERE r.user_num=#{userNum}
+    </select>
 
 </mapper>

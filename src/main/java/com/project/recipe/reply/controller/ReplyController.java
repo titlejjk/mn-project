@@ -41,7 +41,7 @@ public class ReplyController {
     }
 
     //댓글 목록
-    @GetMapping("/list")
+    @GetMapping("/rplList")
     public List<ReplyDto> getRplList (@RequestParam int rcpNum){
         return rplService.getRplList(rcpNum);
     }

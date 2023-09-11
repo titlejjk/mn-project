@@ -6,7 +6,8 @@ import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServic
 
 import java.io.File;
 
-@SpringBootApplication(exclude =  {UserDetailsServiceAutoConfiguration.class})
+
+@SpringBootApplication
 public class ProjectApplication {
 
 	public static void main(String[] args) {
@@ -14,6 +15,12 @@ public class ProjectApplication {
 		File file = new File("example.txt");
 		String absolutePath = file.getAbsolutePath();
 		System.out.println("Absolute Path: " + absolutePath);
-	}
 
+		Package aPackage = Package.getPackage("org.springframework.security");
+		if (aPackage != null) {
+			System.out.println("Spring Security version: " + aPackage.getImplementationVersion());
+		} else {
+			System.out.println("Spring Security is not available.");
+		}
+	}
 }

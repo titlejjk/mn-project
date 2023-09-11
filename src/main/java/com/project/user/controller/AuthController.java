@@ -5,15 +5,12 @@ import com.project.user.dto.SignInResponseDto;
 import com.project.user.dto.SignUpRequest;
 import com.project.user.dto.UserDto;
 import com.project.user.service.AuthServiceImpl;
-
-
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,7 +27,7 @@ public class AuthController {
     private final TokenProvider tokenProvider;
 
     //회원가입
-    @PostMapping("/signup")
+    @PostMapping
     public ResponseEntity<?>registerUser(@RequestBody SignUpRequest request){
         authService.signUp(request);
         return ResponseEntity.ok("회원가입이 완료되었습니다.");

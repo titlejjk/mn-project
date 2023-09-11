@@ -22,10 +22,7 @@ public class NoticeController {
     @PostMapping("/insert") // POST
     public ResponseEntity<Long> savePost(@ModelAttribute NoticeDto params) {
         Long id = noticeService.savePost(params);
-        System.out.println(params.getTitle());
-        System.out.println(params.getWriter());
         List<FileDto> files = fileUtils.uploadFiles(params.getFiles());
-        System.out.println("파일: " + files);
         fileService.saveFiles(id, files);
         return ResponseEntity.ok(id); // 생성된 게시글 ID 반환
     }
@@ -47,32 +44,25 @@ public class NoticeController {
         }
     }
     @PostMapping("/update/{id}")
-    public ResponseEntity<Void> updatePost(@ModelAttribute NoticeDto noticeDto) {
+    public ResponseEntity<Void> updatePost(@ModelAttribute NoticeDto params) {
         // 1. 게시글 정보 수정
-        noticeService.updatePost(noticeDto);
+        noticeService.updatePost(params);
         // 2. 파일 업로드 (to disk)
-        List<FileDto> uploadFiles = fileUtils.uploadFiles(noticeDto.getFiles());
+        List<FileDto> uploadFiles = fileUtils.uploadFiles(params.getFiles());
         // 3. 파일 정보 저장 (to database)
-        fileService.saveFiles(noticeDto.getId(), uploadFiles);
+        fileService.saveFiles(params.getId(), uploadFiles);
         // 4. 삭제할 파일 정보 조회 (from database)
-        List<FileDto> deleteFiles = fileService.findAllFileByIds(noticeDto.getRemoveFileIds());
+        List<FileDto> deleteFiles = fileService.findAllFileByIds(params.getRemoveFileIds());
         // 5. 파일 삭제 (from disk)
         fileUtils.deleteFiles(deleteFiles);
         // 6. 파일 삭제 (from database)
-        fileService.deleteAllFileByIds(noticeDto.getRemoveFileIds());
+        fileService.deleteAllFileByIds(params.getRemoveFileIds());
         return ResponseEntity.ok().build();
     }
     // 게시글 삭제
     @GetMapping("/delete/{id}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long id,@ModelAttribute NoticeDto noticeDto) {
-        // 4. 삭제할 파일 정보 조회 (from database)
-        List<FileDto> deleteFiles = fileService.findAllFileByIds(noticeDto.getRemoveFileIds());
-        // 5. 파일 삭제 (from disk)
-        fileUtils.deleteFiles(deleteFiles);
-        // 6. 파일 삭제 (from database)
-        fileService.deleteAllFileByIds(noticeDto.getRemoveFileIds());
+    public ResponseEntity<Void> deletePost(@PathVariable Long id) {
         noticeService.deletePost(id);
         return ResponseEntity.ok().build();
     }
-
 }

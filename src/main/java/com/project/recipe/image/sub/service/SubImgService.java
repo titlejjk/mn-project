@@ -8,7 +8,6 @@ import java.util.List;
 public interface SubImgService {
 
     void saveImg(int rcpNum, List<MultipartFile> subImgs);
-
     void deleteImg(int subNum);
 
     List<SubImgDto> getImgs(int subNum);

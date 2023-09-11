@@ -37,18 +37,30 @@ public class UserServiceImpl implements UserService {
     //비밀번호 암호화
     private final PasswordEncoder passwordEncoder;
 
+    @Override
+    public List<UserDto> getAllUsers() {
+        return userMapper.getAllUsers();
+    }
+
     //사용자 프로필을 업데이트하는 메서드
     @Override
     public String updateUser(UserDto userDto) throws NicknameAlreadyExistsException {
         log.info("Initial UserDto : {}", userDto);
-        validateUserNickname(userDto.getUserNickname());
+        //기존 회원 정보 가져오기
+        UserDto existingUser = userMapper.findByEmail(userDto.getUserEmail());
+        //닉네임이 변경되었을 경우에만 중복 확인
+        if(!existingUser.getUserNickname().equals(userDto.getUserNickname())){
+            validateUserNickname(userDto.getUserNickname());
+        }
 
         // 이미지 업로드 후 저장 경로를 userProfile에 저장
-        String imagePath = uploadImageAndUpdateProfile(userDto);
-        userDto.setUserProfile(imagePath);
+        userDto = uploadImageAndUpdateProfile(userDto);
 
 
         UserDto updatedUserDto = UserDto.builder()
+                .userNum(userDto.getUserNum())
+                .userEmail(userDto.getUserEmail())
+                .userNickname(userDto.getUserNickname())
                 .userNum(userDto.getUserNum())
                 .userEmail(userDto.getUserEmail())
                 .userNickname(userDto.getUserNickname())
@@ -77,8 +89,9 @@ public class UserServiceImpl implements UserService {
     }
 
     // 이미지 업로드 및 프로필 경로 업데이트
-    private String uploadImageAndUpdateProfile(UserDto userDto) {
-        return fileUploadService.uploadFile(userDto.getUserImage());
+    private UserDto uploadImageAndUpdateProfile(UserDto userDto) {
+        String imagePath = fileUploadService.uploadFile(userDto.getUserImage());
+        return userDto.toBuilder().userProfile(imagePath).build();
     }
 
     // 새 토큰 생성
@@ -93,7 +106,6 @@ public class UserServiceImpl implements UserService {
         //사용자의 Status를 'INACTIVE'로 변경
         userMapper.updateUserStatus("INACTIVE", userNum);
     }
-    //유저소생 메서드(Update Status)
     @Override
     public void userActive(int userNum) {
         //사용자의 Status를 'INACTIVE'로 변경
@@ -102,7 +114,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String updatePassword(UserDto userDto) {
-        // 새 비밀번호를 BCrypt 알고리즘을 사용하여 암호화합니다.
+// 새 비밀번호를 BCrypt 알고리즘을 사용하여 암호화합니다.
         String encryptedPassword = passwordEncoder.encode(userDto.getUserNewPassword());
 
         // 암호화된 새 비밀번호를 DTO에 설정합니다.
@@ -116,12 +128,11 @@ public class UserServiceImpl implements UserService {
     //회원의 사진과 한줄소개를 조회
     @Override
     public UserDto getUserProfileAndIntroduction(String userEmail) {
-        return userMapper.findProfileAndIIntroduction(userEmail);
+        System.out.println(userEmail);
+        UserDto dto=userMapper.findProfileAndIntroduction(userEmail);
+        System.out.println(dto);
+        return dto;
     }
-    //회원 목록 조회
-    @Override
-    public List<UserDto> getAllUsers() {
-        return userMapper.getAllUsers();
-    }
+
 
 }

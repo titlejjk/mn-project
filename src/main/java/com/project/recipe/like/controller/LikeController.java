@@ -20,7 +20,7 @@ public class LikeController {
     @Transactional
     @PostMapping("/toggle")
     public ResponseEntity<String> toogleLike(@RequestBody LikeDto dto){
-        String result = likesService.toogleLike(dto);
+        String result = likesService.toggleLike(dto);
         HttpStatus status = "Like Inserted".equals(result) ? HttpStatus.OK : HttpStatus.BAD_REQUEST ;
         return new ResponseEntity<>(result, status);
     }

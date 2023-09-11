@@ -7,6 +7,7 @@ import com.project.recipe.board.dto.BoardDto;
 import com.project.recipe.image.sub.dao.SubImgMapper;
 import com.project.recipe.image.sub.dto.SubImgDto;
 import com.project.recipe.image.sub.service.SubImgService;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -67,6 +68,7 @@ public class BoardServiceImpl implements BoardService {
             }
             //게시글 수정
             rcpMapper.updateRcp(dto);
+            SubImgDto subImgDto = new SubImgDto();
             //서브 이미지 수정
             if(!subImages.isEmpty()){
                 int rcpNum = dto.getRcpNum();
@@ -139,20 +141,9 @@ public class BoardServiceImpl implements BoardService {
         //Dto객체에 사용자로부터 입력받은 userNum을 저장시킴
         BoardDto dto = new BoardDto();
         dto.setUserNum(userNum);
-        //특정 작성자가 작성한 게시글 목록을 조회
+        //특정 사용가 작성한 게시글 목록을 조회
         List<BoardDto> myList = rcpMapper.getMyList(dto);
-        //이미지 경로 설정 후 dto에 추가
-        for (BoardDto recipe : myList) {
-            //메인 이미지 파일 경로 생성 (이미지 경로 + 파일명)
-            String mainPath = imgPath + File.separator + recipe.getMainSaveName();
-            //이미지 파일 존재 여부 확인
-            File imgFile = new File(mainPath);
-            if (imgFile.exists()) {
-                //이미지 파일이 존재하는 경우에만 레시피 객체에 이미지 경로 추가
-                recipe.setMainPath(mainPath);
-            }
-        }
-        //수정된 게시글 목록 반환
+        //게시글 목록 반환
         return myList;
     }
 
@@ -162,22 +153,11 @@ public class BoardServiceImpl implements BoardService {
         BoardDto dto = new BoardDto();
         dto.setPetNum(petNum);
         List<BoardDto> petList = rcpMapper.getByCategory(dto);
-        //이미지 경로 설정 후 dto에 추가
-        for(BoardDto recipe : petList){
-            //메인 이미지 파일 경로 생성
-            String mainPath = imgPath + File.separator + recipe.getMainSaveName();
-            //이미지 파일 존재 여부 확인
-            File imgFile = new File(mainPath);
-            if(imgFile.exists()){
-                //이미지 파일이 존재하는 경우에만 경로 추가
-                recipe.setMainPath(mainPath);
-            }
-        }
         //수정된 게시글 목록 반환
         return petList;
     }
 
-    //사용자 번호로 겟시글 번호 조회
+    //사용자 번호로 게시글 번호 조회
     @Override
     public List<Integer> getRcpNum(int userNum) {
         BoardDto dto = new BoardDto();

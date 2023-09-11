@@ -4,6 +4,7 @@ import com.project.recipe.board.dto.BoardDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BoardService {
     //게시글 등록

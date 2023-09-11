@@ -3,8 +3,10 @@ package com.project.recipe.board.controller;
 import com.project.recipe.board.dto.BoardDto;
 import com.project.recipe.board.service.BoardService;
 import com.project.recipe.image.sub.service.SubImgService;
+import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.tomcat.util.http.fileupload.impl.IOFileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,8 @@ import java.io.InputStream;
 
 import java.util.List;
 
+
+@Slf4j
 @RestController
 @RequestMapping("/recipe")
 public class BoardController {
@@ -92,7 +96,7 @@ public class BoardController {
 
     //게시글 상세
     @GetMapping("/detail")
-    public BoardDto getDetail(@RequestParam int rcpNum){     
+    public BoardDto getDetail(@RequestParam int rcpNum){
         return rcpService.getDetail(rcpNum);
     }
 

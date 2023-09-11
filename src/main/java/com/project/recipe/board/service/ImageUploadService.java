@@ -16,7 +16,7 @@ public class ImageUploadService {
         //원본 파일 이름
         String originalFilename = file.getOriginalFilename();
         //저장할 파일 이름 (UUID 를 추가하여 중복 방지)
-        String saveFileName = UUID.randomUUID().toString() + "_" + originalFilename;
+        String saveFileName = UUID.randomUUID().toString() + originalFilename;
         //실제 파일 저장 경로
         String realPath = fileLocation;
 
@@ -28,7 +28,7 @@ public class ImageUploadService {
         try{
             //저장할 전체 경로 구성
             String savePath = realPath + File.separator + saveFileName;
-            //임시 폴더에 원하는 경로에 업로드된 파일을 저장
+            //임시 폴더에 업로드된 파일을 원하는 경로에 저장
             file.transferTo(new File(savePath));
         }catch (Exception e){
             e.printStackTrace();//예외처리

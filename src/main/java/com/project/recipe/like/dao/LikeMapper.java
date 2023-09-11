@@ -12,8 +12,6 @@ public interface LikeMapper {
     void insertLike(LikeDto dto);
     //좋아요 삭제
     void deleteLike(LikeDto dto);
-    //좋아요 여부 확인을 위해 개수 파악
-    int countLike(LikeDto dto);
     //좋아요 개수
     int countedLike(int rcpNum);
     //좋아요 초기화 방지

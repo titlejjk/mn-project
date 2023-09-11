@@ -22,7 +22,7 @@ import java.util.UUID;
 @Component
 public class FileUtils {
 
-    private final String uploadPath = "C:\\Users\\repla\\TeamProject\\src\\main\\frontend\\public\\uploadImg";
+    private final String uploadPath = "C:\\Users\\solid\\Desktop\\spring\\file\\";
 
 
     /**
