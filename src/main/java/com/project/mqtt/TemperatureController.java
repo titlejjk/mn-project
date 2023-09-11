@@ -14,15 +14,22 @@ public class TemperatureController {
 
     private final TemperatureScheduler temperatureScheduler;
 
-    @GetMapping("/start")
-    public String startPublishing() {
-        temperatureScheduler.setActive(true);
-        return "Temperature publishing started.";
+    @GetMapping("/publish")
+    public String publishTemperature(){
+        int i = temperatureScheduler.publishTemperature();
+        String result = "not yet";
+        if(i >= 100) {
+            result =  "Target temperature has been reached.";
+        }
+        return result;
     }
 
-    @GetMapping("/stop")
-    public String stopPublishing() {
-        temperatureScheduler.setActive(false);
-        return "Temperature publishing stopped.";
+    @GetMapping("/reset")
+    public String resetTemperature(){
+        temperatureScheduler.resetTemperature();
+        String result = "";
+
+        return result;
     }
+
 }

@@ -57,4 +57,5 @@ public class MqttConfig {
     public MqttClient mqttClient() throws MqttException {
         return new MqttClient("tcp://localhost:1883", MqttClient.generateClientId());
     }
+
 }

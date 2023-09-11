@@ -23,8 +23,9 @@ public class TemperatureService {
             System.out.println("Warning: High temperature detected!");
             if(mqttClient != null && mqttClient.isConnected()){
                 MqttMessage alertMessage = new MqttMessage("Warning: High temperature detected!".getBytes());
-                mqttClient.publish("temperature_alert", alertMessage);
+                mqttClient.publish("temperature", alertMessage);
             }
         }
     }
+
 }

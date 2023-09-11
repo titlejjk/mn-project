@@ -21,7 +21,7 @@ const Card = ({ card, showTitle }) => {
 
     return (
         <div className="card">
-            <Link to={`/RecipeDetail/${card.rcpNum}`}>
+            <Link to={`/RecipeDetail?rcpNum=${card.rcpNum}`}>
                 <img className="card-img" src={card.mainPath} alt={card.title} />
             </Link>
 
