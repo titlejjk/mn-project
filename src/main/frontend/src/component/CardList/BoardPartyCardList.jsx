@@ -20,7 +20,7 @@ const RecipeCardList = () => {
     // 추가
     
     useEffect(() => { 
-        axios.get('http://localhost:5000/partyList')
+        axios.get('http://localhost:9999/recipe/list')
         .then(response => {
             setCards(response.data);
             setTotalRecipeCount(response.data.length); // 레시피 개수 설정
@@ -46,7 +46,7 @@ const RecipeCardList = () => {
     //cards 배열에서 offset ~ offeset+cardsperPages범위를 슬라이스해서 현재 페이지에 가져온다.
     const currentCards = cards.slice(offset, offset + cardsPerPage);
         
-    return (
+    return ( 
         <div className='board-card-list container'>
             <div className='board-list-top'>
                 <p className='list-total-count'>전체 {totalRecipeCount} 개 </p>
@@ -54,7 +54,7 @@ const RecipeCardList = () => {
             </div>
             <div className="card-list">
                 {Array.isArray(currentCards) && currentCards.map((card, index) => (
-                    <Card key={index} card={card} showTitle={true} />
+                    <Card key={index} card={card} showTitle={true}  showLikeBox={true} />
                 ))}
                 </div>
                 <Pagination pageCount={Math.ceil(cards.length / cardsPerPage)} onPageChange={handlePageChange} />

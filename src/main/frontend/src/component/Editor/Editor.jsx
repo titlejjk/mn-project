@@ -16,9 +16,8 @@ function Editor({setTitle, setContent}) {
             [{ header: [1, 2, 3, 4, 5, false] }],
             ["bold", "italic", "underline", "strike"],
             [{ color: [] }, { background: [] }],
-            ["blockquote"],
             [{ list: "ordered" }, { list: "bullet" }, { align: [] }],
-            ["link", "image"],
+            ["blockquote", "link"]
           ],
         }
       }
@@ -42,7 +41,7 @@ function Editor({setTitle, setContent}) {
               ref={quillRef}
               // value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="너는 뛰어난 제목이다"
+              placeholder="제목을 입력하세요"
             />
           </div>
 
