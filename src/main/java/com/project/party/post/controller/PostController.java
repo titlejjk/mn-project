@@ -37,7 +37,7 @@ public class PostController {
     }
 
     //게시글 등록
-    @PostMapping
+    @PostMapping("/insert")
     public ResponseEntity<?> createPost(@ModelAttribute PostDto postDto,
                                         @RequestParam("image") MultipartFile image) {
         try{
@@ -53,7 +53,7 @@ public class PostController {
     }
 
     //게시글 목록 조회
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<PostDto>> getAllPosts() {
         return ResponseEntity.ok(postService.getList());
     }
