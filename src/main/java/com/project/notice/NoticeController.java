@@ -65,5 +65,4 @@ public class NoticeController {
         noticeService.deletePost(id);
         return ResponseEntity.ok().build();
     }
-
 }

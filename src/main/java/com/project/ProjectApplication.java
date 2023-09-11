@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServic
 
 import java.io.File;
 
+
 @SpringBootApplication
 public class ProjectApplication {
 
@@ -22,5 +23,4 @@ public class ProjectApplication {
 			System.out.println("Spring Security is not available.");
 		}
 	}
-
 }
