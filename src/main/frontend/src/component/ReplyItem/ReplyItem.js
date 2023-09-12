@@ -13,7 +13,6 @@ function ReplyItem({ userProfile, userNickname, rplContent, rplRegdate }) {
           <div className="insight">
             <span>{userNickname}</span>
             <span>{rplRegdate}</span>
-            <span>답글</span>
           </div>
           <p>{rplContent}</p>
         </div>

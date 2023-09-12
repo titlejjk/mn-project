@@ -5,13 +5,13 @@
     color: #606060;
 }
 
-.party_detail_main_image_container{
+.party_detail_image_container{
     width: 100%;
     /* 가로세로 비율 */
     aspect-ratio: 3 / 1;
 }
 
-.party_detail_main_image_container > img{
+.party_detail_image_container > img{
     display: block;
     width: 100%;
     height: 100%;
@@ -34,25 +34,19 @@
     font-weight: 600;
 }
 
-.party_detail_summary > p{
+.party_detail_step_item_content{
     /* \n 입력 시 줄바꿈이 적용되도록 처리 */
     white-space: pre-line;
-    margin: 10px 0;
+    margin: 10px auto;
 }
 
-.party_detail_sub_image_container > div > img{
-    display: block;
-    width: 640px; height: 640px;
-    margin: 0 auto;
-}
-
-.party_detail_insight{
-    margin-top: 40px;
-    display: flex;
-    /* 자식 요소들 간 간격 조정 */
-    gap: 12px;
-    font-size: 14px;
-}
+.party_detail_step_item_mqtt {
+    float: right;
+    width: 200px;
+    height: 30px;
+    border: 1px solid black;
+    line-height: 30px;
+  }
 
 .party_detail_user{
     margin-top: 20px;
@@ -91,6 +85,13 @@
     border-radius: 30px;
     font-size: 12px;
 }
+
+.party_detail_user > button > span {
+    display: flex;
+    align-items: center;
+    /* 자식 요소들 간 간격 조정 */
+    gap: 4px;
+  }
 
 .party_detail_user > button > span > svg{
     display: block;
@@ -136,12 +137,59 @@
     outline: none;
 }
 
+.party_detail_reply > .input > button {
+    position: absolute;
+    background-color: #ffffff;
+    border: none;
+    top: 15px; right: 16px;
+    font-size: 16px;
+  }
+
 .party_detail_reply > .input > span{
     /* 부모 요소를 기준으로 배치 */
     position: absolute;
     top: 13px;
     right: 16px;
 }
+
+.party_detail_reply_item {
+    margin-top: 30px;
+    display: flex;
+    gap: 38px;
+  }
+  
+.party_detail_reply_item > .image_container {
+    margin-top: 8px;
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    overflow: hidden;
+  }
+  
+.party_detail_reply_item > .image_container > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  
+.party_detail_reply_item .insight {
+    display: flex;
+    gap: 10px;
+    color: #aeaeae;
+  }
+  
+.party_detail_reply_item .insight > span:first-child {
+    color: #606060;
+  }
+  
+.party_detail_reply_item p {
+    white-space: pre-line;
+    margin: 0;
+    margin-top: 8px;
+  }
 
 .party_detail_divider{
     margin-top: 30px;

@@ -21,7 +21,7 @@ function Header({ currentToken, tokenChanged }) {
   const logout = () => {
     localStorage.removeItem('login-token');
     tokenChanged(null);
-    alert('로그아웃되었습니다.');
+    alert("로그아웃되었습니다.");
   };
 
   const loginLink = (
@@ -36,7 +36,7 @@ function Header({ currentToken, tokenChanged }) {
       </li>
     </ul>
   );
-
+  
   const logoutLink = (
     <ul>
       <li>
@@ -70,13 +70,13 @@ function Header({ currentToken, tokenChanged }) {
             <ul>
               <li>
               <Link
-                  className={`navbar ${
-                    location.pathname === "/" ? "active" : ""
-                  }`}
-                  to={"/"}
-                >
-                  홈
-                </Link>
+                className={`navbar ${
+                  location.pathname === "/" ? "active" : ""
+                }`}
+                to={"/"}
+              >
+                홈
+              </Link>
               </li>
               <li>
                 <Link

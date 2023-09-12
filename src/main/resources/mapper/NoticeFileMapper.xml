@@ -52,8 +52,7 @@
         id
     </select>
 
-
-    <!-- 파일 삭제 -->
+    <!-- 파일 수정 삭제 -->
     <delete id="deleteAllByIds" parameterType="list">
         UPDATE notice_file
         SET

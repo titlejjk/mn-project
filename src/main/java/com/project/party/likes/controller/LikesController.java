@@ -23,7 +23,7 @@ public class LikesController {
         return ResponseEntity.ok(message);
     }
 
-    //좋아요 수
+    //좋아요 개수
     @GetMapping("/count/{postId}")
     public ResponseEntity<Integer> countLikes(@PathVariable int postId) {
         int count = likesService.countLikes(postId);

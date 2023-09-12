@@ -1,7 +1,7 @@
 .mainImg-upload-button {
     display: flex;
     height: 400px; /* 추가: 최대 높이 지정 */
-    width: 70%; /* 추가: 최대 너비 지정 */
+    /* width: 70%;  *//* 추가: 최대 너비 지정 */
     margin: 100px auto;
     justify-content: center;
     align-items: center;
@@ -12,6 +12,41 @@
     cursor: pointer;
     overflow: auto;
 } 
+
+.recipe-info {
+    width: 70%;
+    margin: 0 auto 30px auto ;
+}
+
+.recipe-info-text{
+    font-size: 25px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.recipe-info-select {
+    width: 100px;
+    font-size: 16px;
+    padding: 5px 5px;
+    margin: 5px 15px 0 5px;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+
+.ingred-info {
+    width: 70%;
+    margin: 0 auto 100px auto;
+    font-size: 16px;
+}
+
+.ingred-info-input {
+    width: 80%;
+    font-size: 16px;
+    padding: 5px 5px;
+    margin: 0 10px 0 4px;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
 
 .recipe-editor {
     display: flex;

@@ -8,7 +8,7 @@ const MainImg = () => {
 
     useEffect(() => {
         // JSON 데이터를 가져온 후 가장 좋아요가 많은 레시피를 찾습니다.
-        axios.get('http://localhost:5000/recipe')
+        axios.get('http://localhost:9999/recipe/like/order')
             .then(response => {
                 const recipes = response.data;
                 let maxLikes = 0;
@@ -31,7 +31,7 @@ const MainImg = () => {
 
     return (
         <div className='mainImg'>
-        {mostLikedRecipe && <img src={mostLikedRecipe.main_image_url} alt={mostLikedRecipe.title} style={mainImg}/>}
+        {mostLikedRecipe && <img src={mostLikedRecipe.mainPath} alt={mostLikedRecipe.title} style={mainImg}/>}
     </div>
     );
 };

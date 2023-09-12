@@ -5,7 +5,7 @@ import axios from 'axios';
 import Pagination from '../../lib/Pagination.jsx';
 import { Link } from 'react-router-dom';
 
-const RecipeCardList = () => {
+const BoardRecipeCardList = () => {
     const [cards, setCards] = useState([]);
      //초기값을 빈 배열로 설정
     
@@ -20,13 +20,14 @@ const RecipeCardList = () => {
     // 추가
 
     useEffect(() => { 
-        axios.get('http://localhost:9999/recipe/list')
+        axios.get('/recipe/list')
         .then(response => {
             setCards(response.data);
+            console.log(response.data)
             setTotalRecipeCount(response.data.length); // 레시피 개수 설정
         })
         .catch(error => {
-           console.error('레시피 카드 리스트 Error fetching data:', error);
+          // console.error('레시피 카드 리스트 Error fetching data:', error);
         });
     }, [])
    //axios로 json데이터 가져오기    
@@ -45,8 +46,6 @@ const RecipeCardList = () => {
         console.log("Selected page:", selectedPage); // 현재 페이지 로깅
         setCurrentPage(selectedPage);
     };
-
-    
         
     return (
         <div className='board-card-list container'>
@@ -56,19 +55,12 @@ const RecipeCardList = () => {
             </div>
             <div className="card-list">
                 {Array.isArray(currentCards) && currentCards.map((card, index) => (
-                    <Card key={index} card={card} showTitle={true}/>
+                    <Card key={index} card={card} showTitle={true} showLikeBox={true}/>
                 ))}
                 </div>
                 <Pagination pageCount={Math.ceil(cards.length / cardsPerPage)} onPageChange={(data) => handlePageChange(data.selected)} />
-        
-
         </div>
     );
 };
 
-export default RecipeCardList;
-
-
-
-
-
+export default BoardRecipeCardList;

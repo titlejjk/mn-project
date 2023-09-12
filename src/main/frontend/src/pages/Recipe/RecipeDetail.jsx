@@ -19,6 +19,8 @@ export default function Page() {
 
     const [imageData, setImageData] = useState(null);
 
+    const [followingEmail, setFollowingEmail] = useState("");
+
     const [list, setList] = useState([]);
 
     let inputReply = useRef();
@@ -48,7 +50,6 @@ export default function Page() {
     const userNum = decodedToken.userNum;
     const loginEmail = decodedToken.userEmail;
 
-
     // 현재 페이지의 URL을 가져옵니다.
     const currentURL = window.location.href;
 
@@ -73,6 +74,7 @@ export default function Page() {
       .then(res=>{
         setList(res.data);
         console.log(res.data);
+        setFollowingEmail(res.data.userEmail);
       })
       .catch(error=>{
         console.log(error);
@@ -227,7 +229,7 @@ export default function Page() {
                 onClick={()=>{
                   axios.post("http://localhost:9999/follow/toggle", {
                     followerEmail: loginEmail,
-                    followingEmail: "following@naver.com"
+                    followingEmail
                   })
                   .then(res=>{
                     setIsFollowing(!isFollowing);

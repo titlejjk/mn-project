@@ -108,9 +108,7 @@ public class BoardController {
 
     //카테고리 별 게시글 목록
     @GetMapping("/petList")
-    public List<BoardDto> getByCategory(@RequestParam int petNum){
-        return rcpService.getByCategory(petNum);
-    }
+    public List<BoardDto> getByCategory(@RequestParam int petNum){return rcpService.getByCategory(petNum);}
 
     //사용자 번호로 게시글 번호 조회
     @GetMapping("/rcpNum")
