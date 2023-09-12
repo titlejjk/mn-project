@@ -5,10 +5,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -27,6 +24,8 @@ public class FileApiController {
     public List<FileDto> findAllFileByPostId(@PathVariable final Long noticeId) {
         return fileService.findAllFileByNoticeId(noticeId);
     }
+
+
     // 첨부파일 다운로드
     // test 주석 추가
     @GetMapping("/file/{noticeId}/download/{fileId}")

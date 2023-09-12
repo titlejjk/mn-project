@@ -3,15 +3,12 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/project
+    url: jdbc:mariadb://localhost:3306/teamproject
     username: root
-    password: root
+    password: 123
     driver-class-name: org.mariadb.jdbc.Driver
-  servlet:
-    multipart:
-      enabled: true
-      max-file-size: 10MB  # 최대 파일 크기 설정
-      max-request-size: 10MB  # 최대 요청 크기 설정
+    resources:
+      static-locations: classpath:/static/
 
   mail:
     host: smtp.gmail.com
@@ -25,10 +22,19 @@ spring:
           starttls:
             enable: true
 
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB  # 최대 파일 크기 설정
+      max-request-size: 100MB  # 최대 요청 크기 설정
+
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
   type-aliases-package: com.project.user.dto
 
+
+
 file:
-  location: /Users/sujeong/Documents/project/upload
+  location: C:\mn-project\upload
+
 

@@ -17,7 +17,7 @@ CREATE TABLE party_comment (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-CREATE TABLE party_like (
+CREATE TABLE party_like_table (
     like_id INT PRIMARY KEY AUTO_INCREMENT,
     user_num INT,
     post_id INT,

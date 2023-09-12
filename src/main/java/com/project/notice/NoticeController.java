@@ -44,24 +44,30 @@ public class NoticeController {
         }
     }
     @PostMapping("/update/{id}")
-    public ResponseEntity<Void> updatePost(@ModelAttribute NoticeDto params) {
+    public ResponseEntity<Void> updatePost(@ModelAttribute NoticeDto noticeDto) {
         // 1. 게시글 정보 수정
-        noticeService.updatePost(params);
+        noticeService.updatePost(noticeDto);
         // 2. 파일 업로드 (to disk)
-        List<FileDto> uploadFiles = fileUtils.uploadFiles(params.getFiles());
+        List<FileDto> uploadFiles = fileUtils.uploadFiles(noticeDto.getFiles());
         // 3. 파일 정보 저장 (to database)
-        fileService.saveFiles(params.getId(), uploadFiles);
+        fileService.saveFiles(noticeDto.getId(), uploadFiles);
         // 4. 삭제할 파일 정보 조회 (from database)
-        List<FileDto> deleteFiles = fileService.findAllFileByIds(params.getRemoveFileIds());
+        List<FileDto> deleteFiles = fileService.findAllFileByIds(noticeDto.getRemoveFileIds());
         // 5. 파일 삭제 (from disk)
         fileUtils.deleteFiles(deleteFiles);
         // 6. 파일 삭제 (from database)
-        fileService.deleteAllFileByIds(params.getRemoveFileIds());
+        fileService.deleteAllFileByIds(noticeDto.getRemoveFileIds());
         return ResponseEntity.ok().build();
     }
     // 게시글 삭제
     @GetMapping("/delete/{id}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePost(@PathVariable Long id,@ModelAttribute NoticeDto noticeDto) {
+        // 4. 삭제할 파일 정보 조회 (from database)
+        List<FileDto> deleteFiles = fileService.findAllFileByIds(noticeDto.getRemoveFileIds());
+        // 5. 파일 삭제 (from disk)
+        fileUtils.deleteFiles(deleteFiles);
+        // 6. 파일 삭제 (from database)
+        fileService.deleteAllFileByIds(noticeDto.getRemoveFileIds());
         noticeService.deletePost(id);
         return ResponseEntity.ok().build();
     }

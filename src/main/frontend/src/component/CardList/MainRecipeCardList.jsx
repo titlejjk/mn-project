@@ -1,36 +1,36 @@
 import React, { useState, useEffect} from 'react';
 import './CardList.css';
-import Card from './Card';
+import RecipeCard from './RecipeCard';
 import axios from 'axios';
 
 //paging 처리 없는 main 카드리스트
-const RecipeCardList = () => {
+const MainRecipeCardList = () => {
     const [cards, setCards] = useState([]);
      //초기값을 빈 배열로 설정
     useEffect(() => { 
-        axios.get('http://localhost:5000/recipe')
+        axios.get('http://localhost:9999/recipe/list')
         .then(response => {
             setCards(response.data);
         })
         .catch(error => {
-           //console.error('Error fetching data:', error);
+           console.error('메인 레시피 카드리스트 Error fetching data:', error);
         });
     }, [])
    
     return (
-        <div className='recipe-card-list container'>
+        <div className='main-card-list container'>
         <div className="card-list">
             {Array.isArray(cards) && cards.slice(0,4).map((card, index) => (
-                <Card key={index} card={card} />
+                <RecipeCard key={index} card={card} showTitle={false} showLikeBox={false} />
             ))}
                 </div>
-               
+                </div>
            
-        </div>
+       
     );
 };
 
-export default RecipeCardList;
+export default MainRecipeCardList;
 
 
 

@@ -5,10 +5,11 @@
 
 .card-list{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between;   
+     margin-bottom: 120px;
 }
 .card{
-    margin-right: 20px;
+  width: 300px;
 }
 
 .card:nth-child(4){
@@ -26,8 +27,8 @@
     display: flex;
 }
 
-.card-title-box{
-    width: 300px;
+.card-box{
+    width: 400px;
     display: flex;
     justify-content: space-between;
 }
@@ -42,6 +43,7 @@
 
 .board-card-list .card{
     margin-right: 0 ;
+    margin-bottom: 25px;
 }
 
 .board-card-list .card-img{

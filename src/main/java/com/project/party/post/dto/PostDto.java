@@ -21,4 +21,5 @@ public class PostDto {
     private int viewCount; //조회수 필드
     private MultipartFile image;  //이미지 처리
     private String imageUrl;  //이미지 경로
+
 }

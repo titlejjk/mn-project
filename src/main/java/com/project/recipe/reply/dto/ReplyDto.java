@@ -14,9 +14,12 @@ public class ReplyDto {
     private int userNum; //작성자 번호
     private String rplContent;  //댓글 내용
     private String userNickname; //댓글 작성자
+    //private String rplTarget;  //댓글 대상자
+    //private int rplGroup;  //원댓글의 (그룹)번호
     private String rplDeleted;  //댓글 삭제 여부 ('yes' or 'no')
     private String rplRegdate;  //댓글 작성일
     private String userProfile;  //댓글 작성자 프로필
-    private String mainPath;  //메인 이미지 파일 경로
 
+    //private int startRowNum;  //첫번째 행
+    //private int endRowNum;  //마지막 행
 }

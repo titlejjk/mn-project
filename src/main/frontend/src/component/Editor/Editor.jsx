@@ -4,8 +4,9 @@ import "react-quill/dist/quill.snow.css"
 import "./Editor.css"
 
 //react-quill Editor
-function Editor({setTitle, setContent}) {
+function Editor(props) {
     const quillRef = useRef()
+    const [title, setTitle] = useState("")
 
     //modules for quill toolbar
     //useMemo => to prevent editor disappear bug when module renders
@@ -30,7 +31,8 @@ function Editor({setTitle, setContent}) {
       // props.setContent(contentText);
       // console.log(editorContents);
 
-      setContent(contents);
+      props.setContent(contents);
+      console.log(props.content);
     }
 
     return (
@@ -39,8 +41,7 @@ function Editor({setTitle, setContent}) {
             <input 
               className="title"
               type="text" 
-              ref={quillRef}
-              // value={title}
+              value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="너는 뛰어난 제목이다"
             />

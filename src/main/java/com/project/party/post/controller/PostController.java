@@ -18,7 +18,7 @@ import java.io.InputStream;
 import java.util.List;
 
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/party")
 @RequiredArgsConstructor
 public class PostController {
 
@@ -26,6 +26,7 @@ public class PostController {
 
     @Value("${file.location}")
     private String imgPath;
+
     @GetMapping(
             value = "/image/{mainPath}",
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
