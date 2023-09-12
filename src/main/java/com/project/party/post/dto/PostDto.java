@@ -21,4 +21,8 @@ public class PostDto {
     private int viewCount; //조회수 필드
     private MultipartFile image;  //이미지 처리
     private String imageUrl;  //이미지 경로
+
+    private String userNickname; //글 작성자
+    private String userEmail;  //글 작성자 이메일
+    private String userProfile;  //글 작성자 프로필
 }
