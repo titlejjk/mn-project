@@ -8,11 +8,6 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import jwt_decode from 'jwt-decode';
 import axios from "axios";
-import { Link } from 'react-router-dom';
-
-//import { useParams } from 'react-router-dom';   //id값을 전달하기 위한 params
-//const { id } = useParams(); // URL 파라미터에서 id 추출
-// 백엔드와 연동할 데이터 모음
 
 
 // 페이지 로딩 시 출력되는 화면내용
@@ -20,17 +15,23 @@ export default function Page() {
 
     const [imageData, setImageData] = useState(null);
 
+    const [profileImage, setProfileImage] = useState(null);
+
     const [followingEmail, setFollowingEmail] = useState("");
 
     const [list, setList] = useState([]);
 
-    let inputReply = useRef();
+    // const [subImgPath, setSubImgPath] = useState(null);   서브이미지 조회 관련
+
+    // const [subImgs, setSubImgs] = useState([]);   서브이미지 조회 관련
 
     const [isFollowing, setIsFollowing] = useState(false);
 
     const [autoClick, setAutoClick] = useState(false);
 
     const [topic, setTopic] = useState("");
+
+    let inputReply = useRef();
 
     const [reply, setReply] = useState([]);
      //초기값을 빈 배열로 설정
@@ -74,6 +75,7 @@ export default function Page() {
       axios.get("http://localhost:9999/recipe/detail?rcpNum="+rcpNum)
       .then(res=>{
         setList(res.data);
+        // setSubImgs(res.data.subImgs);  서브 이미지 조회관련
         console.log(res.data);
         setFollowingEmail(res.data.userEmail);
       })
@@ -82,10 +84,29 @@ export default function Page() {
       });
     }
 
+    // const subImg = subImgs.slice(0, 1);    서브 이미지 조회 관련
+
+    // 서브 이미지를 불러오는 Axios
+    // useEffect(() => {
+    //   // 이미지를 Axios로 불러옵니다.
+    //   axios
+    //       .get(`/recipe/image/${subImg.sub_path}`, { responseType: 'arraybuffer' })
+    //       .then((response) => {
+    //           const base64String = btoa(
+    //               new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), '')
+    //           );
+    //           setSubImgPath(`data:image/jpeg;base64,${base64String}`);
+    //       })
+    //       .catch((error) => {
+    //           console.error('Error fetching image:', error);
+    //       });
+    // }, [subImg.sub_path]);
+
     useEffect(()=>{
       getList();
     }, [])
 
+    //메인 이미지의 userProfile 불러오는 Axios
     useEffect(() => {
             // 이미지를 Axios로 불러옵니다.
             axios
@@ -100,6 +121,22 @@ export default function Page() {
                     console.error('Error fetching image:', error);
                 });
         }, [list.mainPath]);
+    
+    //글작성자의 userProfile 불러오는 Axios
+    useEffect(() => {
+          // 이미지를 Axios로 불러옵니다.
+          axios
+              .get(`/recipe/image/${list.userProfile}`, { responseType: 'arraybuffer' })
+              .then((response) => {
+                  const base64String = btoa(
+                      new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), '')
+                  );
+                  setProfileImage(`data:image/png;base64,${base64String}`);
+              })
+              .catch((error) => {
+                  console.error('Error fetching image:', error);
+              });
+    }, [list.userProfile]);
 
     useEffect(() => {
       let intervalId;
@@ -164,11 +201,6 @@ export default function Page() {
             <img src={imageData} alt="main recipe" />
           </div>
           <div className="recipe_detail_summary">
-            <Link to="/partyUpdate" className='update'>수정</Link>
-            <button onClick={()=>{
-              
-            }}>삭제</button>
-            <Link to="/partyDelete" className='delete'>삭제</Link>
             {/* 새 글 등록 시 제목 부분 */}
             <h2>{list.title}</h2>
             {/* 마리 수, 소요 시간, 난이도 모음 */}
@@ -209,8 +241,17 @@ export default function Page() {
             <div className="recipe_detail_step_item">
                 <p>{list.content}</p>
                 <div>
+                  {/* 서브 이미지 */}
                   <img src="/images/0b96b03c-recipeshot.jpg"/>
                 </div>
+                {/* 서브 이미지를 불러오는 메소드
+                {subImg.map((item, index) => {
+                  <div key={index}>
+                    <img src={item.sub_path} />
+                  </div>
+                })}
+                */}
+                {/* mqtt 메소드 */}
                 <div className="recipe_detail_step_item_mqtt">
                   현재 온도: {topic}
                   <button onClick={() =>
@@ -230,7 +271,8 @@ export default function Page() {
             </div>
             <div className="recipe_detail_user">
               <div>
-                <img src="/images/chef01.png" />
+                {/* 작성자 프로필 */}
+                <img src={profileImage} />
               </div>
               {/* 작성자 닉네임 */}
               <div className="title">{list.userNickname}</div>

@@ -4,7 +4,6 @@ import Pagination from "../../lib/Pagination";
 import { useState, useEffect, useRef } from "react";
 import jwt_decode from 'jwt-decode';
 import axios from "axios";
-import { Link } from 'react-router-dom';
 
 //import { useParams } from 'react-router-dom';   //id값을 전달하기 위한 params
 //const { id } = useParams(); // URL 파라미터에서 id 추출
@@ -15,6 +14,8 @@ import { Link } from 'react-router-dom';
 export default function Page() {
 
     const [imageData, setImageData] = useState(null);
+
+    const [profileImage, setProfileImage] = useState(null);
 
     const [followingEmail, setFollowingEmail] = useState("");
 
@@ -82,6 +83,7 @@ export default function Page() {
       getList();
     }, [])
 
+    //메인 이미지의 userProfile 불러오는 Axios
     useEffect(() => {
             // 이미지를 Axios로 불러옵니다.
             axios
@@ -96,6 +98,22 @@ export default function Page() {
                     console.error('Error fetching image:', error);
                 });
         }, [list.imageUrl]);
+
+    //글작성자의 userProfile 불러오는 Axios
+    useEffect(() => {
+      // 이미지를 Axios로 불러옵니다.
+      axios
+          .get(`/recipe/image/${list.userProfile}`, { responseType: 'arraybuffer' })
+          .then((response) => {
+              const base64String = btoa(
+                  new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), '')
+              );
+              setProfileImage(`data:image/png;base64,${base64String}`);
+          })
+          .catch((error) => {
+              console.error('Error fetching image:', error);
+          });
+    }, [list.userProfile]);
 
     const getReply = ()=>{
       axios.get('http://localhost:9999/party/comment/rplList/'+postId)
@@ -136,17 +154,6 @@ export default function Page() {
             <img src={imageData} alt="main party" />
           </div>
           <div className="party_detail_summary">
-            <button className='delete' onClick={()=>{
-                axios.get('http://localhost:9999/party/'+postId)
-                .then(res => {
-                  console.log(res.data);
-                  alert('해당 글이 삭제되었습니다');
-                })
-                .catch(error => {
-                  console.log(error);
-                });
-            }}>삭제</button>
-            <Link to="/partyUpdate" className='update'>수정</Link>
             {/* 새 글 등록 시 제목 부분 */}
             <h2>{list.title}</h2>
           </div>
@@ -161,7 +168,7 @@ export default function Page() {
             </div>
             <div className="party_detail_user">
               <div>
-                <img src="/images/chef01.png" />
+                <img src={profileImage} />
               </div>
               {/* 작성자 닉네임 */}
               <div className="title">{list.userNickname}</div>
