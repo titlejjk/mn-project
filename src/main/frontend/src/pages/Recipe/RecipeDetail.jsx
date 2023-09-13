@@ -8,6 +8,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import jwt_decode from 'jwt-decode';
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 //import { useParams } from 'react-router-dom';   //id값을 전달하기 위한 params
 //const { id } = useParams(); // URL 파라미터에서 id 추출
@@ -163,6 +164,11 @@ export default function Page() {
             <img src={imageData} alt="main recipe" />
           </div>
           <div className="recipe_detail_summary">
+            <Link to="/partyUpdate" className='update'>수정</Link>
+            <button onClick={()=>{
+              
+            }}>삭제</button>
+            <Link to="/partyDelete" className='delete'>삭제</Link>
             {/* 새 글 등록 시 제목 부분 */}
             <h2>{list.title}</h2>
             {/* 마리 수, 소요 시간, 난이도 모음 */}
@@ -201,8 +207,10 @@ export default function Page() {
           <div className="recipe_detail_step">
             <div className="title">조리설명</div>
             <div className="recipe_detail_step_item">
-              <p>{list.content}</p>
-                  <DetailSlider />
+                <p>{list.content}</p>
+                <div>
+                  <img src="/images/0b96b03c-recipeshot.jpg"/>
+                </div>
                 <div className="recipe_detail_step_item_mqtt">
                   현재 온도: {topic}
                   <button onClick={() =>
@@ -221,6 +229,9 @@ export default function Page() {
                 </div>
             </div>
             <div className="recipe_detail_user">
+              <div>
+                <img src="/images/chef01.png" />
+              </div>
               {/* 작성자 닉네임 */}
               <div className="title">{list.userNickname}</div>
               {/* 팔로우 버튼 */}
@@ -251,7 +262,7 @@ export default function Page() {
             <div className="input">
               <div>
                 <img
-                  src={"list.userProfile"}
+                  src="/images/chef01.png"
                   alt="user thumb"
                 />
               </div>
@@ -374,15 +385,6 @@ function DetailSlider(){
               </div>
               <div>
                   <h3>2</h3>
-              </div>
-              <div>
-                  <h3>3</h3>
-              </div>
-              <div>
-                  <h3>4</h3>
-              </div>
-              <div>
-                  <h3>5</h3>
               </div>
           </Slider>
       </div>

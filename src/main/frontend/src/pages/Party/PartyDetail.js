@@ -4,6 +4,7 @@ import Pagination from "../../lib/Pagination";
 import { useState, useEffect, useRef } from "react";
 import jwt_decode from 'jwt-decode';
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 //import { useParams } from 'react-router-dom';   //id값을 전달하기 위한 params
 //const { id } = useParams(); // URL 파라미터에서 id 추출
@@ -96,30 +97,6 @@ export default function Page() {
                 });
         }, [list.imageUrl]);
 
-    useEffect(() => {
-      let intervalId;
-
-      if (autoClick) {
-        // 버튼이 클릭되면 5초마다 함수를 실행하는 인터벌을 설정합니다.
-        intervalId = setInterval(() => {
-          axios.get('http://localhost:9999/temperature/publish')
-          .then(res=>{
-            setTopic(res.data);
-          })
-          .catch(error=>{
-            console.log(error);
-          });
-        }, 5000);
-      } else {
-        // 버튼이 클릭되지 않으면 인터벌을 제거합니다.
-        clearInterval(intervalId);
-      }
-
-      return () => {
-        clearInterval(intervalId); // 컴포넌트가 언마운트될 때 인터벌을 제거합니다.
-      };
-    }, [autoClick]);
-
     const getReply = ()=>{
       axios.get('http://localhost:9999/party/comment/rplList/'+postId)
       .then(res => {
@@ -159,6 +136,17 @@ export default function Page() {
             <img src={imageData} alt="main party" />
           </div>
           <div className="party_detail_summary">
+            <button className='delete' onClick={()=>{
+                axios.get('http://localhost:9999/party/'+postId)
+                .then(res => {
+                  console.log(res.data);
+                  alert('해당 글이 삭제되었습니다');
+                })
+                .catch(error => {
+                  console.log(error);
+                });
+            }}>삭제</button>
+            <Link to="/partyUpdate" className='update'>수정</Link>
             {/* 새 글 등록 시 제목 부분 */}
             <h2>{list.title}</h2>
           </div>
@@ -170,24 +158,11 @@ export default function Page() {
               <div className="party_detail_step_item_content">
                 {list.content}
               </div>
-                <div className="party_detail_step_item_mqtt">
-                현재 온도: {topic}
-                <button onClick={() =>
-                setAutoClick(!autoClick)
-                }>{autoClick ? 'mqtt 중지' : 'mqtt 시작'}</button>
-                <button onClick={() =>{
-                  axios.get('http://localhost:9999/temperature/reset')
-                  .then(res=>{
-                    setTopic(false);
-                    setAutoClick(false);
-                  })
-                  .catch(error=>{
-                    console.log(error);
-                  });
-                }}>mqtt리셋</button>
-                </div>
             </div>
             <div className="party_detail_user">
+              <div>
+                <img src="/images/chef01.png" />
+              </div>
               {/* 작성자 닉네임 */}
               <div className="title">{list.userNickname}</div>
               {/* 팔로우 버튼 */}
@@ -218,7 +193,7 @@ export default function Page() {
             <div className="input">
               <div>
                 <img
-                  src={"list.userProfile"}
+                  src="/images/chef01.png"
                   alt="user thumb"
                 />
               </div>
@@ -245,7 +220,7 @@ export default function Page() {
             {currentReply.map((item, index) => (
                 <div key={index} className="party_detail_reply_item">
                   <div className="image_container">
-                    <img src={item.userProfile} alt="reply thumb" />
+                    <img src="/images/chef01.png" alt="reply thumb" />
                   </div>
                   <div>
                     <div className="insight">

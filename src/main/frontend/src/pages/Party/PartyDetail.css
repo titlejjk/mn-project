@@ -26,6 +26,28 @@
     text-align: center;
 }
 
+.party_detail_summary > .update {
+    float: right;
+    height: 15px;
+    font-size: 15px;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--color-middle-brown);
+  }
+
+  .party_detail_summary > .delete {
+    float: right;
+    height: 38px;
+    font-size: 15px;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--color-middle-brown);
+  }
+
 .party_detail_summary > h2{
     margin: 0;
     /* 글자 크기 */
@@ -34,7 +56,18 @@
     font-weight: 600;
 }
 
+.party_detail_step{
+    margin: 40px 0 40px 100px;
+}
+
+.party_detail_step > .title{
+    font-size: 20px;
+    font-weight: 700;
+    margin: 20px auto;
+}
+
 .party_detail_step_item_content{
+    width: 100%;
     /* \n 입력 시 줄바꿈이 적용되도록 처리 */
     white-space: pre-line;
     margin: 10px auto;
@@ -56,8 +89,8 @@
 }
 
 .party_detail_user > div:has(img){
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     border-radius: 40px;
     /* div 에 담긴 사진에서 div 를 넘어서는 영역은 숨긴다 */
     overflow: hidden;

@@ -7,7 +7,7 @@ function ReplyItem({ userProfile, userNickname, rplContent, rplRegdate }) {
     return (
       <div className="recipe_detail_reply_item">
         <div className="image_container">
-          <img src={userProfile} alt="reply thumb" />
+          <img src="/images/chef02.png" alt="reply thumb" />
         </div>
         <div>
           <div className="insight">
