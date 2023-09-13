@@ -31,7 +31,7 @@ const PartyCard = ({ card, showTitle, showLikeBox }) => {
     }, []);
 
     useEffect(() => {
-        axios.get(`/party/image/${card.imageUrl}`, { responseType: 'arraybuffer', ...axiosConfig })
+        axios.get(`http://localhost:9999/party/image/${card.imageUrl}`, { responseType: 'arraybuffer', ...axiosConfig })
             .then((response) => {
                 const base64String = btoa(
                     new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), '')
@@ -44,29 +44,29 @@ const PartyCard = ({ card, showTitle, showLikeBox }) => {
     }, [card.imageUrl]);
 
     useEffect(() => {
-        axios.get(`http://localhost:9999/party/like/isLiked`, { userNum },axiosConfig)
+        axios.get(`http://localhost:9999/party/likes/isLiked?userNum=${userNum}&postId=${card.postId}`,axiosConfig)
             .then((response) => {
                 setIsLiked(response.data === "Liked");
             })
             .catch((error) => {
-                console.error("좋아요 상태 가져오기 실패:", error);
+               // console.error("좋아요 상태 가져오기 실패:", error);
 
                 // 좀 더 자세한 오류 정보를 클라이언트에 표시하려면 다음과 같이 수정합니다.
                 if (error.response) {
-                    console.error('서버 응답 상태 코드:', error.response.status);
-                    console.error('서버 응답 데이터:', error.response.data);
+                    //console.error('서버 응답 상태 코드:', error.response.status);
+                    //console.error('서버 응답 데이터:', error.response.data);
                 } else if (error.request) {
-                    console.error('서버 응답 없음');
+                    //console.error('서버 응답 없음');
                 } else {
-                    console.error('요청 전 오류:', error.message);
+                    //console.error('요청 전 오류:', error.message);
                 }
             });
     }, [userNum]);
 
 
-    const handleToggleLike = (rcpNum) => {
+    const handleToggleLike = (postId) => {
         setIsLiked((prevIsLiked) => !prevIsLiked);
-        axios.post('http://localhost:9999/party/like/toggle', { rcpNum, userNum }, axiosConfig)
+        axios.post('http://localhost:9999/party/likes/toggle', { postId, userNum }, axiosConfig)
             .then((response) => {
                 if (response.data === 'Like Inserted!') {
                     console.log('좋아요 추가됨');
@@ -75,23 +75,26 @@ const PartyCard = ({ card, showTitle, showLikeBox }) => {
                 }
             })
             .catch((error) => {
-                console.error('좋아요 토글 요청 실패:', error);
+                //console.error('좋아요 토글 요청 실패:', error);
 
                 // 좀 더 자세한 오류 정보를 클라이언트에 표시하려면 다음과 같이 수정합니다.
                 if (error.response) {
-                    console.error('서버 응답 상태 코드:', error.response.status);
-                    console.error('서버 응답 데이터:', error.response.data);
+                    //console.error('서버 응답 상태 코드:', error.response.status);
+                    //console.error('서버 응답 데이터:', error.response.data);
                 } else if (error.request) {
-                    console.error('서버 응답 없음');
+                    //console.error('서버 응답 없음');
                 } else {
-                    console.error('요청 전 오류:', error.message);
+                    //console.error('요청 전 오류:', error.message);
                 }
+
+
+
             });
     };
 
     return (
         <div className="card">
-            <Link to={`/partyDetail?postNum=${card.postNum}`}>
+            <Link to={`/partyDetail?postId=${card.postId}`}>
                 <img className="card-img" src={imageData} alt={card.title} />
             </Link>
 

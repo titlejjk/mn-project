@@ -41,10 +41,31 @@ export default function Page() {
     // 추가
 
     //토큰값 받아오기
-    const userToken = localStorage.getItem('login-token');
-    const decodedToken = jwt_decode(userToken);
-    const userNum = decodedToken.userNum;
-    const userEmail = decodedToken.userEmail;
+    //const userToken = localStorage.getItem('login-token');
+    let decodedToken = null;
+    let userNum = null;
+    let userEmail = null;
+    useEffect(() => {
+        const userToken = localStorage.getItem('login-token');
+        if (userToken) {
+            // 토큰 해석
+            decodedToken = jwt_decode(userToken); // jwt 모듈을 사용하여 토큰 해석
+            if (decodedToken && decodedToken.userNum) {
+                // 해석한 토큰에 이메일 정보가 있는지 확인하고, 있다면 이메일 값과 생일, 닉네임을 가져와서 설정
+                userNum = decodedToken.userNum;
+                userEmail = decodedToken.userEmail;
+            } else {
+                console.error("userNum 없음");
+            }
+        } else {
+
+        }
+    }, []);
+
+    // const decodedToken = jwt_decode(userToken);
+    // const userNum = decodedToken.userNum;
+    // const userEmail = decodedToken.userEmail;
+
 
     // 현재 페이지의 URL을 가져옵니다.
     const currentURL = window.location.href;
@@ -172,7 +193,17 @@ export default function Page() {
                 <div className="recipe_detail_step_item">
                     <p>{list.content}</p>
                     <DetailSlider />
-
+                    <div className="recipe_detail_step_item_mqtt">
+                        현재 온도: {topic}<button onClick={()=>{
+                        axios.get('http://localhost:9999/temperature/publish')
+                            .then(res=>{
+                                setTopic(res.data);
+                            })
+                            .catch(error=>{
+                                console.log(error);
+                            });
+                    }}>mqtt</button>
+                    </div>
                 </div>
                 <div className="recipe_detail_user">
                     {/* 작성자 닉네임 */}
@@ -213,6 +244,7 @@ export default function Page() {
                     <input ref={inputReply} type="text" />
                     <button onClick={(e)=>{
                         const rplContent = inputReply.current.value;
+                        inputReply.current.value = "";
                         axios.post("http://localhost:9999/recipe/reply/insert", {
                             userNum,
                             rcpNum,
@@ -363,7 +395,7 @@ function PrevArrow(props) {
     return (
         <div
             className={className}
-            style={{...style, display: "block", filter: "opacity(0.5) drop-shadow(0 0 0 #625f5f)", zoom: "2.5"}}
+            style={{ ...style, display: "block", filter: "opacity(0.5) drop-shadow(0 0 0 #625f5f)", zoom: "2.5"}}
             onClick={onClick}
         />
     );

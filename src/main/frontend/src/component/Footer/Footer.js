@@ -11,7 +11,7 @@ function Footer(){
                     <h3>(주)멍냥키친</h3>
                     <h2>4485-0850<span>평일 09:00 ~ 18:00</span></h2>
                     <div className="btnContent"> 
-                        <span>카카오톡 문의</span><p>평일 09:00 ~ 18:00시</p>
+                        <span>카카오톡 문의</span><p>평일 09:00 ~ 18:00</p>
                     </div>
                     <div className="btnContent">
                         <span>1:1 문의</span><p>365일<br/>고객센터 운영시간에 순차적으로 답변드리겠습니다.</p>
@@ -19,7 +19,7 @@ function Footer(){
                 </div>
 
                 <div className="middle">
-                    <ul className="navbar">
+                    <ul className="footer-navbar">
                         <li><Link to="/">멍냥소개</Link></li>
                         <li><Link to="/notice">공지사항</Link></li>
                         <li><Link to="/login">로그인</Link></li>

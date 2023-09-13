@@ -2,26 +2,26 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Header.css";
 
-function Header({currentToken, tokenChanged}) {
+function Header({ currentToken, tokenChanged }) {
   // public 폴더까지의 상대 경로 계산: 빌드 환경에 따라 사용하는 것이 좋습니다.
   const publicPath = process.env.PUBLIC_URL;
   const [keyword, setKeyword] = useState("");
   const location = useLocation();
 
   useEffect(() => {
-    console.log("토큰 확인중")
+    console.log("토큰 확인중");
     if (currentToken) {
-      console.log("토큰o: " + currentToken)
+      console.log("토큰o: " + currentToken);
     } else {
-      localStorage.removeItem('login-token');
-      console.log("토큰x: " + currentToken)
+      localStorage.removeItem("login-token");
+      console.log("토큰x: " + currentToken);
     }
   }, [currentToken]);
 
   const logout = () => {
     localStorage.removeItem('login-token');
     tokenChanged(null);
-    alert('로그아웃되었습니다.');
+    alert("로그아웃되었습니다.");
   };
 
   const loginLink = (
@@ -30,10 +30,12 @@ function Header({currentToken, tokenChanged}) {
           <Link to="/myPage">마이페이지</Link>
         </li>
         <li>
-          <Link to="/" onClick={logout}>로그아웃</Link>
+          <Link to="/" onClick={logout}>
+            로그아웃
+          </Link>
         </li>
       </ul>
-  )
+  );
 
   const logoutLink = (
       <ul>
@@ -44,7 +46,7 @@ function Header({currentToken, tokenChanged}) {
           <Link to="/signup">회원가입</Link>
         </li>
       </ul>
-  )
+  );
 
   const searchInputChange = (e) => {
     setKeyword(e.target.value);

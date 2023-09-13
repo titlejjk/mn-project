@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import jwt_decode from "jwt-decode";
 import axios from "axios";
-import "./Profile.css"; // 스타일 파일을 임포트하고 있다고 가정합니다.
+import "./Profile.css";
 
 const Profile = () => {
   const [profileData, setProfileData] = useState({
@@ -8,45 +9,92 @@ const Profile = () => {
     followers: 0,
     following: 0,
     bio: "",
-    profileImage: null, // 기본 프로필 이미지 경로
+    profileImage: null,
   });
 
-  // // 백엔드에서 프로필 데이터를 가져오는 함수
-  // const UsersProfileData = () => {
-  //   axios
-  //     .get("/api/usersData") // 백엔드 API 엔드포인트를 사용하세요.
-  //     .then((response) => {
-  //       // 백엔드에서 받아온 프로필 데이터를 설정합니다.
-  //       setProfileData(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("프로필 데이터 가져오기 실패:", error);
-  //     });
-  // };
+  useEffect(() => {
+    const userToken = localStorage.getItem("login-token");
 
-  // useEffect(() => {
-  //   // 컴포넌트가 마운트될 때 프로필 데이터를 가져옵니다.
-  //   UsersProfileData();
-  // }, []); // 빈 배열을 전달하여 한 번만 호출되도록 설정
+    const fetchProfileData = async () => {
+      try {
+        if (userToken) {
+          const decodedToken = jwt_decode(userToken);
+
+          if (decodedToken && decodedToken.userEmail) {
+            const userEmail = decodedToken.userEmail; // 이메일 추출
+
+            // 프로필 데이터 가져오기
+            const profileResponse = await axios.get(
+                `/user/profile/${userEmail}`
+            );
+            const userData = profileResponse.data;
+            const userProfile = userData.userProfile; // 프로필 이미지 파일 이름으로 수정
+            console.log(userData);
+
+            // 팔로워 수 가져오기
+            const followersResponse = await axios.get(
+                `/follow/followers/count/${userEmail}`
+            );
+            const followerCount = followersResponse.data;
+
+            // 팔로잉 수 가져오기
+            const followingResponse = await axios.get(
+                `/follow/followings/count/${userEmail}`
+            );
+            const followingCount = followingResponse.data;
+
+            // 프로필 이미지 가져오기
+            const profileImageResponse = await axios.get(
+                `/user/image/${userProfile}`,
+                {
+                  responseType: "arraybuffer", // 이미지 데이터로 받음
+                }
+            );
+            const profileImage = `data:image/jpeg;base64,${btoa(
+                new Uint8Array(profileImageResponse.data).reduce(
+                    (data, byte) => data + String.fromCharCode(byte),
+                    ""
+                )
+            )}`;
+
+            // 프로필 데이터 업데이트
+            setProfileData({
+              nickname: decodedToken.userNickname,
+              bio: userData.userIntroduction,
+              profileImage: profileImage,
+              followers: followerCount,
+              following: followingCount,
+            });
+          } else {
+            console.error("토큰에서 이메일 정보를 찾을 수 없습니다.");
+          }
+        }
+      } catch (error) {
+        console.error("프로필 데이터를 가져오는 중 오류 발생:", error);
+      }
+    };
+
+    fetchProfileData();
+  }, []);
 
   return (
-    <div className="profile-container">
-      <div className="profile-image">
-        <img
-          src={profileData.profileImage || "images/default_profile.png"}
-          alt="Profile"
-        />
-      </div>
-      <div className="profile-info">
-        <h2>{profileData.nickname || "닉네임을 설정해주세요"}</h2>
-        <div className="followers">
-          <span>팔로워 {profileData.followers || 0}</span>
-          <span>팔로잉 {profileData.following || 0}</span>
+      <div className="profile-container">
+        <div className="profile-image">
+          <img
+              src={profileData.profileImage || "images/default_profile.png"}
+              alt="Profile"
+          />
         </div>
-        <hr />
-        <p className="bio">{profileData.bio || "비어있음"}</p>
+        <div className="profile-info">
+          <h2>{profileData.nickname || "닉네임을 설정해주세요"}</h2>
+          <div className="followers">
+            <span>팔로워 {profileData.followers || 0}</span>
+            <span>팔로잉 {profileData.following || 0}</span>
+          </div>
+          <hr />
+          <p className="bio">{profileData.bio || "비어있음"}</p>
+        </div>
       </div>
-    </div>
   );
 };
 

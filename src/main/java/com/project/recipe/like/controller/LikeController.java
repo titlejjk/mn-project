@@ -1,6 +1,5 @@
 package com.project.recipe.like.controller;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.project.recipe.like.dto.LikeDto;
 import com.project.recipe.like.service.LikeService;
 import org.apache.commons.io.IOUtils;
@@ -39,8 +38,8 @@ public class LikeController {
     //좋아요 토글
     @Transactional
     @PostMapping("/toggle")
-    public ResponseEntity<String> toogleLike(@RequestBody LikeDto dto){
-        String result = likesService.toogleLike(dto);
+    public ResponseEntity<String> toogleLike(@RequestParam int rcpNum, @RequestParam int userNum){
+        String result = likesService.toggleLike(rcpNum, userNum);
         HttpStatus status = "Like Inserted".equals(result) ? HttpStatus.OK : HttpStatus.BAD_REQUEST ;
         return new ResponseEntity<>(result, status);
     }
@@ -52,10 +51,10 @@ public class LikeController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    //좋아요 초기화 방지
+    //좋아요 여부
     @GetMapping("/isLiked")
-    public ResponseEntity<Boolean> isLikedByUser(@RequestBody LikeDto dto){
-        boolean result = likesService.isLikedByUser(dto);
+    public ResponseEntity<Boolean> isLikedByUser(@RequestParam int rcpNum, @RequestParam int userNum){
+        boolean result = likesService.isLikedByUser(rcpNum, userNum);
         HttpStatus status = result == true ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(result, status);
     }
@@ -66,4 +65,5 @@ public class LikeController {
         List<LikeDto> result = likesService.orderByLike();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
 }

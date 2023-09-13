@@ -28,17 +28,17 @@ public class PostController {
     private String imgPath;
 
     @GetMapping(
-            value = "/image/{mainPath}",
+            value = "/image/{imageUrl}",
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     @ResponseBody
-    public byte[] getPostImage(@PathVariable("mainPath") String imgName) throws IOException {
+    public byte[] getPostImage(@PathVariable("imageUrl") String imgName) throws IOException {
         String absolutePath = imgPath + File.separator + imgName;
         InputStream is = new FileInputStream(absolutePath);
         return IOUtils.toByteArray(is);
     }
 
     //게시글 등록
-    @PostMapping
+    @PostMapping("/insert")
     public ResponseEntity<?> createPost(@ModelAttribute PostDto postDto,
                                         @RequestParam("image") MultipartFile image) {
         try{
@@ -54,7 +54,7 @@ public class PostController {
     }
 
     //게시글 목록 조회
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<PostDto>> getAllPosts() {
         return ResponseEntity.ok(postService.getList());
     }

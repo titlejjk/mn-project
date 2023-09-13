@@ -6,7 +6,8 @@ import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServic
 
 import java.io.File;
 
-@SpringBootApplication(exclude =  {UserDetailsServiceAutoConfiguration.class})
+
+@SpringBootApplication
 public class ProjectApplication {
 
 	public static void main(String[] args) {
@@ -15,5 +16,4 @@ public class ProjectApplication {
 		String absolutePath = file.getAbsolutePath();
 		System.out.println("Absolute Path: " + absolutePath);
 	}
-
 }

@@ -60,6 +60,7 @@ const mainImg = {
     width: '1280px',
     height: '500px',
     margin: '5px 0 50px',
+    objectFit: "cover"
 };
 
 export default MainImg;

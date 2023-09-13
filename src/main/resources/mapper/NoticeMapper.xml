@@ -9,25 +9,25 @@
     <!-- 공지사항 저장 -->
     <insert id="save" parameterType="com.project.notice.NoticeDto" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO tb_notice (
-        id, title, content, writer, created_date
+            id, title, content, writer, created_date
         ) VALUES (
-        #{id}
-        , #{title}
-        , #{content}
-        , #{writer}
-        , NOW()
-        )
+                     #{id}
+                 , #{title}
+                 , #{content}
+                 , #{writer}
+                 , NOW()
+                 )
     </insert>
 
 
     <!-- 공지사항 상세정보 조회 -->
     <select id="findById" parameterType="long" resultType="com.project.notice.NoticeDto">
         SELECT
-        *
+            *
         FROM
-        tb_notice
+            tb_notice
         WHERE
-        id = #{value}
+            id = #{value}
     </select>
 
 
@@ -54,11 +54,11 @@
     <!-- 공지사항 리스트 조회 -->
     <select id="findAll" resultType="com.project.notice.NoticeDto">
         SELECT
-       id, title, content, writer, created_date AS createdDate
+            id, title, content, writer, created_date AS createdDate
         FROM
-        tb_notice
+            tb_notice
         ORDER BY
-        id DESC
+            id DESC
     </select>
 
 </mapper>
