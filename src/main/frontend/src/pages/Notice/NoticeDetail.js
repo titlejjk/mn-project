@@ -1,6 +1,6 @@
 import './NoticeDetail.css';
 import axios from 'axios';
-import { useState } from 'react';   
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 // 백엔드와 연동할 데이터
@@ -16,6 +16,40 @@ export default function Page(){
 
     const [list, setList] = useState([]);
 
+    // 현재 페이지의 URL을 가져옵니다.
+    const currentURL = window.location.href;
+
+    // URL에서 쿼리 문자열을 추출합니다.
+    const queryString = currentURL.split('?')[1]; // ? 뒤의 쿼리 문자열을 추출합니다.
+
+    // 쿼리 문자열을 파싱하여 객체로 변환합니다.
+    const queryParams = {};
+    if (queryString) {
+      const queryParts = queryString.split('&');
+      for (const part of queryParts) {
+        const [key, value] = part.split('=');
+        queryParams[key] = decodeURIComponent(value);
+      }
+    }
+
+    // id 값을 추출합니다.
+    const id = queryParams.id;
+
+    const getList = ()=>{
+      axios.get("http://localhost:9999/notice/list/"+id)
+      .then(res=>{
+        setList(res.data);
+        console.log(res.data);
+      })
+      .catch(error=>{
+        console.log(error);
+      });
+    }
+
+    useEffect(()=>{
+      getList();
+    }, [])
+
     return (
         <main className="notice_detail_main">
             <div className="notice_detail_titlebox">
@@ -25,18 +59,18 @@ export default function Page(){
                 {/* 구분선 */}
                 <Divider />
                 <div className="notice_detail_title">
-                    {/* 일반/중요 */}
-                    <div>{data.category}</div>
+                    {/* 작성자 */}
+                    <div>{list.writer}</div>
                     {/* 공지사항 제목 */}
-                    <div>{data.title}</div>
+                    <div>{list.title}</div>
                     {/* 공지사항 등록일 */}
-                    <div>{data.createdAt}</div>
+                    <div>{list.createdDate}</div>
                 </div>
             </div>
             <Divider />
             <div className="notice_detail_content">
                 {/* 공지사항 내용 */}
-                {data.content}
+                {list.content}
             </div>
             <Divider />
             <Link className="notice_detail_listbtn" to={"/Notice"}>목록</Link>

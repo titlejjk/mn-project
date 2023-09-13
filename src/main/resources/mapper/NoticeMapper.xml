@@ -8,7 +8,7 @@
 
     <!-- 공지사항 저장 -->
     <insert id="save" parameterType="com.project.notice.NoticeDto" useGeneratedKeys="true" keyProperty="id">
-          INSERT INTO tb_notice (
+        INSERT INTO tb_notice (
         id, title, content, writer, created_date
         ) VALUES (
         #{id}
@@ -17,14 +17,13 @@
         , #{writer}
         , NOW()
         )
-
     </insert>
 
 
     <!-- 공지사항 상세정보 조회 -->
     <select id="findById" parameterType="long" resultType="com.project.notice.NoticeDto">
         SELECT
-        *
+        id, title, content, writer, created_date AS createdDate
         FROM
         tb_notice
         WHERE

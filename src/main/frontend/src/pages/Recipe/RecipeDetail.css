@@ -28,6 +28,17 @@
   text-align: center;
 }
 
+.recipe_detail_summary > .update {
+  float: right;
+  height: 15px;
+  font-size: 15px;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: var(--color-middle-brown);
+}
+
 .recipe_detail_summary > h2 {
   margin: 0;
   /* 글자 크기 */
@@ -114,14 +125,6 @@
   height: auto;
 }
 
-.recipe_detail_step_item_mqtt {
-  float: right;
-  width: 200px;
-  height: 30px;
-  border: 1px solid black;
-  line-height: 30px;
-}
-
 .recipe_detail_step_item > .ingre_container {
   margin-top: 10px;
 }
@@ -145,6 +148,29 @@
   display: flex;
   gap: 12px;
   font-size: 14px;
+}
+
+.recipe_detail_step_item_mqtt {
+  float: right;
+  width: 250px;
+  height: 40px;
+  padding-top: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  line-height: 30px;
+}
+
+.recipe_detail_step_item_mqtt > button{
+  display: flex;
+  float: right;
+  height: 15px;
+  font-size: 15px;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  padding: 15px;
+  align-items: center;
+  border-radius: 10px;
+  background-color: var(--color-middle-brown);
 }
 
 .recipe_detail_user {
