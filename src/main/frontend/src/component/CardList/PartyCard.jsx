@@ -43,25 +43,35 @@ const PartyCard = ({ card, showTitle, showLikeBox }) => {
             });
     }, [card.imageUrl]);
 
-    useEffect(() => {
-        axios.get(`http://localhost:9999/party/likes/isLiked?userNum=${userNum}&postId=${card.postId}`,axiosConfig)
-            .then((response) => {
-                setIsLiked(response.data === "Liked");
-            })
-            .catch((error) => {
-               // console.error("좋아요 상태 가져오기 실패:", error);
+    const checkLikeStatus = () => {
+        // setIsLikedByUser((prevIsLiked) => !prevIsLiked);
+        if (userNum) {
+            axios.get(`http://localhost:9999/party/likes/isLiked`)
+                .then((response) => {
+                    const recipe = response.data.find(item => item.postId === card.postId);  // rcpNum이 일치하는 객체 찾기
+                    if (recipe) {
+                        const liked = recipe.liked;  // 찾은 객체에서 'liked' 값만 추출
+                        setIsLiked(liked === 1);  // liked 값이 1인지 확인하여 상태 설정
+                        //console.log("좋아요: ", recipe.liked)
+                        console.log("현재 like 값: ", liked)
+                    }
+                    console.log("!!!! Server Response:", response.data);
+                    // 서버 응답을 콘솔에 출력
+                })
+                .catch((error) => {
+                    //console.error('좋아요 상태 가져오기 실패:', error);
+                });
+        } else {
+            setIsLiked(false);  // userNum이 없으면 좋아요 상태를 false로 설정
+        }
+    };
 
-                // 좀 더 자세한 오류 정보를 클라이언트에 표시하려면 다음과 같이 수정합니다.
-                if (error.response) {
-                    //console.error('서버 응답 상태 코드:', error.response.status);
-                    //console.error('서버 응답 데이터:', error.response.data);
-                } else if (error.request) {
-                    //console.error('서버 응답 없음');
-                } else {
-                    //console.error('요청 전 오류:', error.message);
-                }
-            });
+
+
+    useEffect(() => {
+        checkLikeStatus();
     }, [userNum]);
+
 
 
     const handleToggleLike = (postId) => {

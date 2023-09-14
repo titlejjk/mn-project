@@ -20,7 +20,7 @@ const BoardPartyCardList = () => {
     // 추가
 
     useEffect(() => {
-        axios.get('/party/list')
+        axios.get('http://localhost:9999/party/list')
             .then(response => {
                 setCards(response.data);
                 console.log(response.data)

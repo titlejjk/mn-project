@@ -14,8 +14,8 @@ public class LikesDto {
 
     private int likeId; //좋아요 ID
     private int postId; //게시글 ID
-    private int userNum; //사용자 ID
-    private String createdAt; //좋아요 생성 시인
-    private int likeCount;  //좋아요 개수
+    private int userNumtedAt; //좋아요 생성 시인
+    private int likeCou; //사용자 ID
+    private String creant;  //좋아요 개수
 
 }

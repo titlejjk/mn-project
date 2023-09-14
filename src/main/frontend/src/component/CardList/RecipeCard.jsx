@@ -83,8 +83,7 @@ const RecipeCard = ({ card, showTitle, showLikeBox }) => {
         axios.post('http://localhost:9999/recipe/like/toggle', { rcpNum: card.rcpNum, userNum }, axiosConfig)
             .then((response) => {
                 if (response.data === 'Like Inserted!') {
-                    //setIsLikedByUser(response.data);
-                    //setIsLikedByUser(prevIsLiked => (prevIsLiked === 1 ? 0 : 1));
+
                     console.log('좋아요 추가됨');
                 } else {
                     //setIsLikedByUser(false);
