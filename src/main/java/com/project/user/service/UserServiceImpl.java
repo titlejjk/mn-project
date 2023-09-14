@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 
 @Service
@@ -35,6 +36,11 @@ public class UserServiceImpl implements UserService {
     private final TokenProvider tokenProvider;
     //비밀번호 암호화
     private final PasswordEncoder passwordEncoder;
+
+    @Override
+    public List<UserDto> getAllUsers() {
+        return userMapper.getAllUsers();
+    }
 
     //사용자 프로필을 업데이트하는 메서드
     @Override
@@ -99,6 +105,11 @@ public class UserServiceImpl implements UserService {
     public void deactivateUser(int userNum) {
         //사용자의 Status를 'INACTIVE'로 변경
         userMapper.updateUserStatus("INACTIVE", userNum);
+    }
+    @Override
+    public void userActive(int userNum) {
+        //사용자의 Status를 'INACTIVE'로 변경
+        userMapper.userActive("ACTIVE", userNum);
     }
 
     @Override

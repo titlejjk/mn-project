@@ -26,6 +26,7 @@ const NoticeBoard = ({ user}) => {
           axios.get('http://localhost:9999/notice/list')
             .then(response => {
               setPosts(response.data);
+              console.log(response.data)
             })
             .catch(error => {
               console.error('Error fetching posts:', error);
@@ -43,7 +44,7 @@ const NoticeBoard = ({ user}) => {
             <ul className="notice-list">
               {posts.map(post => (
                 <li className="notice-item" key={post.id}>
-                    <Link to="/notice/{id}" className='post-title'>{post.title}</Link>
+                    <Link to={`/noticedetail?id=${post.id}`} className='post-title'>{post.title}</Link>
                       {/*    <p className='post-content'>{post.content}</p> */}
                       <p className='post-date'>{post.createdDate}</p>
                     

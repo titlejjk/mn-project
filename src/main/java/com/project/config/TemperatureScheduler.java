@@ -15,28 +15,27 @@ import org.springframework.scheduling.annotation.Scheduled;
 public class TemperatureScheduler {
 
     private final MqttClient mqttClient;
-    private boolean isActive = false;  // 스케줄러 활성화/비활성화 플래그
+
     private int currentTemperature = 20;  // 초기 온도
 
-    // 활성화/비활성화 설정
-    public void setActive(boolean active) {
-        this.isActive = active;
-    }
-
     // 5초마다 이 메서드를 실행
-    //@Scheduled(fixedRate = 5000)
-    public void publishTemperature() {
-        if (isActive) {
-            try {
-                currentTemperature += 2;  // 온도를 2도씩 증가
-                publish("temperature", String.valueOf(currentTemperature));
-            } catch (MqttException e) {
-                System.out.println("Failed to publish temperature: " + e.getMessage());
-            }
+//    @Scheduled(fixedRate = 5000)
+    public int publishTemperature() {
+        try {
+            currentTemperature += 10;  // 온도를 10도씩 증가
+            publish("temperature", String.valueOf(currentTemperature));
+        } catch (MqttException e) {
+            System.out.println("Failed to publish temperature: " + e.getMessage());
         }
+        return currentTemperature;
     }
 
-    // MQTT 메시지 발행
+    public int resetTemperature() {
+        currentTemperature = 20;
+
+        return currentTemperature;
+    }
+
     private void publish(String topic, String payload) throws MqttException {
         if (!mqttClient.isConnected()) {
             mqttClient.connect();
@@ -44,4 +43,5 @@ public class TemperatureScheduler {
         MqttMessage message = new MqttMessage(payload.getBytes());
         mqttClient.publish(topic, message);
     }
+
 }

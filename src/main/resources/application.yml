@@ -15,7 +15,7 @@ spring:
       max-request-size: 10MB  # 최대 요청 크기 설정
 
   mail:
-    host: smtpg.gmail.com
+    host: smtp.gmail.com
     port: 587
     username: title.jjk1990@gmail.com
     password: qwer1234!!

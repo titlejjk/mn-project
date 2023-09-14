@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css";
@@ -24,7 +24,16 @@ const Signup = () => {
   // 정규식을 이용한 이메일 유효성 검사
   const isEmailValidRegex = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
-  // DB로 회원가입 정보 보내기
+  // 비밀번호 및 확인 비밀번호 입력 시 일치 여부 확인
+  useEffect(() => {
+    if (password !== confirmPassword && confirmPassword !== "") {
+      setPasswordError("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+    } else {
+      setPasswordError(""); // 일치하면 에러 메시지 초기화
+    }
+  }, [password, confirmPassword]);
+
+  // 비밀번호 확인 비동기처리
   const handleSignup = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
@@ -40,11 +49,10 @@ const Signup = () => {
         userNickname: nickname,
         petTypeIds: withAnimals,
       });
-
       console.log("성공!");
       alert("회원가입이 되었습니다!");
       // 회원가입 성공 후 로그인 페이지로 이동
-      navigate("/login");
+      navigate(`/login?email=${encodeURIComponent(email)}`);
     } catch (error) {
       console.error("회원가입 오류:", error);
       alert("회원가입 불가");
@@ -149,10 +157,8 @@ const Signup = () => {
           이메일 중복확인
         </button>
 
-        {isEmailValid ? (
+        {isEmailValid && (
           <span style={{ color: "green" }}>사용 가능한 이메일입니다.</span>
-        ) : (
-          <span style={{ color: "red" }}>중복된 이메일입니다.</span>
         )}
 
         <label>비밀번호</label>
