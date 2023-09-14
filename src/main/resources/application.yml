@@ -7,14 +7,11 @@ spring:
     username: root
     password: 123
     driver-class-name: org.mariadb.jdbc.Driver
-    resources:
-      static-locations: classpath:/static/
-
   servlet:
-  multipart:
-    enabled: true
-    max-file-size: 10MB  # 최대 파일 크기 설정
-    max-request-size: 10MB  # 최대 요청 크기 설정
+    multipart:
+      enabled: true
+      max-file-size: 10MB  # 최대 파일 크기 설정
+      max-request-size: 10MB  # 최대 요청 크기 설정
 
 
 mybatis:

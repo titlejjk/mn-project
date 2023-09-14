@@ -28,6 +28,17 @@
   text-align: center;
 }
 
+.recipe_detail_summary > .update {
+  float: right;
+  height: 15px;
+  font-size: 15px;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: var(--color-middle-brown);
+}
+
 .recipe_detail_summary > h2 {
   margin: 0;
   /* 글자 크기 */
@@ -90,8 +101,7 @@
   margin-right: 40px;
 }
 
-.recipe_detail_step,
-.recipe_detail_reply {
+.recipe_detail_step {
   width: 100%;
   max-width: 640px;
   padding: 40px 0;
@@ -104,22 +114,15 @@
 }
 
 .recipe_detail_step_item > p {
+  white-space: pre;
   margin: 20px 0px;
   font-size: 18px;
 }
 
-.recipe_detail_step_item > img {
+.recipe_detail_step_item > div > img {
   display: block;
   width: 100%;
   height: auto;
-}
-
-.recipe_detail_step_item_mqtt {
-  float: right;
-  width: 200px;
-  height: 30px;
-  border: 1px solid black;
-  line-height: 30px;
 }
 
 .recipe_detail_step_item > .ingre_container {
@@ -147,7 +150,49 @@
   font-size: 14px;
 }
 
+.recipe_detail_step_item_mqtt {
+  float: right;
+  width: 250px;
+  height: 140px;
+  padding-top: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  line-height: 30px;
+}
+
+.recipe_detail_step_item_mqtt > p:first-child{
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.recipe_detail_step_item_mqtt > span{
+  font-size: 15px;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+
+
+.recipe_detail_step_item_mqtt > div{
+  display: flex;
+  height: 30%;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.recipe_detail_step_item_mqtt > div > button{
+  display: inline-block;
+  font-size: 15px;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  padding: 7px;
+  border-radius: 10px;
+  background-color: var(--color-middle-brown);
+}
+
 .recipe_detail_user {
+  height: 150px;
   margin-top: 20px;
   display: flex;
   align-items: center;
@@ -193,6 +238,13 @@
 
 .recipe_detail_user > button > span > svg {
   display: block;
+}
+
+.recipe_detail_reply {
+  width: 100%;
+  max-width: 640px;
+  padding: 40px 0;
+  margin: 0 auto;
 }
 
 .recipe_detail_reply > .title {

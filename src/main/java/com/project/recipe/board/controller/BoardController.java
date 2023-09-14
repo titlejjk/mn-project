@@ -37,11 +37,12 @@ public class BoardController {
 
     @Value("${file.location}")
     private String imgPath;
+
     @GetMapping(
-            value = "/image/{mainPath}",
+            value = "/image/{imagePath}",
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     @ResponseBody
-    public byte[] getPostImage(@PathVariable("mainPath") String imgName) throws IOException{
+    public byte[] getRcpMainImage(@PathVariable("imagePath") String imgName) throws IOException{
         String absolutePath = imgPath + File.separator + imgName;
         InputStream is = new FileInputStream(absolutePath);
         return IOUtils.toByteArray(is);

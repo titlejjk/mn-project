@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./Login.css"; // 기존 스타일 파일 임포트
 import jwt_decode from "jwt-decode";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const Login = ({tokenChanged}) => {
   const [email, setUserEmail] = useState("");
@@ -65,15 +66,31 @@ const Login = ({tokenChanged}) => {
       if (decodedToken.roles) {
         // 백엔드에서 받은 역할(role) 확인
         if (decodedToken.roles === "ADMIN") {
-          alert("관리자로 로그인되었습니다!");
+          Swal.fire({
+            icon: "success",
+            title: "관리자 로그인 성공😎",
+            showConfirmButton: false,
+            timer: 1500
+          })
           navigate("/admin"); // 관리자 페이지로 이동
         } else {
-          alert("로그인되었습니다!");
+          Swal.fire({
+            icon: "success",
+            title: "로그인 성공😊",
+            showConfirmButton: false,
+            timer: 1500
+          })
           navigate("/"); // 일반 사용자 페이지로 이동
         }
       }
     } catch (error) {
-      alert("로그인 실패!");
+      Swal.fire({
+        icon: "warning",
+        title: "로그인 실패!",
+        text: "아이디와 비밀번호를 다시 확인해주세요🤔",
+        showConfirmButton: false,
+        timer: 1500
+      })
       console.error("로그인 오류:", error);
     }
   };

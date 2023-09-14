@@ -9,71 +9,47 @@ import 'slick-carousel/slick/slick-theme.css';
 import jwt_decode from 'jwt-decode';
 import axios from "axios";
 
-//import { useParams } from 'react-router-dom';   //id값을 전달하기 위한 params
-//const { id } = useParams(); // URL 파라미터에서 id 추출
-// 백엔드와 연동할 데이터 모음
-
 
 // 페이지 로딩 시 출력되는 화면내용
 export default function Page() {
-
+    // 메인이미지 담는 변수
     const [imageData, setImageData] = useState(null);
-
+    // 글작성자 프로필 담는 변수
+    const [profileImage, setProfileImage] = useState(null);
+    // 팔로잉 기능 연동 시 필요한 followingEmail
+    const [followingEmail, setFollowingEmail] = useState("");
+    // RecipeDetail 페이지 조회 내용 담는 변수
     const [list, setList] = useState([]);
-
-    let inputReply = useRef();
-
+    // 서브이미지 담는 변수
+    const [subImgData, setSubImgData] = useState([]);
+    // 현재 팔로잉한 상태인지 아닌지 표시해주는 변수
     const [isFollowing, setIsFollowing] = useState(false);
-
+    // mqtt 버튼 클릭 시 메소드 실행하기 위해 필요한 변수
+    const [autoClick, setAutoClick] = useState(false);
+    // mqtt 기능 실행 후 받아온 데이터를 담는 변수
     const [topic, setTopic] = useState("");
-
+    // 입력한 댓글 내용을 담기 위한 useRef 선언
+    let inputReply = useRef();
+    // 댓글 목록을 받아와 배열로 저장
     const [reply, setReply] = useState([]);
-    //초기값을 빈 배열로 설정
-
+    // 페이징 처리에서 현재 페이지를 표시
     const [currentPage, setCurrentPage] = useState(0);
-    // 페이징 처리에 관련한 로직 및 상태 추가
-
-    const [totalReplyCount, setTotalReplyCount] = useState(0);
     //전체 댓글의 개수를 표시
-
-    const replyPerPage = 6;
+    const [totalReplyCount, setTotalReplyCount] = useState(0);
     //한 페이지에 표시할 댓글의 수를 정의
-    // 추가
+    const replyPerPage = 6;
 
-    //토큰값 받아오기
-    //const userToken = localStorage.getItem('login-token');
-    let decodedToken = null;
-    let userNum = null;
-    let userEmail = null;
-    useEffect(() => {
-        const userToken = localStorage.getItem('login-token');
-        if (userToken) {
-            // 토큰 해석
-            decodedToken = jwt_decode(userToken); // jwt 모듈을 사용하여 토큰 해석
-            if (decodedToken && decodedToken.userNum) {
-                // 해석한 토큰에 이메일 정보가 있는지 확인하고, 있다면 이메일 값과 생일, 닉네임을 가져와서 설정
-                userNum = decodedToken.userNum;
-                userEmail = decodedToken.userEmail;
-            } else {
-                console.error("userNum 없음");
-            }
-        } else {
+    // 로그인 정보를 통해 토큰값 받아오기
+    const userToken = localStorage.getItem('login-token');
+    const decodedToken = jwt_decode(userToken);
+    const userNum = decodedToken.userNum;
+    const loginEmail = decodedToken.userEmail;
 
-        }
-    }, []);
-
-    // const decodedToken = jwt_decode(userToken);
-    // const userNum = decodedToken.userNum;
-    // const userEmail = decodedToken.userEmail;
-
-
-    // 현재 페이지의 URL을 가져옵니다.
+    // 현재 페이지의 URL 가져오기
     const currentURL = window.location.href;
-
-    // URL에서 쿼리 문자열을 추출합니다.
-    const queryString = currentURL.split('?')[1]; // ? 뒤의 쿼리 문자열을 추출합니다.
-
-    // 쿼리 문자열을 파싱하여 객체로 변환합니다.
+    // URL에서 쿼리 문자열 추출
+    const queryString = currentURL.split('?')[1]; // ? 뒤의 쿼리 문자열 추출
+    // 쿼리 문자열을 파싱하여 객체로 변환
     const queryParams = {};
     if (queryString) {
         const queryParts = queryString.split('&');
@@ -82,16 +58,22 @@ export default function Page() {
             queryParams[key] = decodeURIComponent(value);
         }
     }
-
-    // rcpNum 값을 추출합니다.
+    // rcpNum 값 추출하여 변수에 담기
     const rcpNum = queryParams.rcpNum;
 
-    const getList = ()=>{
-        axios.get("http://localhost:9999/recipe/detail?rcpNum="+rcpNum)
-            .then(res=>{
+    // RecipeDetail 페이지 조회를 위한 axios 요청
+    const getList = ()=> {
+        axios.get(`http://localhost:9999/recipe/detail?rcpNum=${rcpNum}`)
+            .then(res => {
                 setList(res.data);
+                // 서브 이미지 경로 배열
+                const subImages = res.data.subImgs.map((subImgData) => subImgData.subPath);
+                setSubImgData(subImages);
+
+                // 팔로잉 이메일 업데이트
+                setFollowingEmail(res.data.userEmail);
             })
-            .catch(error=>{
+            .catch(error => {
                 console.log(error);
             });
     }
@@ -99,24 +81,37 @@ export default function Page() {
     useEffect(()=>{
         getList();
     }, [])
+    console.log("서브 이미지 데이터")
+    console.log(subImgData)
 
+    // mqtt 호출하는 기능
     useEffect(() => {
-        // 이미지를 Axios로 불러옵니다.
-        axios
-            .get(`/recipe/image/${list.mainPath}`, { responseType: 'arraybuffer' })
-            .then((response) => {
-                const base64String = btoa(
-                    new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), '')
-                );
-                setImageData(`data:image/jpeg;base64,${base64String}`);
-            })
-            .catch((error) => {
-                console.error('Error fetching image:', error);
-            });
-    }, [list.mainPath]);
+        let intervalId;
 
+        if (autoClick) {
+            // 버튼이 클릭되면 5초마다 함수를 실행하는 인터벌을 설정합니다.
+            intervalId = setInterval(() => {
+                axios.get('http://localhost:9999/temperature/publish')
+                    .then(res=>{
+                        setTopic(res.data);
+                    })
+                    .catch(error=>{
+                        console.log(error);
+                    });
+            }, 5000);
+        } else {
+            // 버튼이 클릭되지 않으면 인터벌을 제거합니다.
+            clearInterval(intervalId);
+        }
+
+        return () => {
+            clearInterval(intervalId); // 컴포넌트가 언마운트될 때 인터벌을 제거합니다.
+        };
+    }, [autoClick]);
+
+    // 댓글목록 배열을 가져오는 axios 요청
     const getReply = ()=>{
-        axios.get('http://localhost:9999/recipe/reply/list?rcpNum='+rcpNum)
+        axios.get(`http://localhost:9999/recipe/reply/list?rcpNum=${rcpNum}`)
             .then(res => {
                 setReply(res.data);
                 setTotalReplyCount(res.data.length); // 레시피 개수 설정
@@ -129,8 +124,6 @@ export default function Page() {
     useEffect(() => {
         getReply();
     }, [])
-    //axios로 json데이터 가져오기
-
 
     //현재 페이지에 표시 되어야 할 카드의 시작 위치 계산
     //현재 페이지 * 한페이지에 표시할 카드 수 =  시작위치
@@ -150,11 +143,12 @@ export default function Page() {
         <main className="recipe_detail_main">
             <div className="recipe_detail_image_container">
                 {/* 메인 이미지 */}
-                <img src={imageData} alt="main recipe" />
+                <img src={`http://localhost:9999/recipe/image/${list.mainPath}`} alt="main recipe" />
             </div>
             <div className="recipe_detail_summary">
                 {/* 새 글 등록 시 제목 부분 */}
                 <h2>{list.title}</h2>
+                <br />
                 {/* 마리 수, 소요 시간, 난이도 모음 */}
                 <div className="recipe_detail_info">
                     <div>
@@ -185,27 +179,45 @@ export default function Page() {
             {/* 요리에 필요한 재료와 양에 대한 정보 */}
             <div className="recipe_detail_ingre">
                 <span className="title">재료</span>
+                {/* 재료정보 */}
                 <span>{list.ingredients}</span>
             </div>
             <Divider />
             <div className="recipe_detail_step">
                 <div className="title">조리설명</div>
                 <div className="recipe_detail_step_item">
+                    {/* 조리설명 */}
                     <p>{list.content}</p>
-                    <DetailSlider />
-                    <div className="recipe_detail_step_item_mqtt">
-                        현재 온도: {topic}<button onClick={()=>{
-                        axios.get('http://localhost:9999/temperature/publish')
-                            .then(res=>{
-                                setTopic(res.data);
-                            })
-                            .catch(error=>{
-                                console.log(error);
-                            });
-                    }}>mqtt</button>
+                    {/* 서브 이미지 */}
+                    <div>
+                        {subImgData.map((subImg) => <img src={`http://localhost:9999/recipe/image/${subImg}`} alt="Recipe" />)}
+                    </div>
+                </div>
+                {/* mqtt 메소드 */}
+                <div className="recipe_detail_step_item_mqtt">
+                    <p>끓는점 도달 여부</p>
+                    <span>{topic}</span>
+                    <div>
+                        <button onClick={() =>
+                            setAutoClick(!autoClick)
+                        }>{autoClick ? 'mqtt 중지' : 'mqtt 시작'}</button>
+                        <button onClick={() =>{
+                            axios.get('http://localhost:9999/temperature/reset')
+                                .then(res=>{
+                                    setTopic(false);
+                                    setAutoClick(false);
+                                })
+                                .catch(error=>{
+                                    console.log(error);
+                                });
+                        }}>mqtt리셋</button>
                     </div>
                 </div>
                 <div className="recipe_detail_user">
+                    <div>
+                        {/* 작성자 프로필 */}
+                        <img src={`http://localhost:9999/recipe/image/${list.userProfile}`} />
+                    </div>
                     {/* 작성자 닉네임 */}
                     <div className="title">{list.userNickname}</div>
                     {/* 팔로우 버튼 */}
@@ -213,14 +225,16 @@ export default function Page() {
                         style={{backgroundColor: isFollowing ? '#ff6a10' : '#ba7149'}}
                         onClick={()=>{
                             axios.post("http://localhost:9999/follow/toggle", {
-//                    "followerEmail": "follower@naver.com",
-//                    "followingEmail": "following@naver.com"
+                                followerEmail: loginEmail,
+                                followingEmail
                             })
                                 .then(res=>{
                                     setIsFollowing(!isFollowing);
+                                    console.log("눌림")
                                     console.log(res.data);
                                 })
                                 .catch(error=>{
+                                    console.log("안눌림")
                                     console.log(error);
                                 })
                         }}>
@@ -236,7 +250,7 @@ export default function Page() {
                 <div className="input">
                     <div>
                         <img
-                            src={"list.userProfile"}
+                            src="/images/chef01.png"
                             alt="user thumb"
                         />
                     </div>
@@ -263,7 +277,7 @@ export default function Page() {
                 {currentReply.map((item, index) => (
                     <ReplyItem key={index} {...item} />
                 ))}
-
+                {/* 댓글목록 페이징 처리 */}
                 <Pagination pageCount={Math.ceil(reply.length / replyPerPage)} onPageChange={handlePageChange} />
 
             </div>
@@ -279,9 +293,9 @@ function Divider() {
     return <div className="recipe_detail_divider" />;
 }
 
+// 팔로잉 하지 않을 때 활성화되는 버튼
 function Follow(){
     return(
-        // 팔로잉 하지 않을 때 활성화되는 버튼
         <span>
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -299,9 +313,9 @@ function Follow(){
     )
 }
 
+// 팔로잉 클릭 시 활성화되는 버튼
 function Following(){
     return(
-        // 팔로잉 클릭 시 활성화되는 버튼
         <span>
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -360,20 +374,12 @@ function DetailSlider(){
                 <div>
                     <h3>2</h3>
                 </div>
-                <div>
-                    <h3>3</h3>
-                </div>
-                <div>
-                    <h3>4</h3>
-                </div>
-                <div>
-                    <h3>5</h3>
-                </div>
             </Slider>
         </div>
     )
 }
 
+// 이미지 슬라이더에서 다음 사진으로 넘기는 버튼
 function NextArrow(props) {
     const { className, style, onClick } = props;
     return (
@@ -390,12 +396,13 @@ function NextArrow(props) {
     );
 }
 
+// 이미지 슬라이더에서 이전 사진으로 넘기는 버튼
 function PrevArrow(props) {
     const { className, style, onClick } = props;
     return (
         <div
             className={className}
-            style={{ ...style, display: "block", filter: "opacity(0.5) drop-shadow(0 0 0 #625f5f)", zoom: "2.5"}}
+            style={{...style, display: "block", filter: "opacity(0.5) drop-shadow(0 0 0 #625f5f)", zoom: "2.5"}}
             onClick={onClick}
         />
     );

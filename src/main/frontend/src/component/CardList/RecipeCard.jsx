@@ -4,20 +4,16 @@ import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 import { Link } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
-import  axios from 'axios'
+import  axios from 'axios';
+import Swal from "sweetalert2";
 const RecipeCard = ({ card, showTitle, showLikeBox }) => {
 
-
     const [userNum, setUserNum] = useState(0);
-    const [imageData, setImageData] = useState(null);
+    const [rcpNum, setRcpNum] = useState(card.rcpNum);
     const [isLikedByUser, setIsLikedByUser] = useState(0);
-    console.log("초기상태 isLikedByUser 상태 : " , isLikedByUser);
-
-    const axiosConfig = {
-        headers: {
-            'Content-Type': 'application/json', // JSON 형식으로 보낼 것을 명시
-        },
-    };
+    //console.log("초기상태 isLikedByUser 상태 : " , isLikedByUser);
+    //console.log("rcpNum: ", card.rcpNum); // card.rcpNum 값 확인
+    //console.log("userNum: ", userNum); // userNum 값 확인
 
     useEffect(() => {
         const newToken = localStorage.getItem('login-token');
@@ -32,20 +28,6 @@ const RecipeCard = ({ card, showTitle, showLikeBox }) => {
             // 토큰이 없는 경우에 대한 처리
         }
     }, []);
-
-
-    useEffect(() => {
-        axios.get(`/recipe/image/${card.mainPath}`, { responseType: 'arraybuffer', ...axiosConfig })
-            .then((response) => {
-                const base64String = btoa(
-                    new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), '')
-                );
-                setImageData(`data:image/jpeg;base64,${base64String}`);
-            })
-            .catch((error) => {
-                //console.error('Error fetching image:', error);
-            });
-    }, [card.mainPath]);
 
     const checkLikeStatus = () => {
        // setIsLikedByUser((prevIsLiked) => !prevIsLiked);
@@ -71,44 +53,58 @@ const RecipeCard = ({ card, showTitle, showLikeBox }) => {
     };
 
 
-
     useEffect(() => {
         checkLikeStatus();
     }, [userNum]);
 
-    const handleToggleLike = (rcpNum) => {
-        setIsLikedByUser((prevIsLiked) => !prevIsLiked);
-        console.log("rcpNum: ", rcpNum)
-
-        axios.post('http://localhost:9999/recipe/like/toggle', { rcpNum: card.rcpNum, userNum }, axiosConfig)
-            .then((response) => {
+    const handleToggleLike = () => {
+        if (!userNum) {
+            Swal.fire({
+                icon: "warning",
+                title: "경고",
+                text: "로그인 후 좋아요 할 수 있어요!",
+                showCancelButton: true,
+                confirmButtonText: "확인"
+            })
+            setIsLikedByUser((prevIsLiked) => prevIsLiked);
+        } else {
+            setIsLikedByUser((prevIsLiked) => !prevIsLiked);
+            axios.post(
+                'http://localhost:9999/recipe/like/toggle',
+                {rcpNum: rcpNum, userNum: userNum},
+                {
+                    headers: {
+                        'Content-Type': 'application/json', // JSON 형식으로 보낼 것을 명시
+                    },
+                }
+            ).then((response) => {
                 if (response.data === 'Like Inserted!') {
-
                     console.log('좋아요 추가됨');
                 } else {
                     //setIsLikedByUser(false);
                     console.log('좋아요 취소됨');
                 }
             })
-            .catch((error) => {
-                console.error('좋아요 토글 요청 실패:', error);
-                // 좀 더 자세한 오류 정보를 클라이언트에 표시하려면 다음과 같이 수정합니다.
-                if (error.response) {
-                     console.error('서버 응답 상태 코드:', error.response.status);
-                    // 500번오류일때 뜨게 하기alert("로그인을 하셨나요?")
-                     console.error('서버 응답 데이터:', error.response.data);
-                } else if (error.request) {
-                     console.error('서버 응답 없음');
-                } else {
-                    console.error('요청 전 오류:', error.message);
-                }
-            });
+                .catch((error) => {
+                    console.error('좋아요 토글 요청 실패:', error);
+                    // 좀 더 자세한 오류 정보를 클라이언트에 표시하려면 다음과 같이 수정합니다.
+                    if (error.response) {
+                        console.error('서버 응답 상태 코드:', error.response.status);
+                        // 500번오류일때 뜨게 하기alert("로그인을 하셨나요?")
+                        console.error('서버 응답 데이터:', error.response.data);
+                    } else if (error.request) {
+                        console.error('서버 응답 없음');
+                    } else {
+                        console.error('요청 전 오류:', error.message);
+                    }
+                });
+        }
     };
 
     return (
         <div className="card">
             <Link to={`/RecipeDetail?rcpNum=${card.rcpNum}`}>
-                <img className="card-img" src={imageData} alt={card.title} />
+                <img className="card-img" src={`http://localhost:9999/recipe/image/${card.mainPath}`} alt={card.title} />
             </Link>
 
             <div className='card-box'>

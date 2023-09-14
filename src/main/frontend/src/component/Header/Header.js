@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Header.css";
+import Swal from "sweetalert2";
 
 function Header({ currentToken, tokenChanged }) {
   // public 폴더까지의 상대 경로 계산: 빌드 환경에 따라 사용하는 것이 좋습니다.
@@ -21,7 +22,11 @@ function Header({ currentToken, tokenChanged }) {
   const logout = () => {
     localStorage.removeItem('login-token');
     tokenChanged(null);
-    alert("로그아웃되었습니다.");
+    Swal.fire({
+      title: "로그아웃 되셨습니다🤗 <br/> 또 만나요!",
+      showConfirmButton: false,
+      timer: 1500
+    })
   };
 
   const loginLink = (

@@ -9,13 +9,13 @@ import java.util.List;
 public interface LikeMapper {
 
     //좋아요 추가
-    void insertLike(int rcpNum, int userNum);
+    void insertLike(LikeDto dto);
     //좋아요 삭제
-    void deleteLike(int rcpNum, int userNum);
+    void deleteLike(LikeDto dto);
     //좋아요 개수
-    int countedLike(int rcpNum);
+    int countLike(int rcpNum);
     //좋아요 여부 확인
-    boolean isLikedByUser(int rcpNum, int userNum);
+    boolean isLikedByUser(LikeDto dto);
     //좋아요 순위별 조회
     List<LikeDto> orderByLike(LikeDto dto);
 }

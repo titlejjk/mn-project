@@ -14,17 +14,6 @@ const PetTypeImageCategory = ({ onPetNumChange }) => {
         { PetTypeName: '기타', categoryImage: '/images/animal05.png' , petNum:5},
     ];
 
-    // 사용자 번호를 기반으로 사용자 카테고리 가져오기
-    useEffect(() => {
-        axios.get(`http://localhost:9999/recipe/petList`)
-            .then((response) => {
-                //setPetNum(response.data);
-                //console.log(response.data)
-            })
-            .catch((error) => {
-                console.error('UserCategory Url Error fetching data:', error);
-            });
-    }, []);
 
     return (
         //categoryList를 새로 만들었다

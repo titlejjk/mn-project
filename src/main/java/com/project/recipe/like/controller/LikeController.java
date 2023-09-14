@@ -1,5 +1,6 @@
 package com.project.recipe.like.controller;
 
+import com.project.party.likes.dto.LikesDto;
 import com.project.recipe.like.dto.LikeDto;
 import com.project.recipe.like.service.LikeService;
 import org.apache.commons.io.IOUtils;
@@ -21,15 +22,15 @@ import java.util.List;
 @RequestMapping("/recipe/like")
 public class LikeController {
     @Autowired
-    private LikeService likesService;
+    private LikeService likeService;
 
     @Value("${file.location}")
     private String imgPath;
     @GetMapping(
-            value = "/image/{mainPath}",
+            value = "/image/{imagePath}",
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     @ResponseBody
-    public byte[] getPostImage(@PathVariable("mainPath") String imgName) throws IOException {
+    public byte[] getPostImage(@PathVariable("imagePath") String imgName) throws IOException {
         String absolutePath = imgPath + File.separator + imgName;
         InputStream is = new FileInputStream(absolutePath);
         return IOUtils.toByteArray(is);
@@ -38,23 +39,23 @@ public class LikeController {
     //좋아요 토글
     @Transactional
     @PostMapping("/toggle")
-    public ResponseEntity<String> toogleLike(@RequestParam int rcpNum, @RequestParam int userNum){
-        String result = likesService.toggleLike(rcpNum, userNum);
-        HttpStatus status = "Like Inserted".equals(result) ? HttpStatus.OK : HttpStatus.BAD_REQUEST ;
+    public ResponseEntity<String> toggleLike(@RequestBody LikeDto dto){
+        String result = likeService.toggleLike(dto);
+        HttpStatus status = "Like Inserted".equals(result) ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR ;
         return new ResponseEntity<>(result, status);
     }
 
     //좋아요 개수
     @GetMapping("/counted")
-    public ResponseEntity<Integer> countedLike(@RequestParam int rcpNum){
-        int result = likesService.countedLike(rcpNum);
+    public ResponseEntity<Integer> countLike(@RequestParam int rcpNum){
+        int result = likeService.countLike(rcpNum);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     //좋아요 여부
     @GetMapping("/isLiked")
-    public ResponseEntity<Boolean> isLikedByUser(@RequestParam int rcpNum, @RequestParam int userNum){
-        boolean result = likesService.isLikedByUser(rcpNum, userNum);
+    public ResponseEntity<Boolean> isLikedByUser(@RequestBody LikeDto dto){
+        boolean result = likeService.isLikedByUser(dto);
         HttpStatus status = result == true ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(result, status);
     }
@@ -62,7 +63,7 @@ public class LikeController {
     //좋아요 순위별 조회
     @GetMapping("/order")
     public ResponseEntity<?> orderByLike(){
-        List<LikeDto> result = likesService.orderByLike();
+        List<LikeDto> result = likeService.orderByLike();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

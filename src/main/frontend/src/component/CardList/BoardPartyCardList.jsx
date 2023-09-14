@@ -21,6 +21,7 @@ const BoardPartyCardList = () => {
 
     useEffect(() => {
         axios.get('http://localhost:9999/party/list')
+
             .then(response => {
                 setCards(response.data);
                 console.log(response.data)
@@ -59,13 +60,9 @@ const BoardPartyCardList = () => {
                 ))}
             </div>
             <Pagination pageCount={Math.ceil(cards.length / cardsPerPage)} onPageChange={(data) => handlePageChange(data.selected)} />
+
         </div>
     );
 };
 
 export default BoardPartyCardList;
-
-
-
-
-
