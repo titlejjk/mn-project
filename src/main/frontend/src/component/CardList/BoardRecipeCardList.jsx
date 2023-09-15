@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import './CardList.css';
-import Card from './Card';
+import RecipeCard from './RecipeCard';
 import axios from 'axios';
 import Pagination from '../../lib/Pagination.jsx';
 import { Link } from 'react-router-dom';
@@ -15,11 +15,11 @@ const BoardRecipeCardList = () => {
     const [totalRecipeCount, setTotalRecipeCount] = useState(0);
     //전체 글의 개수를 표시
 
-    const cardsPerPage = 6;
+    const cardsPerPage = 6; 
     //한 페이지에 표시할 카드의 수를 정의 
     // 추가
 
-    useEffect(() => { 
+    useEffect(() => {  
         axios.get('/recipe/list')
         .then(response => {
             setCards(response.data);
@@ -31,7 +31,7 @@ const BoardRecipeCardList = () => {
         });
     }, [])
    //axios로 json데이터 가져오기    
- 
+
 
     //현재 페이지에 표시 되어야 할 카드의 시작 위치 계산 
     //현재 페이지 * 한페이지에 표시할 카드 수 =  시작위치
@@ -46,6 +46,7 @@ const BoardRecipeCardList = () => {
         console.log("Selected page:", selectedPage); // 현재 페이지 로깅
         setCurrentPage(selectedPage);
     };
+
         
     return (
         <div className='board-card-list container'>
@@ -55,12 +56,18 @@ const BoardRecipeCardList = () => {
             </div>
             <div className="card-list">
                 {Array.isArray(currentCards) && currentCards.map((card, index) => (
-                    <Card key={index} card={card} showTitle={true} showLikeBox={true}/>
+                    <RecipeCard key={index} card={card} showTitle={true} showLikeBox={true}/>
                 ))}
                 </div>
                 <Pagination pageCount={Math.ceil(cards.length / cardsPerPage)} onPageChange={(data) => handlePageChange(data.selected)} />
+
         </div>
     );
 };
 
 export default BoardRecipeCardList;
+
+
+
+
+

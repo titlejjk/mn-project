@@ -24,6 +24,9 @@ const Signup = () => {
   // 정규식을 이용한 이메일 유효성 검사
   const isEmailValidRegex = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
+  // 비밀번호 유효성을 검사할 정규식
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
   // 비밀번호 및 확인 비밀번호 입력 시 일치 여부 확인
   useEffect(() => {
     if (password !== confirmPassword && confirmPassword !== "") {
@@ -49,6 +52,7 @@ const Signup = () => {
         userNickname: nickname,
         petTypeIds: withAnimals,
       });
+
       console.log("성공!");
       alert("회원가입이 되었습니다!");
       // 회원가입 성공 후 로그인 페이지로 이동
@@ -171,6 +175,8 @@ const Signup = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
+        {passwordError && <span style={{ color: "red" }}>{passwordError}</span>}
 
         <label>비밀번호 확인</label>
         <input

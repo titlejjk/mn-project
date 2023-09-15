@@ -4,8 +4,12 @@ import axios from "axios";
 import "./Profile.css";
 
 const Profile = () => {
+  const userToken = localStorage.getItem("login-token");
+  const decodedToken = jwt_decode(userToken);
+  const userNickname = decodedToken.userNickname;
+
   const [profileData, setProfileData] = useState({
-    nickname: "",
+    nickname: userNickname,
     followers: 0,
     following: 0,
     bio: "",
@@ -13,15 +17,14 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    const userToken = localStorage.getItem("login-token");
-
     const fetchProfileData = async () => {
       try {
         if (userToken) {
           const decodedToken = jwt_decode(userToken);
 
           if (decodedToken && decodedToken.userEmail) {
-            const userEmail = decodedToken.userEmail; // 이메일 추출
+            // 이메일 토큰 추출
+            const userEmail = decodedToken.userEmail;
 
             // 프로필 데이터 가져오기
             const profileResponse = await axios.get(

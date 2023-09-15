@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import "./MyPageCardList.css";
+import React, { useState, useEffect } from 'react';
+import './MyContentCardList.css';
 import jwt_decode from "jwt-decode";
 import MyPageCard from "./MyPageCard";
 import axios from "axios";
@@ -37,9 +37,9 @@ const MyContentCardList = () => {
     }
   }, [currentPage]);
 
-  const handlePageChange = ({ selected }) => {
-    setCurrentPage(selected);
-  };
+    const handlePageChange = ({ selected }) => {
+        setCurrentPage(selected);
+    };
 
   const offset = currentPage * cardsPerPage;
   const currentCards = cards.slice(offset, offset + cardsPerPage);

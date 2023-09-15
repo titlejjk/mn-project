@@ -1,89 +1,87 @@
-.card-img{ 
-    width: 300px;
-    height: 300px;
-    object-fit: cover;
+.card-img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
 }
 
-.card-list{
-    display: flex;
-    justify-content: space-between;   
-     margin-bottom: 120px;
+.card-list {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 120px;
 }
-.card{
-    margin-right: 20px;
-}
-
-.card:nth-child(4){
-    margin-right: 0 !important;
+.card {
+  width: 300px;
 }
 
-.cardList-title{
-    
-    margin: 20px 0;
-    font-size: 20px;
-    line-height: 30px;
+.card:nth-child(4) {
+  margin-right: 0 !important;
 }
 
-.like-box{
-    display: flex;
+.cardList-title {
+  margin: 20px 0;
+  font-size: 20px;
+  line-height: 30px;
 }
 
-.card-box{
-    width: 400px;
-    display: flex;
-    justify-content: space-between;
+.like-box {
+  display: flex;
 }
 
-.heart-btn{
-    border: none;
-    background-color: #ffffff;
-    font-size: 28px;
-    cursor: pointer;
-
+.card-box {
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
 }
 
-.board-card-list .card{
-    margin-right: 0 ;
-    margin-bottom: 25px;
+.heart-btn {
+  border: none;
+  background-color: #ffffff;
+  font-size: 28px;
+  cursor: pointer;
 }
 
-.board-card-list .card-img{
-    width: 400px ;
-    height: 300px;
+.board-card-list .card {
+  margin-right: 0;
+  margin-bottom: 25px;
+}
+
+.board-card-list .card-img {
+  width: 400px;
+  height: 300px;
 }
 
 .board-card-list .card-title-box {
-    width: 400px;
+  width: 400px;
 }
-.board-card-list .card-list{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-
-}
-
-.board-list-top{
-    display: flex;
-    justify-content: space-between;
-    margin: 80px 0 30px;
+.board-card-list .card-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
-.list-total-count{
-    font-size: 20px;
-    margin: 10px 0;
+.board-list-top {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 0 30px;
 }
 
-.write-go{
-    height: 15px;
-    font-size: 15px;
-    border: 1px solid #ffffff;
-    color: #ffffff;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: var(--color-middle-brown);
+.list-total-count {
+  font-size: 20px;
+  margin: 10px 0;
 }
 
-.write-go:hover{
-    background-color:  rgb(186, 113, 73, 0.8);
-    color: #ffffff;
-    border: 1px solid white;
+.write-go {
+  height: 15px;
+  font-size: 15px;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  padding: 10px;
+  margin-right: 25px;
+  border-radius: 10px;
+  background-color: var(--color-middle-brown);
+}
+
+.write-go:hover {
+  background-color: rgb(186, 113, 73, 0.8);
+  color: #ffffff;
+  border: 1px solid white;
 }

@@ -30,7 +30,7 @@ const ChangePwd = () => {
           const userEmail = decodedToken.userEmail;
           console.log(userEmail, newPassword);
           try {
-            await axios.post("/user/updatePassword", {
+            await axios.patch("/user/updatePassword", {
               userEmail: userEmail,
               userNewPassword: newPassword,
             });

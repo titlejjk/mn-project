@@ -51,7 +51,6 @@ const ProfileEdit = () => {
   const handleProfileImageChange = (e) => {
     e.preventDefault();
     const file = e.target.files[0];
-    console.log(file);
     if (file) {
       setProfileImage(file); // 파일 자체를 상태에 저장
       // 파일이 선택되면 defaultProfileImage를 비웁니다.
@@ -90,6 +89,7 @@ const ProfileEdit = () => {
           "Content-Type": "multipart/form-data",
         },
       })
+
       .then((response) => {
         console.log("프로필 정보 업데이트 성공:", response.data);
 
@@ -101,8 +101,8 @@ const ProfileEdit = () => {
         // 성공 시 메시지 표시 및 마이페이지로 이동
         alert("프로필 정보가 업데이트되었습니다.");
         // 리다이렉트할 경로 설정
-        //        const redirectPath = "/myPage"; // 원하는 경로로 수정
-        //        navigate(redirectPath); // 페이지 리다이렉트
+        //const redirectPath = "/myPage"; // 원하는 경로로 수정
+        //navigate(redirectPath); // 페이지 리다이렉트
         window.location.reload(); // 페이지 새로고침
       })
       .catch((error) => {
