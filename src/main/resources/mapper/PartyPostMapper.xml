@@ -3,7 +3,7 @@
 <mapper namespace="com.project.party.post.dao.PostMapper">
 
     <!-- 게시글 생성 -->
-    <insert id="insertPost">
+    <insert id="insertPost" parameterType="com.project.party.post.dto.PostDto" useGeneratedKeys="true" keyProperty="postId">
         INSERT INTO party_post
         (user_num, title, content)
         VALUES

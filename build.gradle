@@ -28,8 +28,7 @@ dependencies {
 	testImplementation 'junit:junit:4.13.1'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
-	runtimeOnly 'com.mysql:mysql-connector-j'
-
+  
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.3.1'
@@ -43,7 +42,9 @@ dependencies {
 	implementation 'javax.xml.bind:jaxb-api:2.3.1'
 
 	implementation 'org.springframework.integration:spring-integration-mqtt'
+
 	implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5'
+
 
 	//swagger의존성추가
 	implementation 'io.springfox:springfox-swagger2:3.0.0'

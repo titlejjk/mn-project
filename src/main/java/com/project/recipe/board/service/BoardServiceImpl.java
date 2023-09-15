@@ -7,7 +7,7 @@ import com.project.recipe.board.dto.BoardDto;
 import com.project.recipe.image.sub.dao.SubImgMapper;
 import com.project.recipe.image.sub.dto.SubImgDto;
 import com.project.recipe.image.sub.service.SubImgService;
-import io.swagger.models.auth.In;
+import com.project.recipe.like.dao.LikeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,6 +24,9 @@ public class BoardServiceImpl implements BoardService {
 
     @Autowired
     private SubImgMapper subImgMapper;
+
+    @Autowired
+    private LikeMapper likeMapper;
 
     @Autowired
     private ImageUploadService imageUpload;
@@ -92,7 +95,7 @@ public class BoardServiceImpl implements BoardService {
         rcpMapper.deleteRcp(rcpNum);
     }
 
-    //게시글 목록 처리
+    //전체 게시글 목록 조회 메소드
     @Override
     public List<BoardDto> getList(String keyword, String condition) {
         BoardDto dto = new BoardDto();
@@ -106,6 +109,36 @@ public class BoardServiceImpl implements BoardService {
         }
         //검색조건에 맞는 게시글 목록을 조회
         List<BoardDto> rcpList = rcpMapper.getList(dto);
+        for(BoardDto recipe : rcpList){
+            //메인 이미지 파일 경로 생성 (이미지 경로 + 파일명)
+            String mainPath = imgPath + File.separator + recipe.getMainSaveName();
+            //이미지 파일 존재 여부 확인
+            File imgFile = new File(mainPath);
+            if(imgFile.exists()){
+                //이미지 파일이 존재하는 경우에만 레시피 객체에 이미지 경로 추가
+                recipe.setMainPath(mainPath);
+            }
+        }
+        //수정된 게시글 목록 반환
+        return rcpList;
+    }
+
+
+    //게시글 목록 + 좋아요 조회 메소드
+    @Override
+    public List<BoardDto> getListWithLikes(String keyword, String condition, Integer userNum) {
+        BoardDto dto = new BoardDto();
+        dto.setUserNum(userNum);
+        //keyword가 있을 경우 검사
+        if(keyword != null && !"".equals(keyword)){
+            //검색조건이 "작성자"인 경우
+            if("userNickname".equals(condition)){
+                //"작성자" 검색조건이 선택되었을 때 사용자가 입력한 검색키워드를 writer 필드에 저장
+                dto.setUserNickname(keyword);
+            }
+        }
+        //검색조건에 맞는 게시글 목록을 조회
+        List<BoardDto> rcpList = rcpMapper.getListWithLikes(dto);
         for(BoardDto recipe : rcpList){
             //메인 이미지 파일 경로 생성 (이미지 경로 + 파일명)
             String mainPath = imgPath + File.separator + recipe.getMainSaveName();
@@ -164,5 +197,14 @@ public class BoardServiceImpl implements BoardService {
         dto.setUserNum(userNum);
         List<Integer> rcpList = rcpMapper.getRcpNum(userNum);
         return rcpList;
+    }
+
+    @Override
+    public List<BoardDto> getAllRecipes(BoardDto dto) {
+        if(dto == null){
+            return rcpMapper.getList(dto);
+        }else{
+            return rcpMapper.getListWithLikes(dto);
+        }
     }
 }

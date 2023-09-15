@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor  //인자로 모든 값이 전달되는 생성자 생성
 public class BoardDto {
     private int rcpNum;  //게시글 번호 (PK)
-    private int userNum;  //작성자 번호
+    private Integer userNum;  //작성자 번호
     private int petNum;  //반려동물 타입 번호
     private String title;  //글 제목
     private String content;  //조리순서
@@ -26,6 +26,7 @@ public class BoardDto {
     private int viewCount;  //조회수
     private String regdate;  //글 작성일
     private String mainPath;  //메인 이미지 파일 경로
+    private int liked;  //좋아요 여부
 
     private String userNickname; //글 작성자
     private String userEmail;  //글 작성자 이메일

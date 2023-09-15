@@ -1,7 +1,7 @@
 import React from "react";
 import MyPageNav from "../../component/MyPageNav/MyPageNav";
 import Profile from "../../component/Profile/Profile";
-import MyCommentCardList from "../../component/CardList/MyCommentCardList";
+import MyCommenList from "../../component/CardList/MyCommenList";
 
 const MyComment = () => {
   return (
@@ -11,7 +11,7 @@ const MyComment = () => {
       <hr />
       <div className="mypage-content container">
         <Profile />
-        <MyCommentCardList />
+        <MyCommenList />
       </div>
     </div>
   );

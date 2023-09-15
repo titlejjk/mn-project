@@ -1,7 +1,6 @@
 package com.project.user.service;
 
 import com.project.exception.CustomException.NicknameAlreadyExistsException;
-import com.project.exception.CustomException.UserNotFoundException;
 import com.project.file_service.FileUploadService;
 import com.project.security.TokenProvider;
 import com.project.user.dao.PetMapper;
@@ -13,10 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 
@@ -46,21 +41,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public String updateUser(UserDto userDto) throws NicknameAlreadyExistsException {
         log.info("Initial UserDto : {}", userDto);
-        //기존 회원 정보 가져오기
-        UserDto existingUser = userMapper.findByEmail(userDto.getUserEmail());
-        //닉네임이 변경되었을 경우에만 중복 확인
-        if(!existingUser.getUserNickname().equals(userDto.getUserNickname())){
-            validateUserNickname(userDto.getUserNickname());
-        }
+        validateUserNickname(userDto.getUserNickname());
 
         // 이미지 업로드 후 저장 경로를 userProfile에 저장
-        userDto = uploadImageAndUpdateProfile(userDto);
+        String imagePath = uploadImageAndUpdateProfile(userDto);
+        userDto.setUserProfile(imagePath);
 
 
         UserDto updatedUserDto = UserDto.builder()
-                .userNum(userDto.getUserNum())
-                .userEmail(userDto.getUserEmail())
-                .userNickname(userDto.getUserNickname())
                 .userNum(userDto.getUserNum())
                 .userEmail(userDto.getUserEmail())
                 .userNickname(userDto.getUserNickname())
@@ -89,9 +77,8 @@ public class UserServiceImpl implements UserService {
     }
 
     // 이미지 업로드 및 프로필 경로 업데이트
-    private UserDto uploadImageAndUpdateProfile(UserDto userDto) {
-        String imagePath = fileUploadService.uploadFile(userDto.getUserImage());
-        return userDto.toBuilder().userProfile(imagePath).build();
+    private String uploadImageAndUpdateProfile(UserDto userDto) {
+        return fileUploadService.uploadFile(userDto.getUserImage());
     }
 
     // 새 토큰 생성
@@ -108,10 +95,9 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public void userActive(int userNum) {
-        //사용자의 Status를 'INACTIVE'로 변경
+        //사용자의 Status를 'ACTIVE'로 변경
         userMapper.userActive("ACTIVE", userNum);
     }
-
     @Override
     public String updatePassword(UserDto userDto) {
 // 새 비밀번호를 BCrypt 알고리즘을 사용하여 암호화합니다.
@@ -128,11 +114,6 @@ public class UserServiceImpl implements UserService {
     //회원의 사진과 한줄소개를 조회
     @Override
     public UserDto getUserProfileAndIntroduction(String userEmail) {
-        System.out.println(userEmail);
-        UserDto dto=userMapper.findProfileAndIntroduction(userEmail);
-        System.out.println(dto);
-        return dto;
+        return userMapper.findProfileAndIIntroduction(userEmail);
     }
-
-
 }

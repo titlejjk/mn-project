@@ -31,8 +31,8 @@ public class LikesController {
     }
 
     //좋아요 여부
-    @GetMapping("/isLiked")
-    public ResponseEntity<Boolean> isLikedByUser(@RequestBody LikesDto likesDto) {
+    @GetMapping("/isLiked/{userNum}")
+    public ResponseEntity<Boolean> isLikedByUser(@RequestParam LikesDto likesDto, @PathVariable String userNum) {
         boolean isLiked = likesService.isLikedByUser(likesDto);
         return ResponseEntity.ok(isLiked);
     }

@@ -8,7 +8,7 @@ public interface LikeService {
     //좋아요 토글
     String toggleLike(LikeDto dto);
     //좋아요 수
-    int countedLike(int rcpNum);
+    int countLike(int rcpNum);
     //좋아요 여부
     boolean isLikedByUser(LikeDto dto);
     //좋아요 순위

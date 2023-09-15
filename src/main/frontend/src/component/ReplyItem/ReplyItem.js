@@ -19,5 +19,4 @@ function ReplyItem({ userProfile, userNickname, rplContent, rplRegdate }) {
       </div>
     );
 }
-
 export default ReplyItem;

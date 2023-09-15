@@ -2,7 +2,6 @@ package com.project.recipe.board.dao;
 
 import com.project.recipe.board.dto.BoardDto;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -16,6 +15,8 @@ public interface BoardMapper {
     void deleteRcp(int rcpNum);
     //글 목록 조회
     List<BoardDto> getList(BoardDto dto);
+    //글 목록 + 좋아요 조회
+    List<BoardDto> getListWithLikes(BoardDto dto);
     //글 상세 조회
     BoardDto getDetail(int rcpNum);
     //조회수 증가
