@@ -5,6 +5,7 @@ import com.project.user.dto.SignInResponseDto;
 import com.project.user.dto.SignUpRequest;
 import com.project.user.dto.UserDto;
 import com.project.user.service.AuthServiceImpl;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ public class AuthController {
     private final TokenProvider tokenProvider;
 
     //회원가입
+    @ApiOperation(value = "회원 가입")
     @PostMapping
     public ResponseEntity<?>registerUser(@RequestBody SignUpRequest request){
         authService.signUp(request);

@@ -47,16 +47,18 @@ public class PostServiceImpl implements PostService {
             //게시글 수정
             postMapper.updatePost(postDto);
             PostImageDto imageDto = new PostImageDto();
-            MultipartFile newImage = image;
+
             //새로운 이미지가 들어왔을 경우
-            if (!newImage.isEmpty()) {
+            if (!image.isEmpty()) {
                 int postId = postDto.getPostId();
                 //이미지 삭제
                 deleteImagesByPostId(postId);
                 //이미지 경로
-                String imageUrl = fileUploadService.uploadFile(newImage);
+                String imageUrl = fileUploadService.uploadFile(image);
                 //이미지 경로 저장
                 imageDto.setImageUrl(imageUrl);
+                imageDto.setPostId(postId);
+                postMapper.insertImage(imageDto);
             }
         }catch (Exception e){
             e.printStackTrace();

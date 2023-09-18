@@ -11,7 +11,7 @@
     border: 1px solid lightgrey !important;
     cursor: pointer;
     overflow: auto;
-} 
+}
 
 .recipe-info {
     width: 70%;
@@ -88,7 +88,7 @@
 }
 
 .scroll::-webkit-scrollbar {
-	display:none;
+    display:none;
 }
 
 .file-name {

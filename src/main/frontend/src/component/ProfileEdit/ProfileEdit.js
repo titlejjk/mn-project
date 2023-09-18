@@ -14,7 +14,7 @@ const ProfileEdit = () => {
   const [birthdateError, setBirthdateError] = useState(""); // 생년월일 오류 메세지
   const [profileImage, setProfileImage] = useState(""); // 이미지 파일 상태 관리
   const [defaultProfileImage, setDefaultProfileImage] = useState(
-    "/images/default_profile.png"
+      "/images/default_profile.png"
   );
   const [bio, setBio] = useState("");
 
@@ -84,32 +84,31 @@ const ProfileEdit = () => {
     console.log(profileImage);
 
     axios
-      .post("/user/updateuser", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+        .post("/user/updateuser", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          console.log("프로필 정보 업데이트 성공:", response.data);
 
-      .then((response) => {
-        console.log("프로필 정보 업데이트 성공:", response.data);
-
-        // 새로운 토큰을 받아와서 상태로 설정
-        const newToken = response.data;
-        setNewToken(newToken);
-        localStorage.setItem('login-token', newToken);
-        console.log(response.data);
-        // 성공 시 메시지 표시 및 마이페이지로 이동
-        alert("프로필 정보가 업데이트되었습니다.");
-        // 리다이렉트할 경로 설정
-        //const redirectPath = "/myPage"; // 원하는 경로로 수정
-        //navigate(redirectPath); // 페이지 리다이렉트
-        window.location.reload(); // 페이지 새로고침
-      })
-      .catch((error) => {
-        console.error("프로필 정보 업데이트 실패:", error);
-        // 실패 시 오류 메시지 표시
-        alert("프로필 정보 수정에 실패했습니다.");
-      });
+          // 새로운 토큰을 받아와서 상태로 설정
+          const newToken = response.data;
+          setNewToken(newToken);
+          localStorage.setItem('login-token', newToken);
+          console.log(response.data);
+          // 성공 시 메시지 표시 및 마이페이지로 이동
+          alert("프로필 정보가 업데이트되었습니다.");
+          // 리다이렉트할 경로 설정
+          //        const redirectPath = "/myPage"; // 원하는 경로로 수정
+          //        navigate(redirectPath); // 페이지 리다이렉트
+          window.location.reload(); // 페이지 새로고침
+        })
+        .catch((error) => {
+          console.error("프로필 정보 업데이트 실패:", error);
+          // 실패 시 오류 메시지 표시
+          alert("프로필 정보 수정에 실패했습니다.");
+        });
   };
 
   // 컴포넌트가 마운트될 때 사용자의 이메일을 로컬 스토리지에서 불러오기
@@ -139,103 +138,103 @@ const ProfileEdit = () => {
   };
 
   return (
-    <div className="profile-edit-form">
-      <div className="profile-edit-top">
-        <h2>회원정보 수정</h2>
-        <Link className="withDrawal" to="/withDrawal">
-          탈퇴하기
-        </Link>
+      <div className="profile-edit-form">
+        <div className="profile-edit-top">
+          <h2>회원정보 수정</h2>
+          <Link className="withDrawal" to="/withDrawal">
+            탈퇴하기
+          </Link>
+        </div>
+        <form className="formStyle">
+          <div className="profile-edit-input">
+            <label>이메일</label>
+            <input className="box" type="email" value={email} readOnly />
+          </div>
+          <div className="profile-edit-input">
+            <label>닉네임</label>
+            <input
+                className="box"
+                type="text"
+                value={nickname}
+                placeholder="2자 이상 10자 이하로 입력해주세요"
+                onChange={handleNicknameChange}
+            />
+          </div>
+          {nicknameError && <div className="error">{nicknameError}</div>}
+          <div className="profile-gender-input">
+            <label>성별</label>
+            <label className="radio-man">
+              <input
+                  type="radio"
+                  value="MALE"
+                  checked={gender === "MALE"}
+                  onChange={handleGenderChange}
+              />
+              남자
+            </label>
+            <label className="radio-woman">
+              <input
+                  type="radio"
+                  value="FEMALE"
+                  checked={gender === "FEMALE"}
+                  onChange={handleGenderChange}
+              />
+              여자
+            </label>
+          </div>
+          <div className="profile-edit-input">
+            <label>생년월일</label>
+            <input
+                className="box"
+                type="text"
+                placeholder="YYYY-MM-DD"
+                value={birthdate}
+                onChange={handleBirthdateChange}
+            />
+          </div>
+          {birthdateError && <div className="error">{birthdateError}</div>}
+          <div className="profile-edit-image">
+            <label>프로필 이미지</label>
+            <input
+                className="imgInput"
+                type="file"
+                accept="image/*"
+                onChange={handleProfileImageChange}
+            />
+          </div>
+          <div className="profile-image-preview">
+            <img
+                src={
+                  profileImage
+                      ? URL.createObjectURL(profileImage)
+                      : defaultProfileImage
+                }
+                alt="프로필 이미지"
+                style={{
+                  border: "1px solid #d3d3d3",
+                  borderRadius: "10px",
+                  maxWidth: "180px",
+                  maxHeight: "180px",
+                }}
+            />
+          </div>
+          <div className="profile-edit-input">
+            <label>한줄소개</label>
+            <input
+                className="box"
+                type="text"
+                value={bio}
+                onChange={handleBioChange}
+            />
+          </div>
+          <button className="users-edit-button" onClick={handleProfileUpdate}>
+            회원정보 수정
+          </button>
+          <button className="pwd-edit-button" onClick={navigatePasswordChange}>
+            비밀번호 변경
+          </button>
+        </form>
       </div>
-      <form className="formStyle">
-        <div className="profile-edit-input">
-          <label>이메일</label>
-          <input className="box" type="email" value={email} readOnly />
-        </div>
-        <div className="profile-edit-input">
-          <label>닉네임</label>
-          <input
-            className="box"
-            type="text"
-            value={nickname}
-            placeholder="2자 이상 10자 이하로 입력해주세요"
-            onChange={handleNicknameChange}
-          />
-        </div>
-        {nicknameError && <div className="error">{nicknameError}</div>}
-        <div className="profile-gender-input">
-          <label>성별</label>
-          <label className="radio-man">
-            <input
-              type="radio"
-              value="MALE"
-              checked={gender === "MALE"}
-              onChange={handleGenderChange}
-            />
-            남자
-          </label>
-          <label className="radio-woman">
-            <input
-              type="radio"
-              value="FEMALE"
-              checked={gender === "FEMALE"}
-              onChange={handleGenderChange}
-            />
-            여자
-          </label>
-        </div>
-        <div className="profile-edit-input">
-          <label>생년월일</label>
-          <input
-            className="box"
-            type="text"
-            placeholder="YYYY-MM-DD"
-            value={birthdate}
-            onChange={handleBirthdateChange}
-          />
-        </div>
-        {birthdateError && <div className="error">{birthdateError}</div>}
-        <div className="profile-edit-image">
-          <label>프로필 이미지</label>
-          <input
-            className="imgInput"
-            type="file"
-            accept="image/*"
-            onChange={handleProfileImageChange}
-          />
-        </div>
-        <div className="profile-image-preview">
-          <img
-            src={
-              profileImage
-                ? URL.createObjectURL(profileImage)
-                : defaultProfileImage
-            }
-            alt="프로필 이미지"
-            style={{
-              border: "1px solid #d3d3d3",
-              borderRadius: "10px",
-              maxWidth: "180px",
-              maxHeight: "180px",
-            }}
-          />
-        </div>
-        <div className="profile-edit-input">
-          <label>한줄소개</label>
-          <input
-            className="box"
-            type="text"
-            value={bio}
-            onChange={handleBioChange}
-          />
-        </div>
-        <button className="users-edit-button" onClick={handleProfileUpdate}>
-          회원정보 수정
-        </button>
-        <button className="pwd-edit-button" onClick={navigatePasswordChange}>
-          비밀번호 변경
-        </button>
-      </form>
-    </div>
   );
 };
 

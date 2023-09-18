@@ -28,36 +28,36 @@ const Profile = () => {
 
             // 프로필 데이터 가져오기
             const profileResponse = await axios.get(
-              `/user/profile/${userEmail}`
+                `/user/profile/${userEmail}`
             );
+            console.log(profileResponse)
             const userData = profileResponse.data;
             const userProfile = userData.userProfile; // 프로필 이미지 파일 이름으로 수정
-            console.log(userData);
 
             // 팔로워 수 가져오기
             const followersResponse = await axios.get(
-              `/follow/followers/count/${userEmail}`
+                `/follow/followers/count/${userEmail}`
             );
             const followerCount = followersResponse.data;
 
             // 팔로잉 수 가져오기
             const followingResponse = await axios.get(
-              `/follow/followings/count/${userEmail}`
+                `/follow/followings/count/${userEmail}`
             );
             const followingCount = followingResponse.data;
 
             // 프로필 이미지 가져오기
             const profileImageResponse = await axios.get(
-              `/user/image/${userProfile}`,
-              {
-                responseType: "arraybuffer", // 이미지 데이터로 받음
-              }
+                `/user/image/${userProfile}`,
+                {
+                  responseType: "arraybuffer", // 이미지 데이터로 받음
+                }
             );
             const profileImage = `data:image/jpeg;base64,${btoa(
-              new Uint8Array(profileImageResponse.data).reduce(
-                (data, byte) => data + String.fromCharCode(byte),
-                ""
-              )
+                new Uint8Array(profileImageResponse.data).reduce(
+                    (data, byte) => data + String.fromCharCode(byte),
+                    ""
+                )
             )}`;
 
             // 프로필 데이터 업데이트
@@ -81,23 +81,23 @@ const Profile = () => {
   }, []);
 
   return (
-    <div className="profile-container">
-      <div className="profile-image">
-        <img
-          src={profileData.profileImage || "images/default_profile.png"}
-          alt="Profile"
-        />
-      </div>
-      <div className="profile-info">
-        <h2>{profileData.nickname || "닉네임을 설정해주세요"}</h2>
-        <div className="followers">
-          <span>팔로워 {profileData.followers || 0}</span>
-          <span>팔로잉 {profileData.following || 0}</span>
+      <div className="profile-container">
+        <div className="profile-image">
+          <img
+              src={profileData.profileImage || "images/default_profile.png"}
+              alt="Profile"
+          />
         </div>
-        <hr />
-        <p className="bio">{profileData.bio || "비어있음"}</p>
+        <div className="profile-info">
+          <h2>{profileData.nickname || "닉네임을 설정해주세요"}</h2>
+          <div className="followers">
+            <span>팔로워 {profileData.followers || 0}</span>
+            <span>팔로잉 {profileData.following || 0}</span>
+          </div>
+          <hr />
+          <p className="bio">{profileData.bio || "비어있음"}</p>
+        </div>
       </div>
-    </div>
   );
 };
 

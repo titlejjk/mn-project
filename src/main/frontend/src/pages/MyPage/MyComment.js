@@ -1,8 +1,7 @@
 import React from "react";
 import MyPageNav from "../../component/MyPageNav/MyPageNav";
 import Profile from "../../component/Profile/Profile";
-import MyCommentList from "../../component/CardList/MyCommentList";
-import "./MyPage.css";
+import MyCommenList from "../../component/CardList/MyCommenList";
 
 const MyComment = () => {
   return (
@@ -12,7 +11,7 @@ const MyComment = () => {
       <hr />
       <div className="mypage-content container">
         <Profile />
-        <MyCommentList />
+        <MyCommenList />
       </div>
     </div>
   );

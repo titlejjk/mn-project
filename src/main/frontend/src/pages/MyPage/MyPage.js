@@ -10,6 +10,7 @@ const MyPage = () => {
       <hr />
       <MyPageNav />
       <hr />
+
       <div className="mypage-content container">
         <Profile />
         <ProfileEdit />

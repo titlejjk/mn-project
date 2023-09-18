@@ -18,8 +18,10 @@ const BoardPartyCardList = () => {
     const cardsPerPage = 6;
     //한 페이지에 표시할 카드의 수를 정의
     // 추가
+
     useEffect(() => {
-        axios.get('/party')
+        axios.get('http://localhost:9999/party/list')
+
             .then(response => {
                 setCards(response.data);
                 console.log(response.data)
@@ -59,14 +61,8 @@ const BoardPartyCardList = () => {
             </div>
             <Pagination pageCount={Math.ceil(cards.length / cardsPerPage)} onPageChange={(data) => handlePageChange(data.selected)} />
 
-
         </div>
     );
 };
 
 export default BoardPartyCardList;
-
-
-
-
-

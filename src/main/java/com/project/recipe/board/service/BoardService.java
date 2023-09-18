@@ -4,7 +4,6 @@ import com.project.recipe.board.dto.BoardDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Map;
 
 public interface BoardService {
     //게시글 등록
@@ -15,6 +14,8 @@ public interface BoardService {
     void deleteContent(int rcpNum);
     //전체 게시글 목록
     List<BoardDto> getList(String keyword, String condition);
+    //전체 게시글 + 좋아요 목록
+    List<BoardDto> getListWithLikes(String keyword, String condition, Integer userNum);
     //게시글 상세
     BoardDto getDetail(int rcpNum);
     //나의 게시글 목록
@@ -23,4 +24,6 @@ public interface BoardService {
     List<BoardDto> getByCategory(int petNum);
     //사용자 번호로 게시글 번호 조회
     List<Integer> getRcpNum(int userNum);
+    //전체 게시글 목록
+    List<BoardDto> getAllRecipes(BoardDto boardDto);
 }

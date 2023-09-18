@@ -13,8 +13,8 @@ public interface LikeMapper {
     //좋아요 삭제
     void deleteLike(LikeDto dto);
     //좋아요 개수
-    int countedLike(int rcpNum);
-    //좋아요 초기화 방지
+    int countLike(int rcpNum);
+    //좋아요 여부 확인
     boolean isLikedByUser(LikeDto dto);
     //좋아요 순위별 조회
     List<LikeDto> orderByLike(LikeDto dto);

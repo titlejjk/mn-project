@@ -9,7 +9,7 @@
   justify-content: space-between;
   margin-bottom: 120px;
 }
-.card {
+.card{
   width: 300px;
 }
 
@@ -58,15 +58,17 @@
   grid-template-columns: 1fr 1fr 1fr;
 }
 
-.board-list-top {
-  display: flex;
-  justify-content: space-between;
-  margin: 30px 0 30px;
+.board-list-top{
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 30px;
 }
 
-.list-total-count {
-  font-size: 20px;
-  margin: 10px 0;
+
+
+.list-total-count{
+    font-size: 20px;
+    margin: 10px 0;
 }
 
 .write-go {

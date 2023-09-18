@@ -5,14 +5,6 @@ import axios from "axios";
 const MainImg = () => {
     const [mostLikedRecipe, setMostLikedRecipe] = useState([]);
 
-    const [imageData, setImageData] = useState(null);
-
-    const axiosConfig = {
-        headers: {
-            'Content-Type': 'application/json', // JSON 형식으로 보낼 것을 명시
-        },
-    };
-
     useEffect(() => {
         axios
             .get('http://localhost:9999/recipe/like/order')
@@ -30,24 +22,10 @@ const MainImg = () => {
             });
     }, []);
 
-    useEffect(() => {
-        axios.get(`/recipe/like/image/${mostLikedRecipe.mainPath}`, { responseType: 'arraybuffer', ...axiosConfig })
-            .then((response) => {
-                const base64String = btoa(
-                    new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), '')
-                );
-                setImageData(`data:image/jpeg;base64,${base64String}`);
-            })
-            .catch((error) => {
-                //console.error('Error fetching image:', error);
-            });
-    }, [mostLikedRecipe.mainPath]);
-
     return (
         <div className="mainImg">
             {mostLikedRecipe && (
-                <img
-                    src={imageData}
+                <img  src={`http://localhost:9999/recipe/image/${mostLikedRecipe.mainPath}`}
                     alt={mostLikedRecipe.title}
                     style={mainImg}
                 />
@@ -60,6 +38,7 @@ const mainImg = {
     width: '1280px',
     height: '500px',
     margin: '5px 0 50px',
+    objectFit: "cover"
 };
 
 export default MainImg;

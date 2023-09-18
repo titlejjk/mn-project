@@ -26,6 +26,7 @@ public class PostController {
 
     @Value("${file.location}")
     private String imgPath;
+
     @GetMapping(
             value = "/image/{imageUrl}",
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})

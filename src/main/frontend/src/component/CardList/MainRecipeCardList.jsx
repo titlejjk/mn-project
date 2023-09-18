@@ -7,8 +7,10 @@ import axios from 'axios';
 const MainRecipeCardList = () => {
     const [cards, setCards] = useState([]);
      //초기값을 빈 배열로 설정
+
+    const recipeUrl = 'http://localhost:9999/recipe/list';
     useEffect(() => { 
-        axios.get('http://localhost:9999/recipe/list')
+        axios.get(recipeUrl)
         .then(response => {
             setCards(response.data);
         })

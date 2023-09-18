@@ -21,7 +21,7 @@ public class CommentServiceImpl implements CommentService{
 
     //댓글 수정
     @Override
-    public void updateComment(CommentDto commentDto) {
+    public void  updateComment(CommentDto commentDto) {
         commentMapper.updateComment(commentDto);
     }
 

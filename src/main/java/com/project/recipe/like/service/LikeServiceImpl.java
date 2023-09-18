@@ -29,9 +29,9 @@ public class LikeServiceImpl implements LikeService {
 
     //좋아요 개수 반환 메소드
     @Override
-    public int countedLike(int rcpNum) {
+    public int countLike(int rcpNum) {
 
-        return likeMapper.countedLike(rcpNum);
+        return likeMapper.countLike(rcpNum);
     }
 
     //좋아요 여부 반환 메소드 (초기화 방지)

@@ -1,17 +1,21 @@
-.party_detail_main{
+.party_detail_main {
     margin: 0 auto;
     max-width: 1280px;
     width: 100%;
     color: #606060;
 }
 
-.party_detail_main_image_container{
+.party_detail_main button {
+    cursor: pointer;
+  }
+
+.party_detail_image_container {
     width: 100%;
     /* 가로세로 비율 */
     aspect-ratio: 3 / 1;
 }
 
-.party_detail_main_image_container > img{
+.party_detail_image_container>img {
     display: block;
     width: 100%;
     height: 100%;
@@ -21,12 +25,34 @@
     object-position: center;
 }
 
-.party_detail_summary{
+.party_detail_summary {
     padding: 40px;
     text-align: center;
 }
 
-.party_detail_summary > h2{
+.party_detail_summary>.update {
+    float: right;
+    height: 15px;
+    font-size: 15px;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--color-middle-brown);
+}
+
+.party_detail_summary>.delete {
+    float: right;
+    height: 38px;
+    font-size: 15px;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--color-middle-brown);
+}
+
+.party_detail_summary>h2 {
     margin: 0;
     /* 글자 크기 */
     font-size: 28px;
@@ -34,53 +60,53 @@
     font-weight: 600;
 }
 
-.party_detail_summary > p{
+.party_detail_step {
+    margin: 40px 0 40px 100px;
+}
+
+.party_detail_step>.title {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 20px auto;
+}
+
+.party_detail_step_item_content {
+    width: 100%;
     /* \n 입력 시 줄바꿈이 적용되도록 처리 */
     white-space: pre-line;
-    margin: 10px 0;
+    overflow-wrap: break-word;
+    font-size: 20px;
+    margin: 10px auto;
 }
 
-.party_detail_sub_image_container > div > img{
-    display: block;
-    width: 640px; height: 640px;
-    margin: 0 auto;
-}
-
-.party_detail_insight{
-    margin-top: 40px;
-    display: flex;
-    /* 자식 요소들 간 간격 조정 */
-    gap: 12px;
-    font-size: 14px;
-}
-
-.party_detail_user{
+.party_detail_user {
     margin-top: 20px;
     display: flex;
     align-items: center;
     gap: 26px;
 }
 
-.party_detail_user > div:has(img){
-    width: 70px;
-    height: 70px;
+.party_detail_user>div:has(img) {
+    width: 60px;
+    height: 60px;
     border-radius: 40px;
     /* div 에 담긴 사진에서 div 를 넘어서는 영역은 숨긴다 */
     overflow: hidden;
 }
 
-.party_detail_user > div > img{
+.party_detail_user>div>img {
     display: block;
-    width: 100%; height: 100%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     object-position: center;
 }
 
-.party_detail_user > .title{
+.party_detail_user>.title {
     font-weight: 600;
 }
 
-.party_detail_user > button{
+.party_detail_user>button {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -92,42 +118,77 @@
     font-size: 12px;
 }
 
-.party_detail_user > button > span > svg{
+.party_detail_user>button>span {
+    display: flex;
+    align-items: center;
+    /* 자식 요소들 간 간격 조정 */
+    gap: 4px;
+}
+
+.party_detail_user>button>span>svg {
     display: block;
 }
 
-.party_detail_reply{
+.party_detail_update_container {
+    display: flex;
+    width: 75%;
+    height: 30%;
+    margin-bottom: 10px;
+    justify-content: end;
+    align-items: flex-end;
+}
+
+.party_detail_update_container>button {
+    display: inline-block;
+    font-size: 15px;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--color-middle-brown);
+}
+
+.party_detail_viewCount {
+    margin-left: 100px;
+    margin-bottom: 20px;
+}
+
+.party_detail_reply {
     margin: 0 auto;
     padding: 40px 10px;
     width: calc(100% - 20px);
     max-width: 640px;
 }
 
-.party_detail_reply > .title{
+.party_detail_reply>.title {
     font-size: 18px;
     font-weight: 600;
 }
 
-.party_detail_reply > .input{
+.party_detail_reply>.input {
     display: flex;
-    margin-top: 10px; margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 20px;
     /* 요소 자기 자신을 기준으로 배치 */
     position: relative;
 }
 
-.party_detail_reply > .input > div {
-    width: 50px; height: 50px;
+.party_detail_reply>.input>div {
+    width: 50px;
+    height: 50px;
     border-radius: 40px;
     overflow: hidden;
 }
 
-.party_detail_reply > .input > div > img{
+.party_detail_reply>.input>div>img {
     display: block;
-    width: 100%; height: 100%;
-    object-fit: cover; object-position: center;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 }
 
-.party_detail_reply > .input > input{
+.party_detail_reply>.input>input {
     flex: 1;
     border: 1px solid #b1b1b1;
     border-radius: 10px;
@@ -136,15 +197,93 @@
     outline: none;
 }
 
-.party_detail_reply > .input > span{
+.party_detail_reply>.input>button {
+    position: absolute;
+    background-color: #ffffff;
+    border: none;
+    top: 15px;
+    right: 16px;
+    font-size: 16px;
+}
+
+.party_detail_reply>.input>span {
     /* 부모 요소를 기준으로 배치 */
     position: absolute;
     top: 13px;
     right: 16px;
 }
 
-.party_detail_divider{
+.party_detail_reply_item {
     margin-top: 30px;
-    width: 100%; height: 1px;
+    display: flex;
+    gap: 38px;
+}
+
+.party_detail_reply_item>.image_container {
+    margin-top: 8px;
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.party_detail_reply_item>.image_container>img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.party_detail_reply_item .insight {
+    display: flex;
+    gap: 10px;
+    color: #aeaeae;
+}
+
+.party_detail_reply_item .insight>span:first-child {
+    color: #606060;
+}
+
+.party_detail_reply_item .insight>button {
+    background-color: #ffffff;
+    border: none;
+    top: 15px;
+    right: 16px;
+    font-size: 16px;
+    color: #aeaeae;
+}
+
+.party_detail_reply_update_container {
+    width: 100%;
+    height: 30%;
+}
+
+.party_detail_reply_update_container>textarea {
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.party_detail_reply_update_container button {
+    float: right;
+    font-size: 15px;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(—color-middle-brown);
+}
+
+.party_detail_reply_item p {
+    white-space: pre-line;
+    margin: 0;
+    margin-top: 8px;
+}
+
+.party_detail_divider {
+    margin-top: 30px;
+    width: 100%;
+    height: 1px;
     background-color: #adadad;
 }

@@ -88,6 +88,8 @@ public class BoardServiceImpl implements BoardService {
     //게시글 삭제 처리 메소드
     @Override
     public void deleteContent(int rcpNum) {
+        rcpMapper.deleteRcpSub(rcpNum);
+        rcpMapper.deleteRcpRpl(rcpNum);
         //게시글 번호로 해당 게시글 삭제
         rcpMapper.deleteRcp(rcpNum);
     }

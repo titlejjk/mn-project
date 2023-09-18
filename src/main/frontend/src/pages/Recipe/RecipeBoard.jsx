@@ -6,36 +6,38 @@ import UserImageCategory from "../../component/ImageCategory/UserImageCategory";
 import PetTypeImageCategory from "../../component/ImageCategory/PetTypeImageCategory";
 
 const RecipeBoard = () => {
-  return (
-    <div className="container">
-      {/* 메인 이미지 :  가장 좋아요가 많은 이미지가 출력된다. */}
-      <div className="RecipeBoard-mainImg">
-        <MainImg />
-      </div>
+    return (
 
-      {/* 이미지 카테고리 */}
-      <p style={titleStyle}>카테고리</p>
-      <PetTypeImageCategory />
+        <div className='container'>
+            {/* 메인 이미지 :  가장 좋아요가 많은 이미지가 출력된다. */}
+            <div className='RecipeBoard-mainImg'>
+                <MainImg/>
+            </div>
 
-      {/* 쉐프리스트 카테고리 */}
-      <p style={titleStyle}>쉐프 소개</p>
-      <UserImageCategory />
+            {/* 이미지 카테고리 */}
+            <p style={titleStyle}>카테고리</p>
+            <PetTypeImageCategory/>
 
-      {/* 레시피  검색창 */}
-      <SearchBar />
+            {/* 쉐프리스트 카테고리 */}
+            <p  style={titleStyle }>쉐프 소개</p>
+            <UserImageCategory/>
 
-      {/* 레시피 전체 리스트 출력됨 */}
-      <BoardRecipeCardList />
-    </div>
-  );
+            {/* 레시피  검색창 */}
+            <SearchBar />
+
+            {/* 레시피 전체 리스트 출력됨 */}
+            <BoardRecipeCardList/>
+        </div>
+    );
 };
 
-//스타일 변수
 
+//스타일 변수
 const titleStyle = {
-  fontSize: "20px",
-  margin: "0 0 27px 0",
-  fontWeight: "bold",
+    fontSize:'20px',
+    margin:'0 0 27px 0',
+    fontWeight: 'bold',
+
 };
 
 export default RecipeBoard;
