@@ -9,7 +9,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import jwt_decode from 'jwt-decode';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import Swal from "sweetalert2";
 
 // 페이지 로딩 시 출력되는 화면내용
 export default function Page() {
@@ -314,19 +314,42 @@ export default function Page() {
                     </button>
                     <button
                         onClick={() => {
-                            if (window.confirm("정말 삭제하시겠습니까?")) {
-                                axios
+                            Swal.fire({
+                                title: '정말 삭제하시겠습니까?',
+                                text: '다시 되돌릴 수 없습니다. 신중하세요.',
+                                icon: 'warning',
+                                
+                                showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                                confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                                cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+                                confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+                                cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+                            }).then(result => {
+                                // 만약 Promise리턴을 받으면,
+                                if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+                                    axios
                                     .delete(
                                         `http://localhost:9999/recipe/delete?rcpNum=${rcpNum}`
                                     )
                                     .then((res) => {
-                                        alert("삭제 되었습니다.");
+                                        Swal.fire({
+                                            icon: "success",
+                                            title: "삭제되었습니다",
+                                            showConfirmButton: false,
+                                            timer: 1500
+                                        })
                                         navigate("/recipeBoard");
                                     })
                                     .catch((error) => {
-                                        alert("삭제 중 오류가 발생하였습니다.");
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "삭제 중 오류가 발생했습니다",
+                                            showConfirmButton: false,
+                                            timer: 1500
+                                        })
                                     });
-                            }
+                                }
+                            });
                         }}
                     >
                         삭제

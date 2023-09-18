@@ -6,6 +6,7 @@ import "react-quill/dist/quill.snow.css";
 import "./PartyWrite.css";
 import ReactQuill from "react-quill"
 import "../../component/Editor/Editor.css"
+import Swal from "sweetalert2";
 
 function PartyWrite() {
   const [userNum, setUserNum] = useState(0);  //유저 번호
@@ -100,17 +101,33 @@ function PartyWrite() {
       .then((response) => {
         console.log("파티 업로드 성공:", response.data);
         // 성공 시 메시지 표시 및 마이페이지로 이동
-        alert("파티 게시글이 수정 되었습니다");
+        Swal.fire({
+          icon: "success",
+          title: "파티 게시글 수정이 성공했습니다",
+          showConfirmButton: false,
+          timer: 1500
+      })
         navigate(`/partyDetail?postId=${postId}`);
       })
       .catch((error) => {
         console.error("파티 수정 실패:", error);
         // 실패 시 오류 메시지 표시
-        alert("파티 게시글 수정에 실패했습니다.");
+        Swal.fire({
+          icon: "error",
+          title: "파티 게시글 수정이 실패했습니다",
+          showConfirmButton: false,
+          timer: 1500
+      })
       });
   };
 
   const handleCancelParty = () => {
+    Swal.fire({
+      icon: "error",
+      title: "파티 게시글 수정을 취소합니다",
+      showConfirmButton: false,
+      timer: 1500
+  })
     navigate(`/partyDetail?postId=${postId}`);
   }
 

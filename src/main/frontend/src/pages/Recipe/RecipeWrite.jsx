@@ -5,6 +5,7 @@ import jwt_decode from "jwt-decode";
 import "react-quill/dist/quill.snow.css"
 import "./RecipeWrite.css"
 import Editor from '../../component/Editor/Editor'
+import Swal from "sweetalert2";
 
 function RecipeWrite() {
     const [userNum, setUserNum] = useState(0);  //유저 번호
@@ -91,19 +92,33 @@ function RecipeWrite() {
             .then((response) => {
                 console.log("레시피 업로드 성공:", response.data);
                 // 성공 시 메시지 표시 및 마이페이지로 이동
-                alert("레시피가 업로드 되었습니다");
+                Swal.fire({
+                    icon: "success",
+                    title: "레시피 업로드가 성공했습니다",
+                    showConfirmButton: false,
+                    timer: 1500
+                })
                 navigate("/recipeBoard");
             })
             .catch((error) => {
                 console.error("레시피 업로드 실패:", error);
                 // 실패 시 오류 메시지 표시
-                alert("레시피 업로드가 실패했습니다.");
-
+                Swal.fire({
+                    icon: "error",
+                    title: "레시피 업로드가 실패했습니다",
+                    showConfirmButton: false,
+                    timer: 1500
+                })
             });
     };
 
     const handleCancelRecipe = () => {
-        alert("레시피 작성을 취소합니다");
+        Swal.fire({
+            icon: "error",
+            title: "레시피 작성을 취소합니다",
+            showConfirmButton: false,
+            timer: 1500
+        })
         navigate("/recipeBoard");
     }
 
@@ -247,7 +262,6 @@ function RecipeWrite() {
                     <button
                         className="submit-button"
                         onClick={handleUploadRecipe}
-                        // onClick={handleUploadRecipe}
                     >
                         작성
                     </button>

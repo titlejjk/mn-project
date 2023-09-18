@@ -7,6 +7,7 @@ import "./RecipeWrite.css";
 import ReactQuill, { Quill } from "react-quill"
 import "react-quill/dist/quill.snow.css"
 import "../../component/Editor/Editor.css"
+import Swal from "sweetalert2";
 
 function RecipeUpdate() {
   const [userNum, setUserNum] = useState(0); //유저 번호
@@ -145,17 +146,33 @@ function RecipeUpdate() {
       .then((response) => {
         console.log("레시피 수정 성공:", response.data);
         // 성공 시 메시지 표시 및 디테일페이지로 이동
-        alert("레시피가 수정 되었습니다");
+        Swal.fire({
+          icon: "success",
+          title: "레시피가 수정되었습니다",
+          showConfirmButton: false,
+          timer: 1500
+      })
         navigate(`/recipeDetail?rcpNum=${rcpNum}`);
       })
       .catch((error) => {
         console.error("레시피 수정 실패:", error);
         // 실패 시 오류 메시지 표시
-        alert("레시피 수정에 실패했습니다.");
+        Swal.fire({
+          icon: "error",
+          title: "레시피 수정에 실패했습니다",
+          showConfirmButton: false,
+          timer: 1500
+      })
       });
   };
 
   const handleCancelRecipe = () => {
+    Swal.fire({
+      icon: "error",
+      title: "레시피 수정을 취소합니다",
+      showConfirmButton: false,
+      timer: 1500
+  })
     navigate(`/recipeDetail?rcpNum=${rcpNum}`);
   };
 
