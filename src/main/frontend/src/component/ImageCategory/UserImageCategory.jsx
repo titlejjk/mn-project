@@ -5,9 +5,9 @@ import axios from 'axios';
 import SlickSlider from "../../lib/slickSlide";
 import {Arrow} from "../../lib/arrow";
 //만든 categories를 map으로 category 객체와 index 값을 가져와서 각각의 key값과 대입이 되어야 할 값을 넣어준다
-const UserImageCategory = ({onUserNumChange}) => {
+const UserImageCategory = ({onChange}) => {
     const [userCategories, setUserCategories] = useState([]);
-    const [userNum, setUserNum] = useState([])
+   // const [userNum, setUserNum] = useState([])
 
     const Settings = {
         arrow: true,
@@ -28,7 +28,7 @@ const UserImageCategory = ({onUserNumChange}) => {
             .catch((error) => {
                 console.error('UserCategory Url Error fetching data:', error);
             });
-    }, [userNum]);
+    }, []);
 
     return (
         <div className="User-category-list">
@@ -39,10 +39,10 @@ const UserImageCategory = ({onUserNumChange}) => {
                             className="category"
                             to={`/myRecipeBoard?userNum=${userCategory.userNum}`}
                             key={index}
-                            onClick={() => onUserNumChange(userCategory.userNum)}
+                            onClick={() => onChange(userCategory.userNum)}
                         >
 
-                            <img src={`http://localhost:9999/party/image/${userCategory.userProfile}`}alt={userCategory.userNickname} />
+                            <img src={`http://localhost:9999/party/image/${userCategory.userProfile}`} alt={userCategory.userNickname} />
                             <p>{userCategory.userNickname}</p>
                         </Link>
                     </div>

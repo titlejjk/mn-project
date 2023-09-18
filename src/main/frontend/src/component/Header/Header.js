@@ -10,7 +10,6 @@ function Header({ currentToken, tokenChanged }) {
   const location = useLocation();
 
   useEffect(() => {
-    console.log("토큰 확인중");
     if (currentToken) {
       console.log("토큰o: " + currentToken);
     } else {

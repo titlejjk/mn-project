@@ -18,7 +18,7 @@ import java.util.Set;
 
 @CrossOrigin(originPatterns = "http://localhost:3000")
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
     //AuthServiceImpl 의존성

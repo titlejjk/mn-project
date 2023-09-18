@@ -48,18 +48,18 @@ function Footer(){
                                 </a>
                             </li>
                             <li>
-                                <a href="https://github.com/baekcoding">
-                                    <div className="member-info">
-                                        <img src="/images/front3.png" alt="백민규" />
-                                        <span>백민규</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
                                 <a href="https://github.com/GAM3BO1">
                                     <div className="member-info">
                                         <img src="/images/front4.png" alt="이슬아" />
                                         <span>이슬아</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/baekcoding">
+                                    <div className="member-info">
+                                        <img src="/images/front3.png" alt="백민규" />
+                                        <span>백민규</span>
                                     </div>
                                 </a>
                             </li>

@@ -101,6 +101,6 @@
 
     <!-- 회원의 프로필사진, 한 줄 소개 Select -->
     <select id="findProfileAndIIntroduction" resultType="com.project.user.dto.UserDto">
-        SELECT user_profile, user_introduction FROM user WHERE user_email = #{userEmail};
+        SELECT user_profile AS userProfile, user_introduction AS userIntroduction FROM user WHERE user_email = #{userEmail};
     </select>
 </mapper>

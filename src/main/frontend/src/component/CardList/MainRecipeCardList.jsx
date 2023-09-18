@@ -27,8 +27,6 @@ const MainRecipeCardList = () => {
             ))}
                 </div>
                 </div>
-           
-       
     );
 };
 

@@ -51,7 +51,6 @@ const ProfileEdit = () => {
   const handleProfileImageChange = (e) => {
     e.preventDefault();
     const file = e.target.files[0];
-    console.log(file);
     if (file) {
       setProfileImage(file); // 파일 자체를 상태에 저장
       // 파일이 선택되면 defaultProfileImage를 비웁니다.

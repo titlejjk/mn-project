@@ -74,7 +74,7 @@ const MyRecipeBoard  = () => {
 
     return (
         <div className='board-card-list container'>
-            <UserImageCategory onUserNumChange={handleUserNumChange} />
+            <UserImageCategory onChange={setUserNum} />
 
             <SearchBar />
             <div className='board-list-top'>

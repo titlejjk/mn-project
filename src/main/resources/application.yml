@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/teamproject
+    url: jdbc:mariadb://localhost:3306/project
     username: root
     password: 123
     driver-class-name: org.mariadb.jdbc.Driver
@@ -35,5 +35,5 @@ mybatis:
   type-aliases-package: com.project.user.dto
 
 file:
-  location: C:\mn-project\upload
+  location: C:\Users\repla\TeamProject\uploadFile
 

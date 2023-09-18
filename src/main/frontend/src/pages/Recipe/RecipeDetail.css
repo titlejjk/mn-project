@@ -7,6 +7,10 @@
   color: #606060;
 }
 
+.recipe_detail_main button {
+  cursor: pointer;
+}
+
 .recipe_detail_image_container {
   width: 100%;
   /* 가로세로 비율 */
@@ -104,19 +108,23 @@
 .recipe_detail_step {
   width: 100%;
   max-width: 640px;
-  padding: 40px 0;
+  padding-top: 40px;
+  padding-bottom: 20px;
   margin: 0 auto;
 }
 
 .recipe_detail_step > .title {
   font-size: 24px;
   font-weight: 600;
+  margin-bottom: 20px;
 }
 
-.recipe_detail_step_item > p {
-  white-space: pre;
-  margin: 20px 0px;
-  font-size: 18px;
+.recipe_detail_step_item_content {
+  white-space: pre-line;
+  margin-bottom: 50px;
+  font-size: 20px;
+  overflow-wrap: break-word;
+  width: 640px;
 }
 
 .recipe_detail_step_item > div > img {
@@ -171,8 +179,6 @@
   font-weight: 600;
   margin-left: 10px;
 }
-
-
 
 .recipe_detail_step_item_mqtt > div{
   display: flex;
@@ -238,6 +244,30 @@
 
 .recipe_detail_user > button > span > svg {
   display: block;
+}
+
+.recipe_detail_update_container{
+  display: flex;
+  width: 75%;
+  height: 30%;
+  margin-bottom: 10px;
+  justify-content: end;
+  align-items: flex-end;
+}
+
+.recipe_detail_update_container > button{
+  display: inline-block;
+  font-size: 15px;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: var(--color-middle-brown);
+}
+
+.recipe_detail_viewCount{
+  margin-left: 300px;
+  margin-bottom: 20px;
 }
 
 .recipe_detail_reply {
