@@ -2,7 +2,6 @@ package com.project.party.likes.service;
 
 import com.project.party.likes.dao.LikesMapper;
 import com.project.party.likes.dto.LikesDto;
-import com.project.party.post.dto.PostDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,7 @@ public class LikesServiceImpl implements LikesService {
     public String toggleLike(LikesDto likesDto) {
         if (likesMapper.isLikedByUser(likesDto)) {
             //이미 좋아요를 누른 경우, 좋아요 기록 삭제
-            likesMapper.deleteLikeByUserAndPost(likesDto);
+            likesMapper.deleteLike(likesDto);
             return "Like Deleted!";
         } else {
             //좋아요를 누르지 않은 경우, 좋아요 기록 저장

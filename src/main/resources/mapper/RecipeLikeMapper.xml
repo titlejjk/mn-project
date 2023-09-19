@@ -17,10 +17,10 @@
     </delete>
 
     <!--좋아요 개수-->
-    <select id="countedLike" parameterType="int" resultType="int">
+    <select id="countLike" parameterType="int" resultType="boolean">
         SELECT COUNT(*)
         FROM recipe_like
-        WHERE rcp_num=#{rcpNum}
+        WHERE rcp_num=#{rcpNum} AND user_num=#{userNum}
     </select>
 
     <!--좋아요 여부 확인-->
@@ -33,18 +33,11 @@
     <!--좋아요 순위별 조회-->
     <select id="orderByLike" resultType="com.project.recipe.like.dto.LikeDto">
         SELECT
-            rcp_num AS rcpNum, COUNT(*) AS likeCount
-        FROM recipe_like
-        GROUP BY rcp_num  <!--게시글 번호를 기준으로 그룹화-->
+            rl.rcp_num AS rcpNum, COUNT(*) AS likeCount, r.main_path AS mainPath
+        FROM recipe_like rl
+        JOIN recipe r ON rl.rcp_num = r.rcp_num
+        GROUP BY rl.rcp_num  <!--게시글 번호를 기준으로 그룹화-->
         ORDER BY likeCount DESC
     </select>
-
-    <!--특정 사용자가 좋아요한 게시물을 조회-->
-<!--    <select id="getLikedList" parameterType="com.project.recipe.like.dto.LikeDto" resultType="com.project.recipe.like.dto.LikeDto">-->
-<!--        SELECT rl.rcp_num AS rcpNum, r.rcp_content AS content-->
-<!--        FROM recipe_like rl-->
-<!--        JOIN recipe r ON r.rcp_num = rl.rcp_num-->
-<!--        WHERE user_num = #{userNum}-->
-<!--    </select>-->
 
 </mapper>

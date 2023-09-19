@@ -5,7 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReplyDto {
@@ -14,9 +15,7 @@ public class ReplyDto {
     private int userNum; //작성자 번호
     private String rplContent;  //댓글 내용
     private String userNickname; //댓글 작성자
+    private String userProfile;  //댓글 작성자 프로필
     private String rplDeleted;  //댓글 삭제 여부 ('yes' or 'no')
     private String rplRegdate;  //댓글 작성일
-    private String userProfile;  //댓글 작성자 프로필
-    private String mainPath;  //메인 이미지 파일 경로
-
 }

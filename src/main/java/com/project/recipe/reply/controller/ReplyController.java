@@ -2,54 +2,51 @@ package com.project.recipe.reply.controller;
 
 import com.project.recipe.reply.dto.ReplyDto;
 import com.project.recipe.reply.service.ReplyService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/recipe/reply")
+@RequiredArgsConstructor
 public class ReplyController {
 
-    @Autowired
-    private ReplyService rplService;
+    private final ReplyService rplService;
 
     //댓글 작성
     @PostMapping("/insert")
-    public ResponseEntity<?> insert (@RequestBody ReplyDto dto){
+    public ResponseEntity<?> insertRpl(@RequestBody ReplyDto dto) {
         rplService.saveReply(dto);
         return new ResponseEntity<>("Insert Complete!", HttpStatus.CREATED);
     }
 
     //댓글 수정
     @PostMapping("/update")
-    public ResponseEntity<?> update (@RequestBody ReplyDto dto){
+    public ResponseEntity<?> updateRpl(@RequestBody ReplyDto dto) {
         rplService.updateReply(dto);
         return new ResponseEntity<>("Update Complete!", HttpStatus.OK);
     }
 
     //댓글 삭제
     @PostMapping("/delete")
-    public ResponseEntity<?> delete (@RequestParam int rplNum){
+    public ResponseEntity<?> deleteRpl(@RequestParam int rplNum) {
         rplService.deleteReply(rplNum);
         return new ResponseEntity<>("Delete Complete!", HttpStatus.OK);
     }
 
     //댓글 목록
     @GetMapping("/rplList")
-    public List<ReplyDto> getRplList (@RequestParam int rcpNum){
-        return rplService.getRplList(rcpNum);
+    public ResponseEntity<List<ReplyDto>> getRplList(@RequestParam int rcpNum) {
+        return ResponseEntity.ok(rplService.getRplList(rcpNum));
     }
 
-    //내가 작성한 댓글
+    //나의 댓글 목록
     @GetMapping("/myRplList")
-    public List<ReplyDto> getMyRplList (@RequestParam int userNum, @RequestParam int rcpNum){
-        return rplService.getMyRplList(userNum, rcpNum);
+    public ResponseEntity<List<ReplyDto>> getMyRplList(@RequestParam int userNum) {
+        return ResponseEntity.ok(rplService.getMyRplList(userNum));
     }
 
 }

@@ -2,6 +2,7 @@ package com.project.party.post.dao;
 
 import com.project.party.post.dto.PostDto;
 import com.project.party.post.dto.PostImageDto;
+import com.project.recipe.board.dto.BoardDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -13,7 +14,10 @@ public interface PostMapper {
     void insertPost(PostDto postDto);
 
     //여러개의 글을 조회
-    List<PostDto> getList();
+    List<PostDto> getList(PostDto dto);
+
+    //글 목록 + 좋아요 조회
+    List<PostDto> getListWithLikes(PostDto dto);
 
     //하나의 글을 조회
     PostDto getDetail(int post_id);
@@ -27,14 +31,11 @@ public interface PostMapper {
     //이미지 업로드 메서드
     void insertImage(PostImageDto postImageDto);
 
-    //하나의 글에 대한 이미지 조회
-    PostImageDto selectImagesByPostId(int postId);
-
     //이미지 삭제 메서드
-    void deleteImagesByPostId(int postId);
+    void deleteImage(int postId);
 
     //조회수 증가 메서드
-    void incrementViewCount(int postId);
+    void addViewCount(int postId);
 
     //나의 글 목록 조회 메서드
     List<PostDto> getMyList(int userNum);

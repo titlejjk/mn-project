@@ -202,6 +202,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-App.js
+src/App.js
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,react,windows,node
