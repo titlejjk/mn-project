@@ -122,7 +122,7 @@ export default function Page() {
 
   // 댓글목록 배열을 가져오는 axios 요청
   const getReply = () => {
-    axios.get(`http://localhost:9999/party/comment/rplList/${postId}`)
+    axios.get(`http://localhost:9999/party/comment/commentList/${postId}`)
       .then(res => {
         setReply(res.data);
         console.log(res.data);
@@ -377,7 +377,7 @@ function PartyReply({ item, list, postId, loginNickname }) {
   const handleDeleteClick = () => {
     if (window.confirm("정말 삭제하시겠습니까?")) {
       axios
-        .post(`http://localhost:9999/party/comment/delete?commentId=${item.commentId}`)
+        .post(`http://localhost:9999/party/comment/delete/${item.commentId}`)
         .then((res) => {
           alert("삭제 되었습니다.");
           setEditedContent("삭제된 댓글입니다");

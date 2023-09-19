@@ -162,7 +162,7 @@ export default function Page() {
 
     // 댓글목록 배열을 가져오는 axios 요청
     const getReply = () => {
-        axios.get(`http://localhost:9999/recipe/reply/list?rcpNum=${rcpNum}`)
+        axios.get(`http://localhost:9999/recipe/reply/rplList?rcpNum=${rcpNum}`)
             .then(res => {
                 setReply(res.data);
                 console.log(res.data);
