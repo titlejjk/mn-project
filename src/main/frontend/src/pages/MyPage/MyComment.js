@@ -1,7 +1,8 @@
 import React from "react";
 import MyPageNav from "../../component/MyPageNav/MyPageNav";
 import Profile from "../../component/Profile/Profile";
-import MyCommenList from "../../component/CardList/MyCommenList";
+import MyCommentList from "../../component/CardList/MyCommentList";
+import "./MyPage.css";
 
 const MyComment = () => {
   return (
@@ -10,8 +11,8 @@ const MyComment = () => {
       <MyPageNav />
       <hr />
       <div className="mypage-content container">
-        <Profile />
-        <MyCommenList />
+      <Profile />
+      <MyCommentList />
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css";
+import Swal from "sweetalert2";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -24,9 +25,6 @@ const Signup = () => {
   // 정규식을 이용한 이메일 유효성 검사
   const isEmailValidRegex = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
-  // 비밀번호 유효성을 검사할 정규식
-  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-
   // 비밀번호 및 확인 비밀번호 입력 시 일치 여부 확인
   useEffect(() => {
     if (password !== confirmPassword && confirmPassword !== "") {
@@ -46,20 +44,35 @@ const Signup = () => {
     setPasswordError(""); // 일치하면 에러 메시지 초기화
 
     try {
-      const response = await axios.post("/auth", {
+      const response = await axios.post("http://localhost:9999/auth", {
         userEmail: email,
         userPassword: password,
         userNickname: nickname,
         petTypeIds: withAnimals,
       });
-
       console.log("성공!");
-      alert("회원가입이 되었습니다!");
+      Swal.fire({
+        text: "멍냥키친의 가족이 되신걸 환영합니다❤️",
+        showCancelButton: false,
+        confirmButtonText: "확인",
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        }
+      })
       // 회원가입 성공 후 로그인 페이지로 이동
       navigate(`/login?email=${encodeURIComponent(email)}`);
     } catch (error) {
       console.error("회원가입 오류:", error);
-      alert("회원가입 불가");
+      Swal.fire({
+        icon: "warning",
+        title: "경고",
+        text: "회원가입 불가",
+        showCancelButton: false,
+        confirmButtonText: "확인"
+      })
     }
   };
 
@@ -68,13 +81,18 @@ const Signup = () => {
     e.preventDefault();
 
     if (!isEmailValidRegex.test(email)) {
-      alert("올바른 이메일 형식이 아닙니다.");
+      Swal.fire({
+        icon: "warning",
+        text: "올바른 이메일 형식이 아닙니다.",
+        showCancelButton: false,
+        confirmButtonText: "확인"
+      })
       return;
     }
 
     try {
       // 이메일 일치 여부 확인 (axios를 사용하여 백엔드 API 호출)
-      const response = await axios.get("/auth/check-email", {
+      const response = await axios.get("http://localhost:9999/auth/check-email", {
         params: {
           userEmail: email,
         },
@@ -84,10 +102,20 @@ const Signup = () => {
 
       if (response.data === "Duplicated") {
         setIsEmailValid(false); // 중복된 이메일
-        alert("사용할 수 없는 이메일입니다!");
+        Swal.fire({
+          icon: "error",
+          text: "사용할 수 없는 이메일입니다!",
+          showCancelButton: false,
+          confirmButtonText: "확인"
+        })
       } else {
         setIsEmailValid(true); // 중복되지 않은 이메일
-        alert("사용할 수 있는 이메일입니다!");
+        Swal.fire({
+          icon: "success",
+          text: "사용할 수 있는 이메일입니다!",
+          showCancelButton: false,
+          confirmButtonText: "확인"
+        })
       }
     } catch (error) {
       console.error("이메일 중복확인 오류:", error);
