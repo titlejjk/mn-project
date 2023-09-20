@@ -73,7 +73,7 @@ export default function Page() {
 
   // PartyDetail 페이지 조회를 위한 axios 요청
   const getList = () => {
-    axios.get(`http://localhost:9999/party/${postId}`)
+    axios.get(`http://localhost:9999/party/detail/${postId}`)
       .then(res => {
         setList(res.data);
         console.log(res.data);
@@ -92,7 +92,6 @@ export default function Page() {
 
   // 기존에 팔로잉한 대상인지 확인하는 axios
   useEffect(() => {
-    // console.log(loginEmail);
     // console.log(followingEmail);
     axios.get(`http://localhost:9999/follow/isFollowing/${loginEmail}/${followingEmail}`)
       .then(res => {
@@ -413,7 +412,7 @@ function PartyReply({ item, list, postId, loginNickname }) {
     <div key={item.commentId} className="party_detail_reply_item">
       <div className="image_container">
         {/* 댓글 작성자 프로필 */}
-        <img src={`http://localhost:9999/user/image/${list.userProfile}`} alt="reply thumb" />
+        <img src={`http://localhost:9999/user/image/${item.userProfile}`} alt="reply thumb" />
       </div>
       <div>
         <div className="insight">
