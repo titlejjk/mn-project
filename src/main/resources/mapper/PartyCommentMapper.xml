@@ -2,54 +2,59 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.party.comment.dao.CommentMapper">
 
-    <!-- 댓글 생성 -->
-    <insert id="insertComment">
-        INSERT INTO party_comment (post_id, user_num, content)
-        VALUES (#{postId}, #{userNum}, #{content})
+    <resultMap id="commentMap" type="com.project.party.comment.dto.CommentDto">
+        <id property="commentId" column="comment_id"/>
+        <result property="commentId" column="comment_id"/>
+        <result property="postId" column="post_id"/>
+    </resultMap>
+
+    <!--축하파티 게시판 댓글 저장-->
+    <insert id="insertComment" parameterType="com.project.party.comment.dto.CommentDto">
+        INSERT INTO party_comment
+        (post_id, user_num, content)
+        VALUES
+        (#{postId}, #{userNum}, #{content})
+        <selectKey keyProperty="postId" order="AFTER" resultType="Int">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
     </insert>
 
-    <!-- 댓글 수정 -->
-    <update id="updateComment">
+    <!--축하파티 게시판 댓글 수정-->
+    <update id="updateComment" parameterType="com.project.party.comment.dto.CommentDto">
         UPDATE party_comment
-        SET content = #{content}, updated_at = NOW()
-        WHERE comment_id = #{commentId}
+        SET content=#{content}, updated_at=NOW()
+        WHERE comment_id=#{commentId}
     </update>
 
-    <!-- 댓글 삭제 -->
-    <delete id="deleteComment">
-        DELETE
-        FROM party_comment
-        WHERE comment_id = #{commentId}
+    <!--축하파티 게시판 댓글 삭제 -->
+    <delete id="deleteComment" parameterType="int">
+        UPDATE party_comment
+        SET deleted = 'yes'
+        WHERE comment_id=#{commentId}
     </delete>
 
-    <!-- 댓글 ID로 조회 -->
-    <select id="selectCommentById" resultType="com.project.party.comment.dto.CommentDto">
+    <!--축하파티 게시판 댓글 조회-->
+    <select id="getCommentList" parameterType="int" resultType="com.project.party.comment.dto.CommentDto">
         SELECT
-            comment_id AS commentId, post_id AS postId, user_num AS userNum, content,
-            created_at AS createdAt, updated_at AS updatedAt
-        FROM party_comment
-        WHERE comment_id = #{commentId}
-    </select>
-
-    <!-- 게시글 ID로 댓글 리스트 조회 -->
-    <select id="selectCommentsByPostId" parameterType="int" resultType="com.project.party.comment.dto.CommentDto">
-        SELECT
-            p.comment_id AS commentId, p.post_id AS postId, p.user_num AS userNum,
-            p.content, created_at AS createdAt, p.updated_at AS updatedAt,
+            p.comment_id AS commentId, p.post_id AS postId, p.user_num AS userNum, p.content, created_at AS createdAt, p.updated_at AS updatedAt,
+            p.deleted AS deleted, p.updated_at AS updatedAt,
             u.user_nickname AS userNickname, u.user_profile AS userProfile
         FROM party_comment p
         JOIN user u ON p.user_num = u.user_num
-        WHERE post_id = #{postId}
+        WHERE p.post_id = #{postId}
+        ORDER BY p.comment_id
     </select>
 
     <!--나의 댓글 조회-->
-    <select id="getMyRplList" parameterType="com.project.party.comment.dto.CommentDto">
+    <select id="getMyCommentList" parameterType="com.project.party.comment.dto.CommentDto" resultType="com.project.party.comment.dto.CommentDto">
         SELECT
-            p.comment_id AS commentId, p.post_id AS postId, p.user_num AS userNum,
-            p.content AS content, p.created_at AS createdAt
+            p.comment_id AS commentId, p.post_id AS postId, p.user_num AS userNum, p.content AS content,
+            p.deleted AS deleted, p.updated_at AS updatedAt, u.user_nickname AS userNickname, u.user_profile AS userProfile
         FROM party_comment p
         JOIN user u ON p.user_num = u.user_num
-        WHERE p.user_num = #{userNum} AND p.post_id = #{postId}
+        WHERE p.user_num = #{userNum}
+        ORDER BY p.comment_id DESC
     </select>
 
 </mapper>

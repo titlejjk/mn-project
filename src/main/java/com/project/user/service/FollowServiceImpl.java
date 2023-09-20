@@ -36,6 +36,7 @@ public class FollowServiceImpl implements FollowService{
 
     @Override
     public boolean isFollowing(String followerEmail, String followingEmail) {
-        return followMapper.isFollowing(followerEmail, followingEmail);
+        int count = followMapper.isFollowing(followerEmail, followingEmail);
+        return count > 0;
     }
 }

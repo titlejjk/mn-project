@@ -41,7 +41,8 @@ public class LikeController {
     @PostMapping("/toggle")
     public ResponseEntity<String> toggleLike(@RequestBody LikeDto dto){
         String result = likeService.toggleLike(dto);
-        HttpStatus status = "Like Inserted".equals(result) ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR ;
+        HttpStatus status = "Like Inserted!".equals(result) ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR ;
+
         return new ResponseEntity<>(result, status);
     }
 
@@ -54,9 +55,9 @@ public class LikeController {
 
     //좋아요 여부
     @GetMapping("/isLiked")
-    public ResponseEntity<Boolean> isLikedByUser(@RequestBody LikeDto dto){
-        boolean result = likeService.isLikedByUser(dto);
-        HttpStatus status = result == true ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+    public ResponseEntity<Integer> isLikedByUser(@RequestBody LikeDto dto){
+        int result = likeService.isLikedByUser(dto);
+        HttpStatus status = result == 1 ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(result, status);
     }
 

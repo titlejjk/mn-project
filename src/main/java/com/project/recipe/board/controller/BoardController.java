@@ -90,8 +90,14 @@ public class BoardController {
     //전체 게시글 목록
     @GetMapping("/list")
     public List<BoardDto> getList(@RequestParam(name="keyword", required = false)String keyword,
-                                  @RequestParam(name="condition", required = false)String condition){
-        return rcpService.getList(keyword, condition);
+                                  @RequestParam(name="condition", required = false)String condition,
+                                  @RequestParam(required = false)Integer userNum){
+        List<BoardDto> boardList = rcpService.getListWithLikes(keyword, condition, userNum);
+        if(userNum == null){
+            boardList =  rcpService.getList(keyword, condition);
+            boardList.forEach(board -> board.setLiked(0));
+        }                            
+        return boardList;
     }
 
     //게시글 상세
@@ -109,10 +115,4 @@ public class BoardController {
     //카테고리 별 게시글 목록
     @GetMapping("/petList")
     public List<BoardDto> getByCategory(@RequestParam int petNum){return rcpService.getByCategory(petNum);}
-
-    //사용자 번호로 게시글 번호 조회
-    @GetMapping("/rcpNum")
-    public List<Integer> getRcpNum(@RequestParam int userNum){
-        return rcpService.getRcpNum(userNum);
-    }
 }
