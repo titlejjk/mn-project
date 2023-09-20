@@ -5,12 +5,14 @@ import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 import { Link } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
 import  axios from 'axios'
+import Swal from "sweetalert2";
 const PartyCard = ({ card, showTitle, showLikeBox }) => {
     const [userNum, setUserNum] = useState(0);
     const [postId, setPostId] = useState(card.postId);
     const [isLikedByUser, setIsLikedByUser] = useState(0);
     console.log("초기상태 isLikedByUser 상태 : " , isLikedByUser);
-
+    console.log("postId: ", card.postId); // card.rcpNum 값 확인
+    console.log("userNum: ", userNum); // userNum 값 확인
 
     useEffect(() => {
         const newToken = localStorage.getItem('login-token');
@@ -27,37 +29,49 @@ const PartyCard = ({ card, showTitle, showLikeBox }) => {
     }, []);
 
 
-    const checkLikeStatus = () => {
-        // setIsLikedByUser((prevIsLiked) => !prevIsLiked);
+    const checkLikeStatus = async () => {
         if (userNum) {
-            axios.get(`http://localhost:9999/party/likes/isLiked?userNum=${userNum}`)
-                .then((response) => {
-                    const party = response.data.find(item => item.postId === card.postId);  // rcpNum이 일치하는 객체 찾기
-                    if (party) {
-                        const liked = party.liked;  // 찾은 객체에서 'liked' 값만 추출
-                        setIsLikedByUser(liked === 1);  // liked 값이 1인지 확인하여 상태 설정
-                        //console.log("좋아요: ", recipe.liked)
-                        console.log("현재 like 값: ", liked)
-                    }
-                    //console.log("!!!! Server Response:", response.data);
-                    // 서버 응답을 콘솔에 출력
-                })
-                .catch((error) => {
-                    //console.error('좋아요 상태 가져오기 실패:', error);
-                });
+            try {
+                const response = await axios.get(`http://localhost:9999/party/list?userNum=${userNum}`);
+                const party = response.data.find(item => item.postId === card.postId);
+                if (party) {
+                    const liked = party.liked;
+                    setIsLikedByUser(liked === 1);
+                    console.log("현재 like 값: ", liked);
+                }
+                console.log("!!!! Server Response:", response.data);
+            } catch (error) {
+                console.error('좋아요 상태 가져오기 실패:', error);
+            }
         } else {
-            setIsLikedByUser(false);  // userNum이 없으면 좋아요 상태를 false로 설정
+            setIsLikedByUser(false);
         }
     };
 
     useEffect(() => {
-        checkLikeStatus();
-    }, [userNum]);
+        const fetchData = async () => {
+            await checkLikeStatus(false);
+            // 여기에서 페이지 전환을 수행하거나, 페이지 변경에 따른 로직을 추가할 수 있음
+        };
+
+        fetchData();
+    }, [userNum, card.postId]);
+
 
     const handleToggleLike = () => {
-        setIsLikedByUser((prevIsLiked) => !prevIsLiked);
+        if (!userNum) {
+            Swal.fire({
+                icon: "warning",
+                title: "알림",
+                text: "로그인 후 좋아요 할 수 있어요!",
+                showCancelButton: false,
+                confirmButtonText: "확인"
+            })
+            setIsLikedByUser((prevIsLiked) => prevIsLiked);
+        } else {
+            setIsLikedByUser((prevIsLiked) => !prevIsLiked);
         axios.post(
-            'http://localhost:9999/recipe/like/toggle',
+            'http://localhost:9999/party/likes/toggle',
             { postId: postId, userNum: userNum },
             {
                 headers: {
@@ -84,6 +98,7 @@ const PartyCard = ({ card, showTitle, showLikeBox }) => {
                     console.error('요청 전 오류:', error.message);
                 }
             });
+        }
     };
 
     return (

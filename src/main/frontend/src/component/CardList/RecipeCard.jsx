@@ -29,41 +29,44 @@ const RecipeCard = ({ card, showTitle, showLikeBox }) => {
         }
     }, []);
 
-    const checkLikeStatus = () => {
+    const checkLikeStatus = async() => {
        // setIsLikedByUser((prevIsLiked) => !prevIsLiked);
         if (userNum) {
-            axios.get(`http://localhost:9999/recipe/list?userNum=${userNum}`)
-                .then((response) => {
-                    const recipe = response.data.find(item => item.rcpNum === card.rcpNum);  // rcpNum이 일치하는 객체 찾기
-                    if (recipe) {
-                        const liked = recipe.liked;  // 찾은 객체에서 'liked' 값만 추출
-                        setIsLikedByUser(liked === 1);  // liked 값이 1인지 확인하여 상태 설정
-                        //console.log("좋아요: ", recipe.liked)
-                        //console.log("현재 like 값: ", liked)
-                    }
-                    //console.log("!!!! Server Response:", response.data);
-                    // 서버 응답을 콘솔에 출력
-                })
-                .catch((error) => {
-                    //console.error('좋아요 상태 가져오기 실패:', error);
-                });
-        } else {
-            setIsLikedByUser(false);  // userNum이 없으면 좋아요 상태를 false로 설정
-        }
-    };
+            try {
+                const response = await axios.get(`http://localhost:9999/recipe/list?userNum=${userNum}`);
+                const party = response.data.find(item => item.rcpNum === card.rcpNum);
 
+                        const recipe = response.data.find(item => item.rcpNum === card.rcpNum);  // rcpNum이 일치하는 객체 찾기
+                        if (recipe) {
+                            const liked = recipe.liked;  // 찾은 객체에서 'liked' 값만 추출
+                            setIsLikedByUser(liked === 1);  // liked 값이 1인지 확인하여 상태 설정
+                            //console.log("좋아요: ", recipe.liked)
+                        }
+                    console.log("!!!! Server Response:", response.data);
+                } catch (error) {
+                    console.error('좋아요 상태 가져오기 실패:', error);
+                }
+            } else {
+                setIsLikedByUser(false);
+            }
+        };
 
     useEffect(() => {
-        checkLikeStatus();
-    }, [userNum]);
+        const fetchData = async () => {
+            await checkLikeStatus(false);
+            // 여기에서 페이지 전환을 수행하거나, 페이지 변경에 따른 로직을 추가할 수 있음
+        };
+
+        fetchData();
+    }, [userNum, card.rcpNum]);
 
     const handleToggleLike = () => {
         if (!userNum) {
             Swal.fire({
                 icon: "warning",
-                title: "경고",
+                title: "알림",
                 text: "로그인 후 좋아요 할 수 있어요!",
-                showCancelButton: true,
+                showCancelButton: false,
                 confirmButtonText: "확인"
             })
             setIsLikedByUser((prevIsLiked) => prevIsLiked);

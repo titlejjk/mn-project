@@ -4,6 +4,7 @@ import PartyCard from './PartyCard';
 import axios from 'axios';
 import Pagination from '../../lib/Pagination.jsx';
 import { Link } from 'react-router-dom';
+import jwt_decode from "jwt-decode";
 
 const BoardPartyCardList = () => {
     const [cards, setCards] = useState([]);
@@ -20,11 +21,15 @@ const BoardPartyCardList = () => {
     // 추가
 
     useEffect(() => {
-        axios.get('http://localhost:9999/party/list')
+        const newToken = localStorage.getItem('login-token');
+        const userNum = newToken ? jwt_decode(newToken).userNum : null;
+        // 사용자 토큰에서 userNum 추출, 없으면 null
 
+        const apiUrl = userNum ? `http://localhost:9999/party/list?userNum=${userNum}` : 'http://localhost:9999/party/list';
+        
+        axios.get(apiUrl)
             .then(response => {
                 setCards(response.data);
-                console.log(response.data)
                 setTotalRecipeCount(response.data.length); // 레시피 개수 설정
             })
             .catch(error => {
