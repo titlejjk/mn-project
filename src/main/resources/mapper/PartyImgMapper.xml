@@ -11,7 +11,7 @@
     </insert>
 
     <!-- 게시물 ID로 이미지 조회 -->
-    <select id="selectImagesByPostId" resultType="com.project.party.post.dto.PostImageDto">
+    <select id="getImage" resultType="com.project.party.post.dto.PostImageDto">
         SELECT
         image_id AS imageId, post_id AS postId, image_url AS imageUrl
         FROM party_image
@@ -19,7 +19,7 @@
     </select>
 
     <!-- 게시물 ID로 이미지 삭제 -->
-    <delete id="deleteImagesByPostId">
+    <delete id="deleteImage">
         DELETE FROM party_image
         WHERE post_id = #{postId}
     </delete>

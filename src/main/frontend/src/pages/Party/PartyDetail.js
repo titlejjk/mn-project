@@ -41,7 +41,6 @@ export default function Page() {
       if (userToken) {
           // 토큰 해석
           decodedToken = jwt_decode(userToken); // jwt 모듈을 사용하여 토큰 해석
-          console.log("토큰 해석")
           if (decodedToken && decodedToken.userNum) {
               // 해석한 토큰에 이메일 정보가 있는지 확인하고, 있다면 이메일 값과 생일, 닉네임을 가져와서 설정
               setUserNum(decodedToken.userNum);
@@ -76,7 +75,6 @@ export default function Page() {
     axios.get(`http://localhost:9999/party/detail/${postId}`)
       .then(res => {
         setList(res.data);
-        console.log(res.data);
 
         // 팔로잉 이메일 업데이트
         setFollowingEmail(res.data.userEmail);

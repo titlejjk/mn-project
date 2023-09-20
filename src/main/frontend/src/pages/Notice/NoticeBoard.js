@@ -3,7 +3,7 @@ import React, { useEffect,useState} from 'react';
 import './NoticeBoard.css';
 import { Link } from 'react-router-dom';
 
-const NoticeBoard = ({ user}) => {
+const NoticeBoard = ({ user }) => {
     const [posts, setPosts] = useState([]);
 
     const [isAdmin, setIsAdmin] = useState(false);
@@ -17,27 +17,28 @@ const NoticeBoard = ({ user}) => {
     const postPerPage = 4;
     //한 페이지에 표시할 카드의 수를 정의
     // 추가
-    // user 정보에 따라 관리자 여부 확인
-    // if (user && user.role === 'admin') {
-    //     setIsAdmin(true);
-    // }
+    //user 정보에 따라 관리자 여부 확인
+    if (user && user.role === 'ADMIN') {
+        setIsAdmin(true);
+    }
 
     useEffect(() => {
         axios.get('http://localhost:9999/notice/list')
             .then(response => {
                 setPosts(response.data);
-                console.log(response.data)
             })
             .catch(error => {
                 console.error('Error fetching posts:', error);
             });
     }, []);
 
+    console.log(user)
+
     return (
         <div className="notice-board container">
             <div className='notice-top'>
                 <h1 className='notice-title'>공지사항</h1>
-                {/*   {isAdmin && <Link to="/noticeWrite" className='go-notice-write'>글작성</Link>} */}
+                  {isAdmin && <Link to="/noticeWrite" className='go-notice-write'>글작성</Link>}
                 {/* 관리자 계정으로 로그인했을경우 글작성 링크가 나온다. */}
 
             </div>
@@ -46,7 +47,6 @@ const NoticeBoard = ({ user}) => {
               {posts.map(post => (
                 <li className="notice-item" key={post.id}>
                     <Link to={`/noticedetail?id=${post.id}`} className='post-title'>{post.title}</Link>
-                      {/*    <p className='post-content'>{post.content}</p> */}
                       <p className='post-date'>{post.createdDate}</p>
                     
                 </li>

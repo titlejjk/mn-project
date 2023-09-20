@@ -35,7 +35,7 @@ function PartyWrite() {
 
    // PartyDetail 데이터 조회하여 초기값에 넣어주기
    const getData = () => {
-    axios.get(`http://localhost:9999/party/${postId}`)
+    axios.get(`http://localhost:9999/party/detail/${postId}`)
       .then(res => {
         setList(res.data);
         console.log("게시글 데이터")
