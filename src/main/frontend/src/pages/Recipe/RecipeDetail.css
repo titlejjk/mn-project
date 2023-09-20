@@ -119,6 +119,12 @@
   margin-bottom: 20px;
 }
 
+.recipe_detail_step_item_subImg{
+  width: 640px;
+  height: 512px;
+  object-fit: cover;
+}
+
 .recipe_detail_step_item_content {
   white-space: pre-line;
   margin-bottom: 50px;
@@ -166,6 +172,7 @@
   border: 1px solid black;
   border-radius: 10px;
   line-height: 30px;
+  display: none !important;
 }
 
 .recipe_detail_step_item_mqtt > p:first-child{

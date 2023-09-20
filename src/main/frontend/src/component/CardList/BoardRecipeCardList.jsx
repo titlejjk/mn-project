@@ -41,7 +41,7 @@ const BoardRecipeCardList = () => {
         <div className='board-card-list container'>
             <div className='board-list-top'>
                 <p className='list-total-count'>전체 {totalRecipeCount} 개 </p>
-                <Link to="/recipeWrite" className='write-go'>글쓰기</Link>
+                <Link to="/recipeWrite" className='write-go'>글작성</Link>
             </div>
             <div className="card-list">
                 {Array.isArray(currentCards) && currentCards.map((card, index) => (

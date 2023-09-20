@@ -1,13 +1,26 @@
-import React, {useState, useEffect}  from 'react';
-import { Link, useNavigate} from 'react-router-dom';
-import './ImageCategory.css'
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import './ImageCategory.css';
 import axios from 'axios';
 import SlickSlider from "../../lib/slickSlide";
-import {Arrow} from "../../lib/arrow";
-//만든 categories를 map으로 category 객체와 index 값을 가져와서 각각의 key값과 대입이 되어야 할 값을 넣어준다
-const UserImageCategory = ({onChange}) => {
+import { Arrow } from "../../lib/arrow";
+import jwt_decode from "jwt-decode";
+
+const UserImageCategory = ({ handleNumChange }) => {
     const [userCategories, setUserCategories] = useState([]);
-   // const [userNum, setUserNum] = useState([])
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem('login-token');
+
+        if (token) {
+            const decodedToken = jwt_decode(token);
+
+            if (decodedToken.roles === 'ADMIN') {
+                setIsAdmin(true);
+            }
+        }
+    }, []);
 
     const Settings = {
         arrow: true,
@@ -19,11 +32,11 @@ const UserImageCategory = ({onChange}) => {
         prevArrow: <Arrow />
     };
 
-    // 사용자 번호를 기반으로 사용자 카테고리 가져오기
     useEffect(() => {
         axios.get(`http://localhost:9999/user/list`)
             .then((response) => {
-                setUserCategories(response.data);
+                // "admin" 역할을 가진 사용자를 필터링하여 userCategories 배열에 추가하지 않음
+                setUserCategories(response.data.filter(userCategory => userCategory.role !== 'ADMIN'));
             })
             .catch((error) => {
                 console.error('UserCategory Url Error fetching data:', error);
@@ -39,9 +52,8 @@ const UserImageCategory = ({onChange}) => {
                             className="category"
                             to={`/myRecipeBoard?userNum=${userCategory.userNum}`}
                             key={index}
-                            onClick={() => onChange(userCategory.userNum)}
+                            onClick={() => handleNumChange(userCategory.userNum)}
                         >
-
                             <img src={`http://localhost:9999/party/image/${userCategory.userProfile}`} alt={userCategory.userNickname} />
                             <p>{userCategory.userNickname}</p>
                         </Link>

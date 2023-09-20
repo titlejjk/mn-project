@@ -6,6 +6,7 @@ import MainPage from "./pages/MainPage/MainPage.js";
 import NoticeBoard from "./pages/Notice/NoticeBoard.js";
 import NoticeDetail from "./pages/Notice/NoticeDetail.js";
 import NoticeWrite from "./pages/Notice/NoticeWrite.jsx";
+import NoticeUpdate from "./pages/Notice/NoticeUpdate.jsx";
 import RecipeBoard from "./pages/Recipe/RecipeBoard.jsx";
 import RecipeDetail from "./pages/Recipe/RecipeDetail.jsx";
 import RecipeWrite from "./pages/Recipe/RecipeWrite.jsx";
@@ -41,6 +42,7 @@ function App() {
                 <Route path="/noticeBoard" element={<NoticeBoard />}></Route>
                 <Route path="/noticeDetail" element={<NoticeDetail />}></Route>
                 <Route path="/noticeWrite" element={<NoticeWrite/>}></Route>
+                <Route path="/noticeUpdate" element={<NoticeUpdate/>}></Route>
                 <Route path="/recipeBoard" element={<RecipeBoard />} />
                 <Route path="/recipeDetail" element={<RecipeDetail />} />
                 <Route path="/recipeWrite" element={<RecipeWrite />} />

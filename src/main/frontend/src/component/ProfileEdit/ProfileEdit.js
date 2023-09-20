@@ -76,7 +76,10 @@ const ProfileEdit = () => {
     //forData에 데이터 전부 넣어주기
     formData.append("userNum", userNum);
     formData.append("userEmail", email);
-    formData.append("userImage", profileImage); // 이미지 파일을 FormData에 추가
+    // 이미지 파일 첨부 여부 확인 후 추가
+    if (profileImage) {
+      formData.append("userImage", profileImage);
+    }
     formData.append("userNickname", nickname);
     formData.append("userGender", gender);
     formData.append("userBirthday", birthdate);
@@ -84,7 +87,7 @@ const ProfileEdit = () => {
     console.log(profileImage);
 
     axios
-        .post("/user/updateuser", formData, {
+        .post("http://localhost:9999/user/updateuser", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -99,10 +102,8 @@ const ProfileEdit = () => {
           console.log(response.data);
           // 성공 시 메시지 표시 및 마이페이지로 이동
           alert("프로필 정보가 업데이트되었습니다.");
-          // 리다이렉트할 경로 설정
-          //        const redirectPath = "/myPage"; // 원하는 경로로 수정
-          //        navigate(redirectPath); // 페이지 리다이렉트
-          window.location.reload(); // 페이지 새로고침
+          // 페이지 새로고침
+          window.location.reload();
         })
         .catch((error) => {
           console.error("프로필 정보 업데이트 실패:", error);

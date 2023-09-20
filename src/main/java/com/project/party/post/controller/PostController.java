@@ -36,8 +36,9 @@ public class PostController {
         InputStream is = new FileInputStream(absolutePath);
         return IOUtils.toByteArray(is);
     }
-
+    
     //게시글 등록
+    @Transactional
     @PostMapping("/insert")
     public ResponseEntity<?> createPost(@ModelAttribute PostDto postDto, @RequestParam("image") MultipartFile image) {
         try {

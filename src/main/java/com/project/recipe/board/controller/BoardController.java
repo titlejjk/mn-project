@@ -47,8 +47,8 @@ public class BoardController {
     }
 
     //게시글 작성
+    @Transactional
     @PostMapping("/insert")
-    @Transactional //Transaction 처리 (하나라도 실패하면 전체 roll back)
     public ResponseEntity<?> insert(@ModelAttribute BoardDto dto,
                                     @RequestPart(value = "subImages", required = false) List<MultipartFile> subImages) {
         try {
@@ -66,6 +66,7 @@ public class BoardController {
     }
 
     //게시글 수정
+    @Transactional
     @PostMapping("/update")
     public ResponseEntity<?> update(@ModelAttribute BoardDto dto,
                                     @RequestParam("subImages") List<MultipartFile> subImages) {
