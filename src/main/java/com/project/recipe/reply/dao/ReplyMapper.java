@@ -4,7 +4,6 @@ import com.project.recipe.reply.dto.ReplyDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface ReplyMapper {
@@ -15,11 +14,9 @@ public interface ReplyMapper {
     //댓글 삭제
     void deleteRpl(int rplNum);
     //댓글 목록 반환
-    List<ReplyDto> getRplList(ReplyDto dto);
+    List<ReplyDto> getRplList(int rcpNum);
     //내가 작성한 댓글 목록
-    List<ReplyDto> getMyRplList(ReplyDto dto);
-    //해당 게시글에 대한 댓글 개수
-    //int getCount(int rcpNum);
+    List<ReplyDto> getMyRplList(int userNum);
 
 
 

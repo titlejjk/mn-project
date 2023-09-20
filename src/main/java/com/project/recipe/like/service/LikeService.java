@@ -1,6 +1,8 @@
 package com.project.recipe.like.service;
 
+import com.project.party.likes.dto.LikesDto;
 import com.project.recipe.like.dto.LikeDto;
+import org.springframework.beans.factory.ListableBeanFactoryExtensionsKt;
 
 import java.util.List;
 
@@ -10,7 +12,7 @@ public interface LikeService {
     //좋아요 수
     int countLike(int rcpNum);
     //좋아요 여부
-    boolean isLikedByUser(LikeDto dto);
+    int isLikedByUser(LikeDto dto);
     //좋아요 순위
     List<LikeDto> orderByLike();
 }

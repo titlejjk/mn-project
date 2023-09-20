@@ -32,6 +32,7 @@ public class FollowController {
         int count = followService.countFollowings(userEmail);
         return ResponseEntity.ok(count);
     }
+
     // 현재 사용자가 특정 회원을 팔로우했는지 확인
     @GetMapping("/isFollowing/{followerEmail}/{followingEmail}")
     public ResponseEntity<Boolean> isFollowing(@PathVariable String followerEmail, @PathVariable String followingEmail) {

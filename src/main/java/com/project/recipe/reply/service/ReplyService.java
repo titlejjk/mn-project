@@ -3,7 +3,6 @@ package com.project.recipe.reply.service;
 import com.project.recipe.reply.dto.ReplyDto;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ReplyService {
     void saveReply(ReplyDto dto);
@@ -14,5 +13,5 @@ public interface ReplyService {
 
     List<ReplyDto> getRplList(int rcpNum);
 
-    List<ReplyDto> getMyRplList(int userNum, int rcpNum);
+    List<ReplyDto> getMyRplList(int userNum);
 }

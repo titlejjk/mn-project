@@ -1,6 +1,7 @@
 package com.project.party.post.controller;
 
 import com.project.party.post.dto.PostDto;
+import com.project.party.post.dto.PostImageDto;
 import com.project.party.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
@@ -27,9 +28,7 @@ public class PostController {
     @Value("${file.location}")
     private String imgPath;
 
-    @GetMapping(
-            value = "/image/{imageUrl}",
-            produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
+    @GetMapping(value = "/image/{imageUrl}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     @ResponseBody
     public byte[] getPostImage(@PathVariable("imageUrl") String imgName) throws IOException {
         String absolutePath = imgPath + File.separator + imgName;
@@ -39,31 +38,36 @@ public class PostController {
 
     //게시글 등록
     @PostMapping("/insert")
-    public ResponseEntity<?> createPost(@ModelAttribute PostDto postDto,
-                                        @RequestParam("image") MultipartFile image) {
-        try{
+    public ResponseEntity<?> createPost(@ModelAttribute PostDto postDto, @RequestParam("image") MultipartFile image) {
+        try {
             //게시글 내용 저장
             postService.insertPost(postDto);
             //이미지 저장
             postService.insertImage(image, postDto.getPostId());
             return new ResponseEntity<>("Insert Complete!", HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Failed to Insert", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    //게시글 목록 조회
     @GetMapping("/list")
-    public ResponseEntity<List<PostDto>> getAllPosts() {
-        return ResponseEntity.ok(postService.getList());
+    public ResponseEntity<List<PostDto>> getList(@RequestParam(defaultValue = "1") int pageNum,
+                                                 @RequestParam(name = "keyword", required = false) String keyword,
+                                                 @RequestParam(name = "condition", required = false) String condition,
+                                                 @RequestParam(required = false) Integer userNum) {
+        List<PostDto> postList = postService.getListWithLikes(keyword, condition, userNum);
+        if(userNum == null){
+            postList = postService.getList(pageNum, keyword, condition);
+            postList.forEach(post -> post.setLiked(0));
+        }
+        return ResponseEntity.ok(postList);
     }
 
     //게시글 상세 조회
-    @GetMapping("/{postId}")
-    public ResponseEntity<PostDto> getPost(@PathVariable int postId) {
+    @GetMapping("/detail/{postId}")
+    public ResponseEntity<PostDto> getDetail(@PathVariable int postId) {
         PostDto postDto = postService.getDetail(postId);
-        postService.incrementViewCount(postId); // 조회수 증가
         return ResponseEntity.ok(postDto);
     }
 
@@ -83,14 +87,14 @@ public class PostController {
 
     //나의 글 목록 조회
     @GetMapping("/myList/{userNum}")
-    public ResponseEntity<List<PostDto>> getMyList(@PathVariable int userNum){
+    public ResponseEntity<List<PostDto>> getMyList(@PathVariable int userNum) {
 
         return ResponseEntity.ok(postService.getMyList(userNum));
     }
 
     //사용자 번호로 게시물 번호 조회
     @GetMapping("/postId/{userNum}")
-    public ResponseEntity<List<Integer>> getPostId(@PathVariable int userNum){
+    public ResponseEntity<List<Integer>> getPostId(@PathVariable int userNum) {
         return ResponseEntity.ok(postService.getPostId(userNum));
     }
 
