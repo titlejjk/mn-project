@@ -52,9 +52,9 @@ public class LikesController {
 
     //좋아요 여부
     @GetMapping("/isLiked")
-    public ResponseEntity<Boolean> isLikedByUser(@RequestBody LikesDto likesDto) {
-        boolean result = likesService.isLikedByUser(likesDto);
-        HttpStatus status = result == true ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+    public ResponseEntity<Integer> isLikedByUser(@RequestBody LikesDto likesDto) {
+        int result = likesService.isLikedByUser(likesDto);
+        HttpStatus status = result == 1 ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(result, status);
     }
 

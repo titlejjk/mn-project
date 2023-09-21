@@ -2,6 +2,7 @@ package com.project.user.dao;
 
 import com.project.user.dto.FollowDto;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface FollowMapper {
@@ -10,5 +11,5 @@ public interface FollowMapper {
     int countFollow(FollowDto followDto);
     int countFollowers(String userEmail);
     int countFollowings(String userEmail);
-    boolean isFollowing(String followerEmail, String followingEmail);
+    int isFollowing(@Param("followerEmail") String followerEmail, @Param("followingEmail") String followingEmail);
 }

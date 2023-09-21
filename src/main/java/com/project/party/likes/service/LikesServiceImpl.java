@@ -16,7 +16,8 @@ public class LikesServiceImpl implements LikesService {
     //좋아요 토글 메소드
     @Override
     public String toggleLike(LikesDto likesDto) {
-        if (likesMapper.isLikedByUser(likesDto)) {
+        int likeStatus = likesMapper.isLikedByUser(likesDto);
+        if (likeStatus == 1) {
             //이미 좋아요를 누른 경우, 좋아요 기록 삭제
             likesMapper.deleteLike(likesDto);
             return "Like Deleted!";
@@ -36,7 +37,7 @@ public class LikesServiceImpl implements LikesService {
 
     //좋아요 여부 반환 메소드 (초기화 방지)
     @Override
-    public boolean isLikedByUser(LikesDto likesDto) {
+    public int isLikedByUser(LikesDto likesDto) {
 
         return likesMapper.isLikedByUser(likesDto);
     }

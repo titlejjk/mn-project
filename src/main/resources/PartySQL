@@ -5,13 +5,15 @@ CREATE TABLE party_post (
     title VARCHAR(100),
     content TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    view_count INT
 )charset=utf8;
 
 -- 축하파티 게시판 : 이미지
-CREATE TABLE post_image (
+CREATE TABLE party_image (
     image_id INT PRIMARY KEY AUTO_INCREMENT,
     post_id INT,
+    FOREIGN KEY (post_id) REFERENCES party_post(post_id),
     image_url VARCHAR(200)
 )charset=utf8;
 
@@ -22,8 +24,7 @@ CREATE TABLE party_comment (
     user_num INT NOT NULL, -- 댓글 작성자
     content TEXT, -- 댓글 내용
     deleted ENUM('yes', 'no') DEFAULT 'no', -- 댓글 삭제 여부
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    regdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP -- 댓글 작성일
 )charset=utf8;
 
 -- 축하파티 게시판 : 좋아요
@@ -33,7 +34,4 @@ CREATE TABLE party_like (
     post_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(user_num, post_id)
-);
-
--- 조회수 컬럼추가
-ALTER TABLE party_post ADD COLUMN view_count INT DEFAULT 0;
+)charset=utf8;

@@ -33,6 +33,6 @@ INSERT INTO pet_type (pet_type_name) VALUES
 ####UserPet테이블(회원과 반려동물의 연결)
 CREATE TABLE user_pet (
     user_pet_id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT NOT NULL,
+    user_num INT NOT NULL,
     pet_type_id INT NOT NULL
 );

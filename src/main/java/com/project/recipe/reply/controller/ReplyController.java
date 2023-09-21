@@ -44,8 +44,8 @@ public class ReplyController {
     }
 
     //나의 댓글 목록
-    @GetMapping("/myRplList")
-    public ResponseEntity<List<ReplyDto>> getMyRplList(@RequestParam int userNum) {
+    @GetMapping("/myRplList/{userNum}")
+    public ResponseEntity<List<ReplyDto>> getMyRplList(@PathVariable int userNum) {
         return ResponseEntity.ok(rplService.getMyRplList(userNum));
     }
 

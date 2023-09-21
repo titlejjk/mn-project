@@ -18,7 +18,7 @@ public interface LikesMapper {
     int countLikes(int postId);
 
     //좋아요 여부 확인
-    boolean isLikedByUser(LikesDto likesDto);
+    int isLikedByUser(LikesDto likesDto);
 
     //좋아요 순위별 조회
     List<LikesDto> orderByLike(LikesDto dto);

@@ -24,7 +24,7 @@
     </select>
 
     <!--좋아요 여부 확인-->
-    <select id="isLikedByUser" parameterType="int" resultType="boolean">
+    <select id="isLikedByUser" parameterType="int" resultType="int">
         SELECT COUNT(*)
         FROM recipe_like
         WHERE rcp_num=#{rcpNum} AND user_num=#{userNum}

@@ -7,14 +7,12 @@ import com.project.recipe.board.dto.BoardDto;
 import com.project.recipe.image.sub.dao.SubImgMapper;
 import com.project.recipe.image.sub.dto.SubImgDto;
 import com.project.recipe.image.sub.service.SubImgService;
-import com.project.recipe.like.dao.LikeMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.List;
 
 @Service
@@ -38,6 +36,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     //게시글 + 메인이미지 저장 처리
+    @Transactional
     @Override
     public void saveContent(BoardDto dto) {
         //필수 입력요소가 누락되었을 경우 예외 발생
@@ -54,6 +53,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     //게시글 + 메인이미지 수정 처리
+    @Transactional
     @Override
     public void updateContent(BoardDto dto, List<MultipartFile> subImages) {
         try {
@@ -92,22 +92,14 @@ public class BoardServiceImpl implements BoardService {
 
     //전체 게시글 목록 조회 메소드
     @Override
-    public List<BoardDto> getList(int pageNum, String keyword, String condition) {
-        //한 페이지에 표시할 글 개수
-        final int PAGE_ROW_COUNT = 6;
-        //보여줄 페이지의 시작 rowNum
-        int startRowNum = 1 + (pageNum - 1) * PAGE_ROW_COUNT;
-        //보여줄 페이지의 끝 rowNum
-        int endRowNum = pageNum * PAGE_ROW_COUNT;
+    public List<BoardDto> getList(String keyword, String condition) {
         BoardDto dto = new BoardDto();
-        dto.setStartRowNum(startRowNum);
-        dto.setEndRowNum(endRowNum);
         //keyword가 있을 경우 검사
         if (keyword != null && !"".equals(keyword)) {
             //검색조건이 "작성자"인 경우
-            if ("userNickname".equals(condition)) {
+            if ("title".equals(condition)) {
                 //"작성자" 검색조건이 선택되었을 때 사용자가 입력한 검색키워드를 writer 필드에 저장
-                dto.setUserNickname(keyword);
+                dto.setTitle(keyword);
             }
         }
         //검색조건에 맞는 게시글 목록을 조회
@@ -125,9 +117,9 @@ public class BoardServiceImpl implements BoardService {
         //keyword가 있을 경우 검사
         if (keyword != null && !"".equals(keyword)) {
             //검색조건이 "작성자"인 경우
-            if ("userNickname".equals(condition)) {
+            if ("title".equals(condition)) {
                 //"작성자" 검색조건이 선택되었을 때 사용자가 입력한 검색키워드를 writer 필드에 저장
-                dto.setUserNickname(keyword);
+                dto.setTitle(keyword);
             }
         }
         //검색조건에 맞는 게시글 목록을 조회

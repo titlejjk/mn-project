@@ -12,7 +12,7 @@ public interface LikeService {
     int countLike(int rcpNum);
 
     //좋아요 여부
-    boolean isLikedByUser(LikeDto dto);
+    int isLikedByUser(LikeDto dto);
 
     //좋아요 순위
     List<LikeDto> orderByLike();

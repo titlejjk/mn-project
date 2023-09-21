@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,21 +39,23 @@ public class UserController {
         return IOUtils.toByteArray(is); // Apache Commons IO 라이브러리의 IOUtils 사용
     }
     //회원정보수정 메서드
-    @PostMapping(value = "/updateuser", consumes = {"multipart/form-data"})
+    @PostMapping(value = "/updateuser")
     public ResponseEntity<String> updateUser(@ModelAttribute UserDto userDto) {
         try {
             String result = userService.updateUser(userDto);
             return ResponseEntity.ok(result);  // 정상적인 경우 200 OK 상태 코드와 함께 반환
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             // 예외 처리
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");  // 예외 발생시 500 Internal Server Error 상태 코드와 함께 반환
         }
     }
 
     //회원 탈퇴 메서드
-    @PatchMapping("/deactivate/{userNum}")
-    public ResponseEntity<String> deactivate(@PathVariable int userNum){
+    @PostMapping("/deactivate")
+    public ResponseEntity<String> deactivate(@RequestParam int userNum){
         userService.deactivateUser(userNum);
+        System.out.println(userNum);
         return new ResponseEntity<>("회원 탈퇴가 성공적으로 처리되었습니다", HttpStatus.OK);
     }
     @GetMapping("/list")

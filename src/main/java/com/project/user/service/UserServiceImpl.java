@@ -53,21 +53,21 @@ public class UserServiceImpl implements UserService {
             validateUserNickname(userDto.getUserNickname());
         }
 
-        // 이미지 업로드 후 저장 경로를 userProfile에 저장
-        userDto = uploadImageAndUpdateProfile(userDto);
-
+        // 이미지가 있는 경우에만 업로드
+        if (userDto.getUserImage() != null && !userDto.getUserImage().isEmpty()) {
+            userDto = uploadImageAndUpdateProfile(userDto);
+        } else {
+            userDto.setUserImage(existingUser.getUserImage()); // or set to some default image
+        }
 
         UserDto updatedUserDto = UserDto.builder()
                 .userNum(userDto.getUserNum())
                 .userEmail(userDto.getUserEmail())
                 .userNickname(userDto.getUserNickname())
-                .userNum(userDto.getUserNum())
-                .userEmail(userDto.getUserEmail())
-                .userNickname(userDto.getUserNickname())
                 .userGender(userDto.getUserGender())
-                .userBirthday(userDto.getUserBirthday())
+                .userBirthday(userDto.getUserBirthday() != null ? userDto.getUserBirthday() : existingUser.getUserBirthday())
                 .userProfile(userDto.getUserProfile())
-                .userIntroduction(userDto.getUserIntroduction())
+                .userIntroduction(userDto.getUserIntroduction() != null ? userDto.getUserIntroduction() : existingUser.getUserIntroduction())
                 .build();
 
         //DB에 회원 정보 업데이트

@@ -12,7 +12,7 @@ public interface LikesService {
     int countLikes(int postId);
 
     //좋아요 여부
-    boolean isLikedByUser(LikesDto likesDto);
+    int isLikedByUser(LikesDto likesDto);
 
     //좋아요 순위
     List<LikesDto> orderByLike();

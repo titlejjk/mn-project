@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface UserService {
 
-    //서빗,인터페스 회원목록조회
+    //서비스,인터페이스 회원목록조회
     List<UserDto> getAllUsers();
 
     //한명의 회원의 정보를 업데이트
-    String updateUser(UserDto userDt) throws IllegalAccessException;
+    String updateUser(UserDto userDt);
 
     //한명의 회원탈퇴 Update Status
     void deactivateUser(int userNum);

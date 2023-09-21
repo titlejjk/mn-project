@@ -13,9 +13,9 @@ public class ReplyDto {
     private int rplNum;  //댓글 번호
     private int rcpNum; //게시글 번호
     private int userNum; //작성자 번호
-    private String rplContent;  //댓글 내용
+    private String content;  //댓글 내용
+    private String deleted;  //댓글 삭제 여부 ('yes' or 'no')
+    private String regdate;  //댓글 작성일
     private String userNickname; //댓글 작성자
     private String userProfile;  //댓글 작성자 프로필
-    private String rplDeleted;  //댓글 삭제 여부 ('yes' or 'no')
-    private String rplRegdate;  //댓글 작성일
 }

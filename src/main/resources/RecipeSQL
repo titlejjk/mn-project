@@ -31,9 +31,9 @@ CREATE TABLE recipe_reply(
     FOREIGN KEY (rcp_num) REFERENCES recipe(rcp_num),
 	user_num INT NOT NULL, -- 댓글 작성자
 	FOREIGN KEY (user_num) REFERENCES user(user_num),
-    rpl_content TEXT, -- 댓글 내용
-	rpl_deleted ENUM('yes', 'no') DEFAULT 'no', -- 댓글 삭제 여부
-    rpl_regdate DATE -- 댓글 작성일
+    content TEXT, -- 댓글 내용
+	deleted ENUM('yes', 'no') DEFAULT 'no', -- 댓글 삭제 여부
+    regdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP -- 댓글 작성일
 )charset=utf8;
 
 -- 레시피 게시판 : 좋아요
@@ -43,4 +43,4 @@ CREATE TABLE recipe_like(
     FOREIGN KEY (rcp_num) REFERENCES recipe(rcp_num),
 	user_num INT NOT NULL, -- 작성자
 	FOREIGN KEY (user_num) REFERENCES user(user_num)
-);
+)charset=utf8;

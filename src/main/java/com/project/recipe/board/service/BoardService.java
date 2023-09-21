@@ -16,7 +16,7 @@ public interface BoardService {
     void deleteContent(int rcpNum);
 
     //전체 게시글 목록
-    List<BoardDto> getList(int pageNum, String keyword, String condition);
+    List<BoardDto> getList(String keyword, String condition);
 
     //전체 게시글 + 좋아요 목록
     List<BoardDto> getListWithLikes(String keyword, String condition, Integer userNum);

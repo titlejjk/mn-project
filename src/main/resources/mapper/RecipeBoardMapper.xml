@@ -6,12 +6,12 @@
     <sql id="searchCondition">
         <choose>
             <!--writer가 null이 아닌 경우에만 실행-->
-            <when test="userNickname != null">
+            <when test="title != null">
                 <!--rcp_writer값에 부분적으로 일치하는 것을 모두 검색-->
                 SELECT r.*
                 FROM recipe r
                 JOIN user u ON r.user_num = u.user_num
-                WHERE u.user_nickname LIKE '%'||#{userNickname}||'%'
+                WHERE u.rcp_title LIKE '%'||#{title}||'%'
             </when>
         </choose>
     </sql>
@@ -48,18 +48,16 @@
         FROM recipe r
         ORDER BY r.rcp_num DESC
         <include refid="searchCondition"/> <!--검색조건 포함-->
-        LIMIT #{startRowNum}, #{endRowNum}
     </select>
 
     <!--게시글 & 메인 이미지 목록 조회 & 좋아요 여부-->
     <select id="getListWithLikes" parameterType="com.project.recipe.board.dto.BoardDto" resultType="com.project.recipe.board.dto.BoardDto">
         SELECT
-        r.rcp_num AS rcpNum, r.user_num AS userNum, r.rcp_title AS title, r.main_path AS mainPath,
-        (SELECT COUNT(*) FROM recipe_like rl WHERE rl.rcp_num = r.rcp_num AND rl.user_num = #{userNum}) AS liked
+            r.rcp_num AS rcpNum, r.user_num AS userNum, r.rcp_title AS title, r.main_path AS mainPath,
+            (SELECT COUNT(*) FROM recipe_like rl WHERE rl.rcp_num = r.rcp_num AND rl.user_num = #{userNum}) AS liked
         FROM recipe r
-        <include refid="searchCondition"/> <!--검색조건 포함-->
         ORDER BY r.rcp_num DESC
-        LIMIT #{startRowNum}, #{endRowNum}
+        <include refid="searchCondition"/> <!--검색조건 포함-->
     </select>
 
     <!--게시글 상세 조회-->

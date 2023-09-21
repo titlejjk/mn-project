@@ -148,7 +148,7 @@ Acorn 아카데미 Team Project 멍냥프로젝트
 
 ![flowchart](https://github.com/titlejjk/mn-project/blob/main/resources/images/flowchart.png)
 ![flowchart](src/main/resources/images/flowchart.png)
-
+![](https://velog.velcdn.com/images/katejo6011/post/a65bf09f-bdcc-4b13-9157-f19f629f9fb6/image.png)
 - ERD
 
 ![erd](https://github.com/titlejjk/mn-project/blob/main/resources/images/erd.png)

@@ -3,16 +3,12 @@ package com.project.recipe.board.controller;
 import com.project.recipe.board.dto.BoardDto;
 import com.project.recipe.board.service.BoardService;
 import com.project.recipe.image.sub.service.SubImgService;
-import com.project.recipe.like.dto.LikeDto;
 import com.project.recipe.like.service.LikeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.tomcat.util.http.fileupload.impl.IOFileUploadException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -54,7 +50,6 @@ public class BoardController {
 
     //게시글 작성
     @PostMapping("/insert")
-    @Transactional
     public ResponseEntity<?> insert(@ModelAttribute BoardDto dto,
                                     @RequestPart(value = "subImages", required = false) List<MultipartFile> subImages) {
         try {
@@ -95,13 +90,12 @@ public class BoardController {
 
     //전체 게시글 목록
     @GetMapping("/list")
-    public List<BoardDto> getList(@RequestParam(defaultValue = "1") int pageNum,
-                                  @RequestParam(name = "keyword", required = false) String keyword,
+    public List<BoardDto> getList(@RequestParam(name = "keyword", required = false) String keyword,
                                   @RequestParam(name = "condition", required = false) String condition,
                                   @RequestParam(required = false) Integer userNum) {
         List<BoardDto> boardList;
         if (userNum == null) {
-            boardList = rcpService.getList(pageNum, keyword, condition);
+            boardList = rcpService.getList(keyword, condition);
             boardList.forEach(board -> board.setLiked(0));
         }else{
             boardList = rcpService.getListWithLikes(keyword, condition, userNum);

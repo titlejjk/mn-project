@@ -18,7 +18,7 @@ public interface LikeMapper {
     int countLike(int rcpNum);
 
     //좋아요 여부 확인
-    boolean isLikedByUser(LikeDto dto);
+    int isLikedByUser(LikeDto dto);
 
     //좋아요 순위별 조회
     List<LikeDto> orderByLike(LikeDto dto);
