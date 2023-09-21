@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.14'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'war'
 }
 
 group = 'com.project'
@@ -24,11 +25,11 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1'
-    implementation 'org.jetbrains:annotations:24.0.0'
+	implementation 'org.jetbrains:annotations:24.0.0'
 	testImplementation 'junit:junit:4.13.1'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
-  
+
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.3.1'

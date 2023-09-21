@@ -30,6 +30,7 @@ public class TokenProvider {
         claims.put("userNickname", userDto.getUserNickname());
         claims.put("userGender", userDto.getUserGender());
         claims.put("userBirthday", userDto.getUserBirthday());
+        claims.put("userGender", userDto.getUserGender());
         claims.put("userTypes", userDto.getPetTypes());
         claims.put("roles", userDto.getRole());
         //현재 시간으로부터 1시간으로 설정
@@ -52,19 +53,19 @@ public class TokenProvider {
 
     //매개변수로 전달된 토큰을 검증하고 , 복호화하여 페이로드에서 제목을 추출하는 역할
     public  String validate(String token){
-       try {
-           Claims claims = Jwts.parser().setSigningKey(SECURITY_KEY).parseClaimsJws(token).getBody();
-           return claims.getSubject();
-       }catch (SecurityException | MalformedJwtException e){
-           log.info("잘못된 JWT 서명입니다.");
-       }catch (ExpiredJwtException e) {
-           log.info("만료된 JWT 토큰입니다.");
-       }catch(UnsupportedJwtException e){
-           log.info("지원되지 않는 JWT 토큰입니다.");
-       }catch(IllegalArgumentException e){
-           log.info("JWT 토큰이 잘못되었습니다.");
-       }
-       return null;
+        try {
+            Claims claims = Jwts.parser().setSigningKey(SECURITY_KEY).parseClaimsJws(token).getBody();
+            return claims.getSubject();
+        }catch (SecurityException | MalformedJwtException e){
+            log.info("잘못된 JWT 서명입니다.");
+        }catch (ExpiredJwtException e) {
+            log.info("만료된 JWT 토큰입니다.");
+        }catch(UnsupportedJwtException e){
+            log.info("지원되지 않는 JWT 토큰입니다.");
+        }catch(IllegalArgumentException e){
+            log.info("JWT 토큰이 잘못되었습니다.");
+        }
+        return null;
     }
     //주어진 JWT토큰을 파싱하여 사용자의 역할(role)을 반환하는 메서드
     public String getRoleByToken(String token) {

@@ -53,7 +53,7 @@ function RecipeUpdate() {
         const subNumArray = res.data.subImgs.map((subImgData) => subImgData.subNum);
         setSubNums(subNumArray);
         console.log(subNumArray);
-        
+
         setServingSize(res.data.servingSize);
         setCookingTime(res.data.cookingTime);
         setCookingLevel(res.data.cookingLevel);
@@ -362,9 +362,9 @@ function Editor({title, content, setTitle, setContent}) {
     return (
       <>
           <div className="title-container">
-            <input 
+            <input
               className="title"
-              type="text" 
+              type="text"
               ref={quillRef}
               value={title}
               onChange={(e) => setTitle(e.target.value)}

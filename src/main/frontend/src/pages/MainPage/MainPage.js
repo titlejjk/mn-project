@@ -34,8 +34,6 @@ function MainPage() {
             });
     }, [])
 
-
-
   return (
     <div className="MainPage container">
       <div className="imgWrapper">

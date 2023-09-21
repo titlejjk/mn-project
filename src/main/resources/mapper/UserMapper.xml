@@ -5,18 +5,18 @@
 
     <select id="getAllUsers" resultType="com.project.user.dto.UserDto">
         SELECT
-            user_num AS userNum,
-            user_email AS userEmail,
-            user_pwd AS userPassword,
-            user_nickname AS userNickname,
-            user_gender AS userGender,
-            user_birthday AS userBirthday,
-            user_profile AS userProfile,
-            user_introduction AS userIntroduction,
-            user_status AS userStatus,
-            user_created_at AS userCreatedAt,
-            user_updated_at AS userUpdatedAt,
-            user_role AS role
+        user_num AS userNum,
+        user_email AS userEmail,
+        user_pwd AS userPassword,
+        user_nickname AS userNickname,
+        user_gender AS userGender,
+        user_birthday AS userBirthday,
+        user_profile AS userProfile,
+        user_introduction AS userIntroduction,
+        user_status AS userStatus,
+        user_created_at AS userCreatedAt,
+        user_updated_at AS userUpdatedAt,
+        user_role AS role
         FROM user
         ORDER BY user_num ASC;
     </select>
@@ -45,18 +45,18 @@
     <!-- 사용자 정보 조회 -->
     <select id="findByEmail" resultSets="string" resultType="com.project.user.dto.UserDto">
         SELECT
-            user_num AS userNum,
-            user_email AS userEmail,
-            user_pwd AS userPassword,
-            user_nickname AS userNickname,
-            user_gender AS userGender,
-            user_birthday AS userBirthday,
-            user_profile AS userProfile,
-            user_introduction AS userIntroduction,
-            user_status AS userStatus,
-            user_created_at AS userCreatedAt,
-            user_updated_at AS userUpdatedAt,
-            user_role AS role
+        user_num AS userNum,
+        user_email AS userEmail,
+        user_pwd AS userPassword,
+        user_nickname AS userNickname,
+        user_gender AS userGender,
+        user_birthday AS userBirthday,
+        user_profile AS userProfile,
+        user_introduction AS userIntroduction,
+        user_status AS userStatus,
+        user_created_at AS userCreatedAt,
+        user_updated_at AS userUpdatedAt,
+        user_role AS role
         FROM user
         WHERE user_email = #{userEmail}
     </select>
@@ -64,14 +64,14 @@
     <update id="updateUser" parameterType="com.project.user.dto.UserDto">
         UPDATE user
         SET
-            user_email = #{userEmail},
-            user_num = #{userNum},
-            user_nickname = #{userNickname},
-            user_gender = #{userGender},
-            user_birthday = #{userBirthday},
-            user_profile = #{userProfile},
-            user_introduction = #{userIntroduction},
-            user_updated_at = NOW()
+        user_email = #{userEmail},
+        user_num = #{userNum},
+        user_nickname = #{userNickname},
+        user_gender = #{userGender},
+        user_birthday = #{userBirthday},
+        user_profile = #{userProfile},
+        user_introduction = #{userIntroduction},
+        user_updated_at = NOW()
         WHERE user_num = #{userNum}
     </update>
 

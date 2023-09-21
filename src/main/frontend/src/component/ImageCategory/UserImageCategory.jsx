@@ -56,7 +56,7 @@ const UserImageCategory = ({ handleNumChange }) => {
                         >
                             <img src={
                                 userCategory.userProfile ? `http://localhost:9999/party/image/${userCategory.userProfile}` : "/images/default_profile.png"
-                                } 
+                                }
                                 alt={userCategory.userNickname} />
                             <p>{userCategory.userNickname}</p>
                         </Link>

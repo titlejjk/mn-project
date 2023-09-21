@@ -1,30 +1,25 @@
 package com.project.recipe.image.sub.service;
 
-import com.project.exception.CustomException.ImageMissingException;
-import com.project.recipe.board.dto.BoardDto;
 import com.project.recipe.board.service.ImageUploadService;
 import com.project.recipe.image.sub.dao.SubImgMapper;
 import com.project.recipe.image.sub.dto.SubImgDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class SubImgServiceImpl implements SubImgService {
-    @Autowired
-    private SubImgMapper imgMapper;
 
-    @Autowired
-    private ImageUploadService imageUpload;
+    private final SubImgMapper imgMapper;
+
+    private final ImageUploadService imageUpload;
 
     //파일 업로드 경로
     @Value("${file.location}")
@@ -41,7 +36,7 @@ public class SubImgServiceImpl implements SubImgService {
 
         List<String> imagePaths = new ArrayList<>();
         int i = 1;
-        for (MultipartFile subImg : subImgs){
+        for (MultipartFile subImg : subImgs) {
             //서브 이미지 파일을 업로드하고 경로를 가져옴
             String imagePath = imageUpload.uploadFile(subImg);
             imagePaths.add(imagePath);

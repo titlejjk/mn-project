@@ -25,4 +25,5 @@
         WHERE rcp_num = #{rcpNum}
         ORDER BY sub_order
     </select>
+
 </mapper>

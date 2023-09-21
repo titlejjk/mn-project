@@ -9,15 +9,17 @@ import java.util.List;
 public interface ReplyMapper {
     //댓글 추가
     void insertRpl(ReplyDto dto);
+
     //댓글 수정
     void updateRpl(ReplyDto dto);
+
     //댓글 삭제
     void deleteRpl(int rplNum);
-    //댓글 목록 반환
+
+    //게시글 댓글 목록
     List<ReplyDto> getRplList(int rcpNum);
-    //내가 작성한 댓글 목록
+
+    //나의 댓글 목록
     List<ReplyDto> getMyRplList(int userNum);
-
-
 
 }

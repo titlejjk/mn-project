@@ -36,7 +36,7 @@
             rl.rcp_num AS rcpNum, COUNT(*) AS likeCount, r.main_path AS mainPath
         FROM recipe_like rl
         JOIN recipe r ON rl.rcp_num = r.rcp_num
-        GROUP BY rl.rcp_num  
+        GROUP BY rl.rcp_num  <!--게시글 번호를 기준으로 그룹화-->
         ORDER BY likeCount DESC
     </select>
 

@@ -17,13 +17,12 @@
         <selectKey keyProperty="postId" order="AFTER" resultType="Int">
             SELECT LAST_INSERT_ID()
         </selectKey>
-
     </insert>
 
     <!--축하파티 게시판 댓글 수정-->
     <update id="updateComment" parameterType="com.project.party.comment.dto.CommentDto">
         UPDATE party_comment
-        SET content=#{content}, updated_at=NOW()
+        SET content=#{content}, regdate=NOW()
         WHERE comment_id=#{commentId}
     </update>
 
@@ -37,8 +36,8 @@
     <!--축하파티 게시판 댓글 조회-->
     <select id="getCommentList" parameterType="int" resultType="com.project.party.comment.dto.CommentDto">
         SELECT
-            p.comment_id AS commentId, p.post_id AS postId, p.user_num AS userNum, p.content, p.deleted AS deleted, p.regdate AS regdate,
-            u.user_nickname AS userNickname, u.user_profile AS userProfile
+            p.comment_id AS commentId, p.post_id AS postId, p.user_num AS userNum, p.content AS content,
+            p.deleted AS deleted, p.regdate AS regdate, u.user_nickname AS userNickname, u.user_profile AS userProfile
         FROM party_comment p
         JOIN user u ON p.user_num = u.user_num
         WHERE p.post_id = #{postId}
@@ -49,7 +48,7 @@
     <select id="getMyCommentList" parameterType="com.project.party.comment.dto.CommentDto" resultType="com.project.party.comment.dto.CommentDto">
         SELECT
             p.comment_id AS commentId, p.post_id AS postId, p.user_num AS userNum, p.content AS content,
-            p.deleted AS deleted, p.updated_at AS updatedAt, u.user_nickname AS userNickname, u.user_profile AS userProfile
+            p.deleted AS deleted, p.regdate AS regdate, u.user_nickname AS userNickname, u.user_profile AS userProfile
         FROM party_comment p
         JOIN user u ON p.user_num = u.user_num
         WHERE p.user_num = #{userNum}

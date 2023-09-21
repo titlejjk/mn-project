@@ -28,6 +28,7 @@ const Profile = () => {
 
             // 프로필 데이터 가져오기
             const profileResponse = await axios.get(
+
                 `/user/profile/${userEmail}`
             );
 
@@ -36,18 +37,22 @@ const Profile = () => {
 
             // 팔로워 수 가져오기
             const followersResponse = await axios.get(
+
                 `/follow/followers/count/${userEmail}`
             );
             const followerCount = followersResponse.data;
 
             // 팔로잉 수 가져오기
             const followingResponse = await axios.get(
+
                 `/follow/followings/count/${userEmail}`
+
             );
             const followingCount = followingResponse.data;
 
             // 프로필 이미지 가져오기
             const profileImageResponse = await axios.get(
+
                 `/user/image/${userProfile}`,
                 {
                   responseType: "arraybuffer", // 이미지 데이터로 받음
@@ -84,6 +89,7 @@ const Profile = () => {
       <div className="profile-container">
         <div className="profile-image">
           <img
+
               src={
                 profileData.profileImage ? profileData.profileImage : "images/default_profile.png"
               }

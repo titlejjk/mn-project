@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import jwt_decode from "jwt-decode"; // jwt-decode 라이브러리를 불러옵니다.
 import "./WithDrawal.css";
+import Swal from "sweetalert2";
 
 function WithDrawal({ tokenChanged }) {
   const navigate = useNavigate();
@@ -24,7 +25,12 @@ function WithDrawal({ tokenChanged }) {
         tokenChanged(null);
         // 회원 탈퇴가 성공하면 로컬 스토리지를 클리어하고 홈페이지로 이동합니다.
         localStorage.clear();
-        alert("회원 탈퇴가 성공적으로 처리되었습니다.");
+        Swal.fire({
+          icon: "confirm",
+          text: "회원 탈퇴가 성공적으로 처리되었습니다.",
+          showCancelButton: false,
+          confirmButtonText: "확인"
+        })
         navigate("/");
       }
     } catch (error) {
@@ -37,17 +43,17 @@ function WithDrawal({ tokenChanged }) {
   };
 
   return (
-    <div className="withdrawal-container">
-      <h2>정말 탈퇴하시겠습니까?</h2>
-      <div className="withdrawal-button">
-        <button className="yes-button" onClick={handleWithDrawal}>
-          예
-        </button>
-        <button className="no-button" onClick={handleCancel}>
-          아니오
-        </button>
+      <div className="withdrawal-container">
+        <h2>정말 탈퇴하시겠습니까?</h2>
+        <div className="withdrawal-button">
+          <button className="yes-button" onClick={handleWithDrawal}>
+            예
+          </button>
+          <button className="no-button" onClick={handleCancel}>
+            아니오
+          </button>
+        </div>
       </div>
-    </div>
   );
 }
 

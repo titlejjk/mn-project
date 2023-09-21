@@ -15,5 +15,5 @@ public class CommentDto {
     private String regdate; //댓글 작성일
     private String userNickname; //댓글 작성자
     private String userProfile; //댓글 작성자 프로필
-
 }
+

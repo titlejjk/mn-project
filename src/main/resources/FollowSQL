@@ -4,4 +4,4 @@ CREATE TABLE follows_new (
     follower_email VARCHAR(255) NOT NULL,     -- 팔로우하는 회원의 이메일
     following_email VARCHAR(255) NOT NULL,    -- 팔로우된 회원의 이메일
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- 팔로우된 시각
-);
+)charset=utf8;

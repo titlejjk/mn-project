@@ -10,7 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor  //기본 생성자 생성
 @AllArgsConstructor  //인자로 모든 값이 전달되는 생성자 생성
 public class BoardDto {
@@ -36,4 +37,7 @@ public class BoardDto {
     private MultipartFile imageFile;  //이미지 파일 업로드 처리
     private List<SubImgDto> subImgs; //서브 이미지들
     private int[] subNums; //서브 이미지 번호들 (삭제할 때 사용)
+
+    private int startRowNum;
+    private int endRowNum;
 }

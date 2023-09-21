@@ -272,7 +272,11 @@ export default function Page() {
                 <div className="recipe_detail_user">
                     <div>
                         {/* 작성자 프로필 */}
-                        <img src={`http://localhost:9999/recipe/image/${list.userProfile}`} />
+                        <img
+                            src={
+                                list.userProfile ? `http://localhost:9999/recipe/image/${list.userProfile}` : "/images/default_profile.png"
+                            }
+                        />
                     </div>
                     {/* 작성자 닉네임 */}
                     <div className="title">{list.userNickname}</div>

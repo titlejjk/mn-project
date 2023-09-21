@@ -9,8 +9,10 @@ import java.util.List;
 public interface SubImgMapper {
     //서브 이미지 추가
     void insertImg(SubImgDto dto);
+
     //서브 이미지 삭제
     void deleteImg(int num);
+
     //서브 이미지 목록
     List<SubImgDto> getImgs(int num);
 }

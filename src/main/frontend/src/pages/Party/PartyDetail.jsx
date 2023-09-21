@@ -1,7 +1,11 @@
-// PartyDetail.js
-import './PartyDetail.css';
+// RecipeDetail.jsx
+import "./RecipeDetail.css";
+import ReplyItem from "../../component/ReplyItem/ReplyItem";
 import Pagination from "../../lib/Pagination";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import Slider from "react-slick";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import jwt_decode from 'jwt-decode';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -9,12 +13,18 @@ import Swal from "sweetalert2";
 
 // 페이지 로딩 시 출력되는 화면내용
 export default function Page() {
-    // PartyDetail 페이지 조회 내용 담는 변수
+    // RecipeDetail 페이지 조회 내용 담는 변수
     const [list, setList] = useState([]);
+    // 서브이미지 담는 변수
+    const [subImgData, setSubImgData] = useState([]);
     // 팔로잉 기능 연동 시 필요한 followingEmail
     const [followingEmail, setFollowingEmail] = useState("");
     // 현재 팔로잉한 상태인지 아닌지 표시해주는 변수
     const [isFollowing, setIsFollowing] = useState(false);
+    // mqtt 버튼 클릭 시 메소드 실행하기 위해 필요한 변수
+    const [autoClick, setAutoClick] = useState(false);
+    // mqtt 기능 실행 후 받아온 데이터를 담는 변수
+    const [topic, setTopic] = useState("");
     // 로그인한 유저의 프로필을 담는 변수
     const [loginProfile, setLoginProfile] = useState("");
     // 작성글 수정을 위한 useNavigate 선언
@@ -41,6 +51,7 @@ export default function Page() {
         if (userToken) {
             // 토큰 해석
             decodedToken = jwt_decode(userToken); // jwt 모듈을 사용하여 토큰 해석
+            console.log("토큰 해석")
             if (decodedToken && decodedToken.userNum) {
                 // 해석한 토큰에 이메일 정보가 있는지 확인하고, 있다면 이메일 값과 생일, 닉네임을 가져와서 설정
                 setUserNum(decodedToken.userNum);
@@ -67,14 +78,20 @@ export default function Page() {
             queryParams[key] = decodeURIComponent(value);
         }
     }
-    // postId 값 추출하여 변수에 담기
-    const postId = queryParams.postId;
+    // rcpNum 값 추출하여 변수에 담기
+    const rcpNum = queryParams.rcpNum;
 
-    // PartyDetail 페이지 조회를 위한 axios 요청
+    // RecipeDetail 페이지 조회를 위한 axios 요청
     const getList = () => {
-        axios.get(`http://localhost:9999/party/detail/${postId}`)
+        axios.get(`http://localhost:9999/recipe/detail?rcpNum=${rcpNum}`)
             .then(res => {
                 setList(res.data);
+                console.log(res.data);
+
+                // 서브 이미지 경로 배열
+                const subImages = res.data.subImgs.map((subImgData) => subImgData.subPath);
+                setSubImgData(subImages);
+                console.log(subImages);
 
                 // 팔로잉 이메일 업데이트
                 setFollowingEmail(res.data.userEmail);
@@ -90,6 +107,7 @@ export default function Page() {
 
     // 기존에 팔로잉한 대상인지 확인하는 axios
     useEffect(() => {
+        // console.log(loginEmail);
         // console.log(followingEmail);
         axios.get(`http://localhost:9999/follow/isFollowing/${loginEmail}/${followingEmail}`)
             .then(res => {
@@ -105,6 +123,31 @@ export default function Page() {
             });
     }, [followingEmail]);
 
+    // mqtt 호출하는 기능
+    useEffect(() => {
+        let intervalId;
+
+        if (autoClick) {
+            // 버튼이 클릭되면 5초마다 함수를 실행하는 인터벌을 설정합니다.
+            intervalId = setInterval(() => {
+                axios.get('http://localhost:9999/temperature/publish')
+                    .then(res => {
+                        setTopic(res.data);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }, 5000);
+        } else {
+            // 버튼이 클릭되지 않으면 인터벌을 제거합니다.
+            clearInterval(intervalId);
+        }
+
+        return () => {
+            clearInterval(intervalId); // 컴포넌트가 언마운트될 때 인터벌을 제거합니다.
+        };
+    }, [autoClick]);
+
     // 로그인한 유저의 프로필을 가져오는 axios
     useEffect(() => {
         axios.get(`http://localhost:9999/user/profile/${loginEmail}`)
@@ -119,17 +162,16 @@ export default function Page() {
 
     // 댓글목록 배열을 가져오는 axios 요청
     const getReply = () => {
-        axios.get(`http://localhost:9999/party/comment/commentList/${postId}`)
+        axios.get(`http://localhost:9999/recipe/reply/rplList?rcpNum=${rcpNum}`)
             .then(res => {
                 setReply(res.data);
                 console.log(res.data);
-                setTotalReplyCount(res.data.length); // 레시피 개수 설정
+                setTotalReplyCount(res.data.length); // 총 댓글수
             })
             .catch(error => {
                 console.log(error);
             });
     }
-
     useEffect(() => {
         getReply();
     }, [])
@@ -149,34 +191,88 @@ export default function Page() {
 
     return (
 
-        <main className="party_detail_main">
-            <div className="party_detail_image_container">
+        <main className="recipe_detail_main">
+            <div className="recipe_detail_image_container">
                 {/* 메인 이미지 */}
-                <img src={`http://localhost:9999/party/image/${list.imageUrl}`} alt="main party" />
+                <img src={`http://localhost:9999/recipe/image/${list.mainPath}`} alt="main recipe" />
             </div>
-            <div className="party_detail_summary">
+            <div className="recipe_detail_summary">
                 {/* 새 글 등록 시 제목 부분 */}
                 <h2>{list.title}</h2>
+                <br />
+                {/* 마리 수, 소요 시간, 난이도 모음 */}
+                <div className="recipe_detail_info">
+                    <div>
+                        <div>
+                            <img className="dog" width="46" height="46" src="https://img.icons8.com/ios/50/dog--v1.png" alt="dog" />
+                        </div>
+                        {/* 마리 수 */}
+                        <div>{list.servingSize}마리</div>
+                    </div>
+                    <div>
+                        <div>
+                            <img src="/images/time.png" alt="info logo"></img>
+                        </div>
+                        {/* 소요 시간 */}
+                        <div>{list.cookingTime}분 이내</div>
+                    </div>
+                    <div>
+                        <div>
+                            <CookingLevel level={list.cookingLevel} />
+                        </div>
+                        {/* 난이도 */}
+                        <div>{list.cookingLevel}</div>
+                    </div>
+                </div>
             </div>
             {/* 구분선 */}
             <Divider />
-            <div className="party_detail_step">
-                <div className="title">축하내용</div>
-                <div className="party_detail_step_item">
+            {/* 요리에 필요한 재료와 양에 대한 정보 */}
+            <div className="recipe_detail_ingre">
+                <span className="title">재료</span>
+                {/* 재료정보 */}
+                <span>{list.ingredients}</span>
+            </div>
+            <Divider />
+            <div className="recipe_detail_step">
+                <div className="title">조리설명</div>
+                <div className="recipe_detail_step_item">
+                    {/* 서브 이미지 */}
+                    <div>
+                        <DetailSlider
+                            items={subImgData}
+                        />
+                    </div>
+                    {/* 조리설명 */}
                     <div
-                        // 축하내용
-                        className="party_detail_step_item_content"
+                        className="recipe_detail_step_item_content"
                         dangerouslySetInnerHTML={{ __html: list.content }}
                     />
                 </div>
-                <div className="party_detail_user">
+                {/* mqtt 메소드 */}
+                <div className="recipe_detail_step_item_mqtt">
+                    <p>끓는점 도달 여부</p>
+                    <span>{topic}</span>
+                    <div>
+                        <button onClick={() =>
+                            setAutoClick(!autoClick)
+                        }>{autoClick ? 'mqtt 중지' : 'mqtt 시작'}</button>
+                        <button onClick={() => {
+                            axios.get('http://localhost:9999/temperature/reset')
+                                .then(res => {
+                                    setTopic(false);
+                                    setAutoClick(false);
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                });
+                        }}>mqtt리셋</button>
+                    </div>
+                </div>
+                <div className="recipe_detail_user">
                     <div>
                         {/* 작성자 프로필 */}
-                        <img
-                            src={
-                                list.userProfile ? `http://localhost:9999/party/image/${list.userProfile}` : "/images/default_profile.png"
-                            }
-                        />
+                        <img src={`http://localhost:9999/recipe/image/${list.userProfile}`} />
                     </div>
                     {/* 작성자 닉네임 */}
                     <div className="title">{list.userNickname}</div>
@@ -211,10 +307,10 @@ export default function Page() {
                 </div>
             </div>
             {list.userNickname === loginNickname && (
-                <div className="party_detail_update_container">
+                <div className="recipe_detail_update_container">
                     <button
                         onClick={() => {
-                            navigate(`/partyUpdate?postId=${postId}`);
+                            navigate(`/recipeUpdate?rcpNum=${rcpNum}`);
                         }}
                     >
                         수정
@@ -236,7 +332,7 @@ export default function Page() {
                                 if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
                                     axios
                                         .delete(
-                                            `http://localhost:9999/party/${postId}`
+                                            `http://localhost:9999/recipe/delete?rcpNum=${rcpNum}`
                                         )
                                         .then((res) => {
                                             Swal.fire({
@@ -263,9 +359,9 @@ export default function Page() {
                     </button>
                 </div>
             )}
-            <p className="party_detail_viewCount">조회수 : {list.viewCount}</p>
+            <p className="recipe_detail_viewCount">조회수 : {list.viewCount}</p>
             <Divider />
-            <div className="party_detail_reply">
+            <div className="recipe_detail_reply">
                 {/* 총 댓글 수 표시 */}
                 <div className="title">댓글 {totalReplyCount}</div>
                 {/* 댓글 입력 창 */}
@@ -280,7 +376,7 @@ export default function Page() {
                     </div>
                     {/* 댓글 입력 시 댓글 목록에 추가되도록 기능 구현 */}
                     <input ref={inputReply} type="text" />
-                    <button onClick={(e) => {
+                    <button onClick={() => {
                         const content = inputReply.current.value;
                         inputReply.current.value = "";
                         // 로그인 하지 않은 경우 등록 방지
@@ -294,9 +390,10 @@ export default function Page() {
                             })
                             return;
                         }
-                        axios.post("http://localhost:9999/party/comment/insert", {
-                            postId,
+                        // 로그인 한 경우 댓글 등록처리
+                        axios.post("http://localhost:9999/recipe/reply/insert", {
                             userNum,
+                            rcpNum,
                             content
                         })
                             .then((res) => {
@@ -309,16 +406,9 @@ export default function Page() {
                     }}>등록</button>
                 </div>
                 {/* 등록된 댓글 나열 */}
-                {currentReply.map((item, index) => {
-                    return (
-                        <PartyReply
-                            item={item}
-                            list={list}
-                            postId={postId}
-                            loginNickname={loginNickname}
-                        />
-                    );
-                })}
+                {currentReply.map((item, index) => (
+                    <ReplyItem key={index} {...item} rcpNum={rcpNum} loginNickname={loginNickname} />
+                ))}
                 {/* 댓글목록 페이징 처리 */}
                 <Pagination pageCount={Math.ceil(reply.length / replyPerPage)} onPageChange={handlePageChange} />
 
@@ -332,26 +422,26 @@ export default function Page() {
 
 // 구분선
 function Divider() {
-    return <div className="party_detail_divider" />;
+    return <div className="recipe_detail_divider" />;
 }
 
 // 팔로잉 하지 않을 때 활성화되는 버튼
 function Follow() {
     return (
         <span>
-      <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="16"
-          viewBox="0 -960 960 960"
-          width="16"
-      >
-        <path
-            fill="#f4f4f4"
-            d="M450-450H200v-60h250v-250h60v250h250v60H510v250h-60v-250Z"
-        />
-      </svg>
-      팔로우
-    </span>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="16"
+                viewBox="0 -960 960 960"
+                width="16"
+            >
+                <path
+                    fill="#f4f4f4"
+                    d="M450-450H200v-60h250v-250h60v250h250v60H510v250h-60v-250Z"
+                />
+            </svg>
+            팔로우
+        </span>
     )
 }
 
@@ -359,135 +449,95 @@ function Follow() {
 function Following() {
     return (
         <span>
-      <svg
-          xmlns="http://www.w3.org/2000/svg"
-          x="0px"
-          y="0px"
-          width="16"
-          height="16"
-          viewBox="0 0 30 30"
-      >
-        <path
-            fill="#f4f4f4"
-            d="M 26.980469 5.9902344 A 1.0001 1.0001 0 0 0 26.292969 6.2929688 L 11 21.585938 L 4.7070312 15.292969 A 1.0001 1.0001 0 1 0 3.2929688 16.707031 L 10.292969 23.707031 A 1.0001 1.0001 0 0 0 11.707031 23.707031 L 27.707031 7.7070312 A 1.0001 1.0001 0 0 0 26.980469 5.9902344 z"
-        />
-      </svg>
-      팔로잉
-    </span>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                width="16"
+                height="16"
+                viewBox="0 0 30 30"
+            >
+                <path
+                    fill="#f4f4f4"
+                    d="M 26.980469 5.9902344 A 1.0001 1.0001 0 0 0 26.292969 6.2929688 L 11 21.585938 L 4.7070312 15.292969 A 1.0001 1.0001 0 1 0 3.2929688 16.707031 L 10.292969 23.707031 A 1.0001 1.0001 0 0 0 11.707031 23.707031 L 27.707031 7.7070312 A 1.0001 1.0001 0 0 0 26.980469 5.9902344 z"
+                />
+            </svg>
+            팔로잉
+        </span>
     )
 }
 
-function PartyReply({ item, list, postId, loginNickname }) {
+// 요리 난이도에 따른 이미지 변경
+function CookingLevel({ level }) {
+    if (level == 'hard') {
+        return <img width='110' height='46' src="/images/level3.png" alt="level3 logo"></img>;
+    } else if (level == 'normal') {
+        return <img width='90' height='46' src="/images/level2.png" alt="level2 logo"></img>;
+    } else if (level == 'easy') {
+        return <img width='46' height='46' src="/images/level1.png" alt="level1 logo"></img>;
+    } else {
+        return null;
+    }
+}
 
-    // 편집 모드 상태 관리
-    const [isEditing, setIsEditing] = useState(false);
-    // 편집한 댓글 내용
-    const [editedContent, setEditedContent] = useState(item.content);
+// 조리순서별 이미지 슬라이더 처리
+function DetailSlider({ items }) {
 
-    const handleEditClick = () => {
-        setIsEditing(true);
-    };
+    const slickRef = useRef(null);
 
-    const handleDeleteClick = () => {
-        if (window.confirm("정말 삭제하시겠습니까?")) {
-            axios
-                .post(`http://localhost:9999/party/comment/delete/${item.commentId}`)
-                .then((res) => {
+    const prev = useCallback(() => slickRef.current.slickPrev(), [])
+    const next = useCallback(() => slickRef.current.slickNext(), [])
 
-                    Swal.fire({
-                        icon: "confirm",
-                        title: "삭제",
-                        text: "삭제되었습니다",
-                        showCancelButton: false,
-                        confirmButtonText: "확인"
-                    })
-
-                    setEditedContent("삭제된 댓글입니다");
-                })
-                .catch((error) => {
-                    Swal.fire({
-                        icon: "warning",
-                        title: "경고",
-                        text: "삭제 중 오류가 발생하였습니다.",
-                        showCancelButton: false,
-                        confirmButtonText: "확인"
-                    })
-
-                });
-        }
-    };
-
-    const handleSaveEdit = () => {
-        axios
-            .post("http://localhost:9999/recipe/reply/update", {
-                commentId: item.commentId,
-                content: editedContent
-            })
-            .then((res) => {
-                Swal.fire({
-                    icon: "confirm",
-                    title: "완료",
-                    text: "댓글이 수정되었습니다.",
-                    showCancelButton: false,
-                    confirmButtonText: "확인"
-                })
-                setIsEditing(false);
-                setEditedContent(editedContent);
-            })
-            .catch((error) => {
-                Swal.fire({
-                    icon: "warning",
-                    title: "경고",
-                    text: "수정 중 오류가 발생하였습니다.",
-                    showCancelButton: false,
-                    confirmButtonText: "확인"
-                })
-            });
-    };
-
-    const handleCancelEdit = () => {
-        setIsEditing(false);
-        setEditedContent(item.content);
-    };
+    const settings = {
+        dots: false,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: true
+    }
 
     return (
-        <div key={item.commentId} className="party_detail_reply_item">
-            <div className="image_container">
-                {/* 댓글 작성자 프로필 */}
-                <img src={`http://localhost:9999/user/image/${item.userProfile}`} alt="reply thumb" />
-            </div>
-            <div>
-                <div className="insight">
-                    {/* 댓글 작성자 닉네임 */}
-                    <span>{item.userNickname}</span>
-                    {/* 댓글 작성일자 */}
-                    <span>{item.createdAt}</span>
-                    {item.userNickname === loginNickname && !isEditing && (
-                        <>
-                            <button onClick={handleEditClick}>수정</button>
-                            <button onClick={handleDeleteClick}>삭제</button>
-                        </>
-                    )}
-                </div>
-                {isEditing ? (
-                    // 수정 모드에서는 입력창을 표시하고 버튼으로 저장 및 취소 기능 제공
-                    <div className="party_detail_reply_update_container">
-            <textarea
-                rows="4"
-                cols="50"
-                value={editedContent}
-                onChange={(e) => setEditedContent(e.target.value)}
-            />
-                        <div>
-                            <button onClick={handleCancelEdit}>취소</button>
-                            <button onClick={handleSaveEdit}>저장</button>
-                        </div>
+        <div>
+            <Slider {...settings} ref={slickRef} nextArrow={<NextArrow />} prevArrow={<PrevArrow />}>
+                {items.map((subImg, index) => (
+                    <div key={index}>
+                        <img
+                            src={`http://localhost:9999/recipe/image/${subImg}`}
+                            alt={`Recipe${index}`}
+                        />
                     </div>
-                ) : (
-                    // 수정 모드가 아닐 때는 댓글 내용 표시
-                    <p>{item.deleted==='yes' ? "삭제된 댓글입니다" : editedContent}</p>
-                )}
-            </div>
+                ))}
+            </Slider>
         </div>
     )
+}
+
+// 이미지 슬라이더에서 다음 사진으로 넘기는 버튼
+function NextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={className}
+            style={{
+                ...style,
+                display: "block",
+                filter: "opacity(0.5) drop-shadow(0 0 0 #625f5f)",
+                zoom: "2.5"
+            }}
+            onClick={onClick}
+        />
+    );
+}
+
+// 이미지 슬라이더에서 이전 사진으로 넘기는 버튼
+function PrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={className}
+            style={{...style, display: "block", filter: "opacity(0.5) drop-shadow(0 0 0 #625f5f)", zoom: "2.5" }}
+            onClick={onClick}
+        />
+    );
 }

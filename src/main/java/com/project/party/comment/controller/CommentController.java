@@ -16,7 +16,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    //댓글 등록
+    //댓글 작성
     @PostMapping("/insert")
     public ResponseEntity<?> insertComment(@RequestBody CommentDto commentDto) {
         commentService.insertComment(commentDto);
@@ -37,15 +37,15 @@ public class CommentController {
         return new ResponseEntity<>("Delete Complete", HttpStatus.OK);
     }
 
-    //게시글 댓글 목록 조회
+    //게시글 댓글 목록
     @GetMapping("/commentList/{postId}")
     public ResponseEntity<List<CommentDto>> getCommentList(@PathVariable int postId) {
         return ResponseEntity.ok(commentService.getCommentList(postId));
     }
 
-    //나의 댓글 목록 조회
+    //나의 댓글 목록
     @GetMapping("/myCommentList/{userNum}")
-    public ResponseEntity<List<CommentDto>> getMyCommentList(@PathVariable int userNum){
+    public ResponseEntity<List<CommentDto>> getMyCommentList(@PathVariable int userNum) {
         return ResponseEntity.ok(commentService.getMyCommentList(userNum));
     }
 }

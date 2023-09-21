@@ -6,6 +6,7 @@ import Pagination from '../../lib/Pagination.jsx';
 import { Link } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
 
+
 const BoardPartyCardList = () => {
     const [cards, setCards] = useState([]);
     //초기값을 빈 배열로 설정
@@ -26,7 +27,6 @@ const BoardPartyCardList = () => {
         // 사용자 토큰에서 userNum 추출, 없으면 null
 
         const apiUrl = userNum ? `http://localhost:9999/party/list?userNum=${userNum}` : 'http://localhost:9999/party/list';
-        
         axios.get(apiUrl)
             .then(response => {
                 setCards(response.data);
@@ -49,7 +49,6 @@ const BoardPartyCardList = () => {
 
     //페이지 변경을 처리하며, 현재 페이지에 맞게 표시할 카드들을 슬라이스하여 렌더링하는 함수
     const handlePageChange = (selectedPage) => {
-        console.log("Selected page:", selectedPage); // 현재 페이지 로깅
         setCurrentPage(selectedPage);
     };
 

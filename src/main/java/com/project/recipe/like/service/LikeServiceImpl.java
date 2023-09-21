@@ -2,25 +2,25 @@ package com.project.recipe.like.service;
 
 import com.project.recipe.like.dao.LikeMapper;
 import com.project.recipe.like.dto.LikeDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class LikeServiceImpl implements LikeService {
-    @Autowired
-    private LikeMapper likeMapper;
+    private final LikeMapper likeMapper;
 
     //좋아요 토글 메소드
     @Override
     public String toggleLike(LikeDto dto) {
         int likeStatus = likeMapper.isLikedByUser(dto);
-        if(likeStatus == 1){
+        if (likeStatus == 1) {
             //이미 좋아요를 누른 경우, 좋아요 기록 삭제
             likeMapper.deleteLike(dto);
             return "Like Deleted!";
-        }else{
+        } else {
             //좋아요를 누르지 않은 경우, 좋아요 기록 저장
             likeMapper.insertLike(dto);
             return "Like Inserted!";

@@ -43,4 +43,4 @@ CREATE TABLE recipe_like(
     FOREIGN KEY (rcp_num) REFERENCES recipe(rcp_num),
 	user_num INT NOT NULL, -- 작성자
 	FOREIGN KEY (user_num) REFERENCES user(user_num)
-);
+)charset=utf8;
