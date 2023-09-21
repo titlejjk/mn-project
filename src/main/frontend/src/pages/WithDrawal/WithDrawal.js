@@ -4,7 +4,7 @@ import axios from "axios";
 import jwt_decode from "jwt-decode"; // jwt-decode 라이브러리를 불러옵니다.
 import "./WithDrawal.css";
 
-function WithDrawal() {
+function WithDrawal({ tokenChanged }) {
   const navigate = useNavigate();
   const handleWithDrawal = async () => {
     try {
@@ -20,6 +20,8 @@ function WithDrawal() {
       const response = await axios.post(`/user/deactivate?userNum=${userNum}`);
 
       if (response.status === 200) {
+        localStorage.removeItem('login-token');
+        tokenChanged(null);
         // 회원 탈퇴가 성공하면 로컬 스토리지를 클리어하고 홈페이지로 이동합니다.
         localStorage.clear();
         alert("회원 탈퇴가 성공적으로 처리되었습니다.");

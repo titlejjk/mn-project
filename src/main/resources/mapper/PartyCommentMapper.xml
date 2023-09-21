@@ -37,8 +37,7 @@
     <!--축하파티 게시판 댓글 조회-->
     <select id="getCommentList" parameterType="int" resultType="com.project.party.comment.dto.CommentDto">
         SELECT
-            p.comment_id AS commentId, p.post_id AS postId, p.user_num AS userNum, p.content, created_at AS createdAt, p.updated_at AS updatedAt,
-            p.deleted AS deleted, p.updated_at AS updatedAt,
+            p.comment_id AS commentId, p.post_id AS postId, p.user_num AS userNum, p.content, p.deleted AS deleted, p.regdate AS regdate,
             u.user_nickname AS userNickname, u.user_profile AS userProfile
         FROM party_comment p
         JOIN user u ON p.user_num = u.user_num

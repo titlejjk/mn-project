@@ -54,7 +54,10 @@ const UserImageCategory = ({ handleNumChange }) => {
                             key={index}
                             onClick={() => handleNumChange(userCategory.userNum)}
                         >
-                            <img src={`http://localhost:9999/party/image/${userCategory.userProfile}`} alt={userCategory.userNickname} />
+                            <img src={
+                                userCategory.userProfile ? `http://localhost:9999/party/image/${userCategory.userProfile}` : "/images/default_profile.png"
+                                } 
+                                alt={userCategory.userNickname} />
                             <p>{userCategory.userNickname}</p>
                         </Link>
                     </div>

@@ -72,7 +72,7 @@ const Login = ({tokenChanged}) => {
             showConfirmButton: false,
             timer: 1500
           })
-          navigate("/admin"); // 관리자 페이지로 이동
+          navigate("/adminPage"); // 관리자 페이지로 이동
         } else {
           Swal.fire({
             icon: "success",

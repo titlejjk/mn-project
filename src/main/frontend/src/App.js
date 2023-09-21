@@ -23,6 +23,7 @@ import ResetPwd from "./pages/ResetPwd/ResetPwd.js";
 import MyComment from "./pages/MyPage/MyComment.js";
 import MyContent from "./pages/MyPage/MyContent.js";
 import MyRecipe from "./pages/Recipe/MyRecipeBoard";
+import WithDrawal from "./pages/WithDrawal/WithDrawal.js"
 import PetRecipeBoard from "./pages/Recipe/PetRecipeBoard";
 
 
@@ -54,7 +55,8 @@ function App() {
                 <Route path="/login" element={<Login tokenChanged={handleTokenChanged}/>} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/MyPage" element={<MyPage />} />
-                <Route path="/admin" element={<AdminPage />} />
+                <Route path="/withDrawal" element={<WithDrawal tokenChanged={handleTokenChanged}/>} />
+                <Route path="/adminPage" element={<AdminPage />} />
                 <Route path="/resetPwd" element={<ResetPwd />} />
                 <Route path="/myContent" element={<MyContent />} />
                 <Route path="/myComment" element={<MyComment />} />

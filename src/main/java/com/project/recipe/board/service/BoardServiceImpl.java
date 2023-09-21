@@ -10,9 +10,9 @@ import com.project.recipe.image.sub.service.SubImgService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.List;
 
 @Service
@@ -37,6 +37,7 @@ public class BoardServiceImpl implements BoardService {
 
     //게시글 + 메인이미지 저장 처리
     @Override
+    @Transactional
     public void saveContent(BoardDto dto) {
         //필수 입력요소가 누락되었을 경우 예외 발생
         if (dto.getTitle() == null || dto.getCookingLevel() == null || dto.getIngredients() == null || dto.getContent() == null) {
@@ -53,6 +54,7 @@ public class BoardServiceImpl implements BoardService {
 
     //게시글 + 메인이미지 수정 처리
     @Override
+    @Transactional
     public void updateContent(BoardDto dto, List<MultipartFile> subImages) {
         try {
             //새로운 메인 이미지 가져오기
@@ -95,23 +97,13 @@ public class BoardServiceImpl implements BoardService {
         //keyword가 있을 경우 검사
         if (keyword != null && !"".equals(keyword)) {
             //검색조건이 "작성자"인 경우
-            if ("userNickname".equals(condition)) {
+            if ("title".equals(condition)) {
                 //"작성자" 검색조건이 선택되었을 때 사용자가 입력한 검색키워드를 writer 필드에 저장
-                dto.setUserNickname(keyword);
+                dto.setTitle(keyword);
             }
         }
         //검색조건에 맞는 게시글 목록을 조회
         List<BoardDto> rcpList = rcpMapper.getList(dto);
-        for (BoardDto recipe : rcpList) {
-            //메인 이미지 파일 경로 생성 (이미지 경로 + 파일명)
-            String mainPath = imgPath + File.separator + recipe.getMainSaveName();
-            //이미지 파일 존재 여부 확인
-            File imgFile = new File(mainPath);
-            if (imgFile.exists()) {
-                //이미지 파일이 존재하는 경우에만 레시피 객체에 이미지 경로 추가
-                recipe.setMainPath(mainPath);
-            }
-        }
         //수정된 게시글 목록 반환
         return rcpList;
     }
@@ -125,28 +117,17 @@ public class BoardServiceImpl implements BoardService {
         //keyword가 있을 경우 검사
         if (keyword != null && !"".equals(keyword)) {
             //검색조건이 "작성자"인 경우
-            if ("userNickname".equals(condition)) {
+            if ("title".equals(condition)) {
                 //"작성자" 검색조건이 선택되었을 때 사용자가 입력한 검색키워드를 writer 필드에 저장
-                dto.setUserNickname(keyword);
+                dto.setTitle(keyword);
             }
         }
         //검색조건에 맞는 게시글 목록을 조회
         List<BoardDto> rcpList = rcpMapper.getListWithLikes(dto);
-        for (BoardDto recipe : rcpList) {
-            //메인 이미지 파일 경로 생성 (이미지 경로 + 파일명)
-            String mainPath = imgPath + File.separator + recipe.getMainSaveName();
-            //이미지 파일 존재 여부 확인
-            File imgFile = new File(mainPath);
-            if (imgFile.exists()) {
-                //이미지 파일이 존재하는 경우에만 레시피 객체에 이미지 경로 추가
-                recipe.setMainPath(mainPath);
-            }
-        }
-        //수정된 게시글 목록 반환
         return rcpList;
     }
 
-    //게시글 상세 처리
+    //게시글 상세 조회
     @Override
     public BoardDto getDetail(int rcpNum) {
         //게시글 상세정보 조회

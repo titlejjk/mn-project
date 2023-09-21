@@ -285,7 +285,7 @@ export default function Page() {
                                 Swal.fire({
                                     icon: "warning",
                                     title: "알림",
-                                    text: "로그인 후 좋아요 할 수 있어요!",
+                                    text: "로그인 후 팔로우 할 수 있어요!",
                                     showCancelButton: false,
                                     confirmButtonText: "확인"
                                 })
@@ -297,11 +297,8 @@ export default function Page() {
                             })
                                 .then(res => {
                                     setIsFollowing(!isFollowing);
-                                    console.log("눌림")
-                                    console.log(res.data);
                                 })
                                 .catch(error => {
-                                    console.log("안눌림")
                                     console.log(error);
                                 })
                         }}>
@@ -371,21 +368,23 @@ export default function Page() {
                 <div className="input">
                     <div>
                         <img
-                            src={`http://localhost:9999/user/image/${loginProfile}`}
+                            src={
+                                loginProfile ? `http://localhost:9999/user/image/${loginProfile}` : "/images/default_profile.png"
+                            }
                             alt="user thumb"
                         />
                     </div>
                     {/* 댓글 입력 시 댓글 목록에 추가되도록 기능 구현 */}
                     <input ref={inputReply} type="text" />
                     <button onClick={() => {
-                        const rplContent = inputReply.current.value;
+                        const content = inputReply.current.value;
                         inputReply.current.value = "";
                         // 로그인 하지 않은 경우 등록 방지
                         if (!loginEmail) {
                             Swal.fire({
                                 icon: "warning",
                                 title: "알림",
-                                text: "로그인 후 좋아요 할 수 있어요!",
+                                text: "로그인 후 댓글을 작성할 수 있어요!",
                                 showCancelButton: false,
                                 confirmButtonText: "확인"
                             })
@@ -395,7 +394,7 @@ export default function Page() {
                         axios.post("http://localhost:9999/recipe/reply/insert", {
                             userNum,
                             rcpNum,
-                            rplContent
+                            content
                         })
                             .then((res) => {
                                 console.log(res.data);
@@ -504,6 +503,7 @@ function DetailSlider({ items }) {
                 {items.map((subImg, index) => (
                     <div key={index}>
                         <img
+                            className="recipe_detail_step_item_subImg" 
                             src={`http://localhost:9999/recipe/image/${subImg}`}
                             alt={`Recipe${index}`}
                         />
@@ -537,7 +537,7 @@ function PrevArrow(props) {
     return (
         <div
             className={className}
-            style={{...style, display: "block", filter: "opacity(0.5) drop-shadow(0 0 0 #625f5f)", zoom: "2.5" }}
+            style={{ ...style, display: "block", filter: "opacity(0.5) drop-shadow(0 0 0 #625f5f)", zoom: "2.5" }}
             onClick={onClick}
         />
     );

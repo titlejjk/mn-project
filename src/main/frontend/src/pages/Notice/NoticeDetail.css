@@ -9,13 +9,17 @@
 }
 
 .notice_detail_titlebox  h2{
-    font-size: 22px;
+    font-size: 25px;
     font-weight: 700;
+}
+.notice_detail_titlebox{
+    margin-top: 90px;
 }
 
 .notice_detail_title{
     display: flex;
     margin: 20px 0;
+    font-size: 20px;
 }
 
 .notice_detail_title > div:first-child{
@@ -32,10 +36,15 @@
     font-weight: 600;
 }
 
+.notice_detail_edit_container > button:nth-child(2){
+    margin-left: 10px;
+}
+
 .notice_detail_content{
     min-height: 300px;
     margin: 30px 0;
     white-space: pre;
+    line-height: 25px;
 }
 
 .notice_detail_divider{
@@ -45,11 +54,25 @@
 }
 
 .notice_detail_listbtn{
-    float: right;
     margin: 10px 0;
     padding: 10px;
     background-color: white;
     border: 1px solid #adadad;
     border-radius: 5px;
     font-size: 17px;
+}
+
+.notice_detail_btn{
+    margin: 10px 0;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #adadad;
+    border-radius: 5px;
+    font-size: 17px;
+
+}
+.notice_edit_container{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
 }

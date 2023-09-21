@@ -6,11 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 // 댓글을 생성하는 function
-function ReplyItem({ rcpNum, rplNum, userProfile, userNickname, rplContent, rplRegdate, rplDeleted, loginNickname }) {
+function ReplyItem({ rcpNum, rplNum, userProfile, userNickname, content, regdate, deleted, loginNickname }) {
     const navigate = useNavigate();
 
     const [isEditing, setIsEditing] = useState(false); // 편집 모드 상태 관리
-    const [editedContent, setEditedContent] = useState(rplContent); // 편집한 댓글 내용
+    const [editedContent, setEditedContent] = useState(content); // 편집한 댓글 내용
 
     const handleEditClick = () => {
       setIsEditing(true);
@@ -22,7 +22,7 @@ function ReplyItem({ rcpNum, rplNum, userProfile, userNickname, rplContent, rplR
           .post(`http://localhost:9999/recipe/reply/delete?rplNum=${rplNum}`)
           .then((res) => {
             alert("삭제 되었습니다.");
-            setEditedContent("삭제된 댓글입니다");
+            setEditedContent("삭제된 댓글 입니다");
           })
           .catch((error) => {
             alert("삭제 중 오류가 발생하였습니다.");
@@ -38,7 +38,7 @@ function ReplyItem({ rcpNum, rplNum, userProfile, userNickname, rplContent, rplR
       axios
           .post("http://localhost:9999/recipe/reply/update", {
             rplNum: rplNum,
-            rplContent: editedContent
+            content: editedContent
           })
           .then((res) => {
             alert("댓글이 수정되었습니다.");
@@ -52,20 +52,25 @@ function ReplyItem({ rcpNum, rplNum, userProfile, userNickname, rplContent, rplR
 
     const handleCancelEdit = () => {
       setIsEditing(false);
-      setEditedContent(rplContent);
+      setEditedContent(content);
     };
 
     return (
       <div className="recipe_detail_reply_item">
         <div className="image_container">
           {/* 작성자 프로필 */}
-          <img src={`http://localhost:9999/recipe/image/${userProfile}`} alt="reply thumb" />
+          <img 
+            src={
+              userProfile ? `http://localhost:9999/recipe/image/${userProfile}` : "/images/default_profile.png"
+            } 
+            alt="reply thumb" 
+          />
         </div>
         <div>
           <div className="insight">
             <span>{userNickname}</span>
-            <span>{rplRegdate}</span>
-            {userNickname === loginNickname && !isEditing && (
+            <span>{regdate}</span>
+            {userNickname === loginNickname && !isEditing && deleted==='no' && (
               <>
                 <button onClick={handleEditClick}>수정</button>
                 <button onClick={handleDeleteClick}>삭제</button>
@@ -87,8 +92,7 @@ function ReplyItem({ rcpNum, rplNum, userProfile, userNickname, rplContent, rplR
               </div>
             </div>
           ) : (
-            // 수정 모드가 아닐 때는 댓글 내용 표시
-            <p>{editedContent}</p>
+            <p>{ deleted === 'yes' ? '삭제된 댓글 입니다 ' : editedContent }</p>
           )}
         </div>
       </div>
