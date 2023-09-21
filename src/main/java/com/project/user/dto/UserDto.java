@@ -4,6 +4,7 @@ import com.project.user.dto.UserEnumClass.UserGender;
 import com.project.user.dto.UserEnumClass.UserRole;
 import com.project.user.dto.UserEnumClass.UserStatus;
 import lombok.*;
+import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 //모든 파라미터 생성자 생성
 @AllArgsConstructor
-@Builder
+@Builder(toBuilder = true)//부분업데이트 지원
 public class UserDto {
 
     private int userNum;
@@ -41,5 +42,6 @@ public class UserDto {
         this.userNickname = signUpRequest.getUserNickname();
         this.petTypeIds = signUpRequest.getPetTypeIds();
     }
+
 
 }

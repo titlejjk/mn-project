@@ -8,6 +8,7 @@ import com.project.recipe.board.dto.BoardDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -26,18 +27,14 @@ public class PostServiceImpl implements PostService {
     private String imgPath;
 
     @Override
+    @Transactional
     public void insertPost(PostDto postDto) {
         postMapper.insertPost(postDto);
     }
 
     @Override
-    public List<PostDto> getList(int pageNum, String keyword, String condition) {
-        final int PAGE_ROW_COUNT = 6;
-        int startRowNum = 1 + (pageNum -1 ) * PAGE_ROW_COUNT;
-        int endRowNum = pageNum * PAGE_ROW_COUNT;
+    public List<PostDto> getList(String keyword, String condition) {
         PostDto dto = new PostDto();
-        dto.setStartRowNum(startRowNum);
-        dto.setEndRowNum(endRowNum);
         //keyword가 있을 경우 검사
         if (keyword != null && !"".equals(keyword)) {
             //검색조건이 "작성자"인 경우
@@ -73,15 +70,13 @@ public class PostServiceImpl implements PostService {
     public PostDto getDetail(int postId) {
         //게시글 상세정보 조회
         PostDto postDetail = postMapper.getDetail(postId);
-        //게시글 번호로 이미지 조회
-        String imageUrl = postMapper.getImage(postId);
-        postDetail.setImageUrl(imageUrl);
         //조회수 증가
         postMapper.addViewCount(postId);
         return postDetail;
     }
 
     @Override
+    @Transactional
     public void updatePost(PostDto postDto, MultipartFile image) {
         try {
             //게시글 수정
@@ -93,10 +88,8 @@ public class PostServiceImpl implements PostService {
                 int postId = postDto.getPostId();
                 //이미지 삭제
                 deleteImage(postId);
-                //이미지 경로
-                String imageUrl = fileUploadService.uploadFile(newImage);
-                //이미지 경로 저장
-                imageDto.setImageUrl(imageUrl);
+                //이미지 저장
+                insertImage(image, postId);
             }
         } catch (Exception e) {
             e.printStackTrace();

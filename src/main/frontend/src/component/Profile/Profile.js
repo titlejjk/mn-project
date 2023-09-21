@@ -30,6 +30,7 @@ const Profile = () => {
             const profileResponse = await axios.get(
                 `/user/profile/${userEmail}`
             );
+
             const userData = profileResponse.data;
             const userProfile = userData.userProfile; // 프로필 이미지 파일 이름으로 수정
 
@@ -83,7 +84,9 @@ const Profile = () => {
       <div className="profile-container">
         <div className="profile-image">
           <img
-              src={profileData.profileImage || "images/default_profile.png"}
+              src={
+                profileData.profileImage ? profileData.profileImage : "images/default_profile.png"
+              }
               alt="Profile"
           />
         </div>

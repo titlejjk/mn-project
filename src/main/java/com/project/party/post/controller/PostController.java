@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,8 +36,9 @@ public class PostController {
         InputStream is = new FileInputStream(absolutePath);
         return IOUtils.toByteArray(is);
     }
-
+    
     //게시글 등록
+    @Transactional
     @PostMapping("/insert")
     public ResponseEntity<?> createPost(@ModelAttribute PostDto postDto, @RequestParam("image") MultipartFile image) {
         try {
@@ -51,15 +53,17 @@ public class PostController {
         }
     }
 
+    //게시글 목록 조회
     @GetMapping("/list")
-    public ResponseEntity<List<PostDto>> getList(@RequestParam(defaultValue = "1") int pageNum,
-                                                 @RequestParam(name = "keyword", required = false) String keyword,
+    public ResponseEntity<List<PostDto>> getList(@RequestParam(name = "keyword", required = false) String keyword,
                                                  @RequestParam(name = "condition", required = false) String condition,
                                                  @RequestParam(required = false) Integer userNum) {
-        List<PostDto> postList = postService.getListWithLikes(keyword, condition, userNum);
+        List<PostDto> postList;
         if(userNum == null){
-            postList = postService.getList(pageNum, keyword, condition);
+            postList = postService.getList(keyword, condition);
             postList.forEach(post -> post.setLiked(0));
+        }else{
+            postList = postService.getListWithLikes(keyword, condition, userNum);
         }
         return ResponseEntity.ok(postList);
     }
@@ -72,9 +76,11 @@ public class PostController {
     }
 
     //게시글 수정
+    @Transactional
     @PostMapping("/update")
-    public ResponseEntity<Void> updatePost(@ModelAttribute PostDto postDto) {
-        postService.updatePost(postDto, postDto.getImage());
+    public ResponseEntity<Void> updatePost(@ModelAttribute PostDto postDto,
+                                           @RequestParam("image") MultipartFile image) {
+        postService.updatePost(postDto, image);
         return ResponseEntity.ok().build();
     }
 

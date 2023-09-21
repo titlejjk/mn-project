@@ -58,7 +58,7 @@ export default function Page() {
                 setLoginEmail(decodedToken.userEmail);
                 setLoginNickname(decodedToken.userNickname);
             } else {
-            console.error("userNum 없음");
+                console.error("userNum 없음");
             }
         } else {
 
@@ -282,7 +282,13 @@ export default function Page() {
                         onClick={() => {
                             // 로그인 하지 않은 경우 등록 방지
                             if (!loginEmail) {
-                                alert("로그인 후 이용해주시기 바랍니다");
+                                Swal.fire({
+                                    icon: "warning",
+                                    title: "알림",
+                                    text: "로그인 후 팔로우 할 수 있어요!",
+                                    showCancelButton: false,
+                                    confirmButtonText: "확인"
+                                })
                                 return;
                             }
                             axios.post("http://localhost:9999/follow/toggle", {
@@ -291,11 +297,8 @@ export default function Page() {
                             })
                                 .then(res => {
                                     setIsFollowing(!isFollowing);
-                                    console.log("눌림")
-                                    console.log(res.data);
                                 })
                                 .catch(error => {
-                                    console.log("안눌림")
                                     console.log(error);
                                 })
                         }}>
@@ -318,7 +321,7 @@ export default function Page() {
                                 title: '정말 삭제하시겠습니까?',
                                 text: '다시 되돌릴 수 없습니다. 신중하세요.',
                                 icon: 'warning',
-                                
+
                                 showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
                                 confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
                                 cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
@@ -328,26 +331,26 @@ export default function Page() {
                                 // 만약 Promise리턴을 받으면,
                                 if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
                                     axios
-                                    .delete(
-                                        `http://localhost:9999/recipe/delete?rcpNum=${rcpNum}`
-                                    )
-                                    .then((res) => {
-                                        Swal.fire({
-                                            icon: "success",
-                                            title: "삭제되었습니다",
-                                            showConfirmButton: false,
-                                            timer: 1500
+                                        .delete(
+                                            `http://localhost:9999/recipe/delete?rcpNum=${rcpNum}`
+                                        )
+                                        .then((res) => {
+                                            Swal.fire({
+                                                icon: "success",
+                                                title: "삭제되었습니다",
+                                                showConfirmButton: false,
+                                                timer: 1500
+                                            })
+                                            navigate("/recipeBoard");
                                         })
-                                        navigate("/recipeBoard");
-                                    })
-                                    .catch((error) => {
-                                        Swal.fire({
-                                            icon: "error",
-                                            title: "삭제 중 오류가 발생했습니다",
-                                            showConfirmButton: false,
-                                            timer: 1500
-                                        })
-                                    });
+                                        .catch((error) => {
+                                            Swal.fire({
+                                                icon: "error",
+                                                title: "삭제 중 오류가 발생했습니다",
+                                                showConfirmButton: false,
+                                                timer: 1500
+                                            })
+                                        });
                                 }
                             });
                         }}
@@ -365,25 +368,33 @@ export default function Page() {
                 <div className="input">
                     <div>
                         <img
-                            src={`http://localhost:9999/user/image/${loginProfile}`}
+                            src={
+                                loginProfile ? `http://localhost:9999/user/image/${loginProfile}` : "/images/default_profile.png"
+                            }
                             alt="user thumb"
                         />
                     </div>
                     {/* 댓글 입력 시 댓글 목록에 추가되도록 기능 구현 */}
                     <input ref={inputReply} type="text" />
                     <button onClick={() => {
-                        const rplContent = inputReply.current.value;
+                        const content = inputReply.current.value;
                         inputReply.current.value = "";
                         // 로그인 하지 않은 경우 등록 방지
                         if (!loginEmail) {
-                            alert("로그인 후 이용해주시기 바랍니다");
+                            Swal.fire({
+                                icon: "warning",
+                                title: "알림",
+                                text: "로그인 후 댓글을 작성할 수 있어요!",
+                                showCancelButton: false,
+                                confirmButtonText: "확인"
+                            })
                             return;
                         }
                         // 로그인 한 경우 댓글 등록처리
                         axios.post("http://localhost:9999/recipe/reply/insert", {
                             userNum,
                             rcpNum,
-                            rplContent
+                            content
                         })
                             .then((res) => {
                                 console.log(res.data);
@@ -492,6 +503,7 @@ function DetailSlider({ items }) {
                 {items.map((subImg, index) => (
                     <div key={index}>
                         <img
+                            className="recipe_detail_step_item_subImg" 
                             src={`http://localhost:9999/recipe/image/${subImg}`}
                             alt={`Recipe${index}`}
                         />
@@ -525,7 +537,7 @@ function PrevArrow(props) {
     return (
         <div
             className={className}
-            style={{...style, display: "block", filter: "opacity(0.5) drop-shadow(0 0 0 #625f5f)", zoom: "2.5" }}
+            style={{ ...style, display: "block", filter: "opacity(0.5) drop-shadow(0 0 0 #625f5f)", zoom: "2.5" }}
             onClick={onClick}
         />
     );

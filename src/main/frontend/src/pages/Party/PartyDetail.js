@@ -41,7 +41,6 @@ export default function Page() {
       if (userToken) {
           // 토큰 해석
           decodedToken = jwt_decode(userToken); // jwt 모듈을 사용하여 토큰 해석
-          console.log("토큰 해석")
           if (decodedToken && decodedToken.userNum) {
               // 해석한 토큰에 이메일 정보가 있는지 확인하고, 있다면 이메일 값과 생일, 닉네임을 가져와서 설정
               setUserNum(decodedToken.userNum);
@@ -76,7 +75,6 @@ export default function Page() {
     axios.get(`http://localhost:9999/party/detail/${postId}`)
       .then(res => {
         setList(res.data);
-        console.log(res.data);
 
         // 팔로잉 이메일 업데이트
         setFollowingEmail(res.data.userEmail);
@@ -184,7 +182,13 @@ export default function Page() {
             onClick={() => {
               // 로그인 하지 않은 경우 등록 방지
               if (!loginEmail) {
-                alert("로그인 후 이용해주시기 바랍니다");
+                Swal.fire({
+                  icon: "warning",
+                  title: "알림",
+                  text: "로그인 후 팔로우 할 수 있어요!",
+                  showCancelButton: false,
+                  confirmButtonText: "확인"
+                })
                 return;
               }
               axios.post("http://localhost:9999/follow/toggle", {
@@ -193,7 +197,6 @@ export default function Page() {
               })
                 .then(res => {
                   setIsFollowing(!isFollowing);
-                  console.log(res.data);
                 })
                 .catch(error => {
                   console.log(error);
@@ -265,7 +268,9 @@ export default function Page() {
         <div className="input">
           <div>
             <img
-              src={`http://localhost:9999/user/image/${loginProfile}`}
+              src={
+                loginProfile ? `http://localhost:9999/user/image/${loginProfile}` : "/images/default_profile.png"
+              }
               alt="user thumb"
             />
           </div>
@@ -276,7 +281,13 @@ export default function Page() {
             inputReply.current.value = "";
             // 로그인 하지 않은 경우 등록 방지
             if (!loginEmail) {
-              alert("로그인 후 이용해주시기 바랍니다");
+              Swal.fire({
+                icon: "warning",
+                title: "알림",
+                text: "로그인 후 댓글을 작성할 수 있어요!",
+                showCancelButton: false,
+                confirmButtonText: "확인"
+              })
               return;
             }
             axios.post("http://localhost:9999/party/comment/insert", {
@@ -412,7 +423,12 @@ function PartyReply({ item, list, postId, loginNickname }) {
     <div key={item.commentId} className="party_detail_reply_item">
       <div className="image_container">
         {/* 댓글 작성자 프로필 */}
-        <img src={`http://localhost:9999/user/image/${item.userProfile}`} alt="reply thumb" />
+        <img 
+            src={
+              item.userProfile ? `http://localhost:9999/user/image/${item.userProfile}` : "/images/default_profile.png"
+            } 
+            alt="reply thumb" 
+          />
       </div>
       <div>
         <div className="insight">

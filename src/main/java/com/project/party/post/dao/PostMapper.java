@@ -31,9 +31,6 @@ public interface PostMapper {
     //이미지 업로드 메서드
     void insertImage(PostImageDto postImageDto);
 
-    //하나의 글에 대한 이미지 조회
-    String getImage(int postId);
-
     //이미지 삭제 메서드
     void deleteImage(int postId);
 

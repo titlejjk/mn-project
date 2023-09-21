@@ -99,10 +99,10 @@ const MyCommentList = () => {
             {buttonType === 'recipe' ? (
               <Link to={`/RecipeDetail?rcpNum=${card.rcpNum}`}>
               <div className='my-comment-content'>
-              {card.rplContent}
+              {card.content}
               </div>
               <div className="my-comment-date">
-              <span>{card.rplRegdate}</span>
+              <span>{card.regdate}</span>
               </div>
               </Link>
             ) : (
@@ -111,7 +111,7 @@ const MyCommentList = () => {
               {card.content}
               </div>
               <div className="my-comment-date">
-              <span>{card.createdAt}</span>
+              <span>{card.regdate}</span>
               </div>
               </Link>
             )}
