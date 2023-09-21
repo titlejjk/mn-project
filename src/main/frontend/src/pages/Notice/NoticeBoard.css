@@ -2,12 +2,11 @@
 .notice-top{
     display: flex;
     justify-content: space-between;
-    margin: 100px 0 80px 0;
+    margin: 90px 0 50px 0;
 }
 
 .notice-list{
-    width: 1200px;
-    margin: 0 auto;
+    width: 1280px;
 }
 .notice-title{
     font-size: 30px;
@@ -32,7 +31,7 @@
     content: "";
     display: block;
     border: 0.8px solid #bcbcbc;
-    width: 1200px;
+    width: 1280px;
     margin-top: 30px;
 }
 
