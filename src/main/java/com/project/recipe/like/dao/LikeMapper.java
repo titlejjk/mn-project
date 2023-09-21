@@ -1,5 +1,6 @@
 package com.project.recipe.like.dao;
 
+import com.project.party.likes.dto.LikesDto;
 import com.project.recipe.like.dto.LikeDto;
 import org.apache.ibatis.annotations.Mapper;
 

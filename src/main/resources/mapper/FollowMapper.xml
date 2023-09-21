@@ -25,7 +25,7 @@
         SELECT COUNT(*) FROM follows_new WHERE follower_email = #{userEmail}
     </select>
 
-    <!-- 팔로잉 수 조회 -->
+    <!-- 팔로잉 수 조회 --> 
     <select id="countFollowings" resultType="int">
         SELECT COUNT(*) FROM follows_new WHERE following_email = #{userEmail}
     </select>

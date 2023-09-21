@@ -24,6 +24,8 @@ public class FileApiController {
     public List<FileDto> findAllFileByPostId(@PathVariable final Long noticeId) {
         return fileService.findAllFileByNoticeId(noticeId);
     }
+
+
     // 첨부파일 다운로드
     // test 주석 추가
     @GetMapping("/file/{noticeId}/download/{fileId}")

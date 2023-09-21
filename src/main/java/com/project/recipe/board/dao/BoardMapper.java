@@ -34,5 +34,4 @@ public interface BoardMapper {
     //카테고리 별 게시글 목록 조회
     List<BoardDto> getByCategory(BoardDto dto);
 
-
 }

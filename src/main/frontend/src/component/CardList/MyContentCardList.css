@@ -88,9 +88,7 @@
 }
 
 .my-party-button.active {
-
-    background-color: #ff6a10;
-    color: #ffffff;
-    border: none;
-
+  background-color: #ff6a10;
+  color: #ffffff;
+  border: none;
 }

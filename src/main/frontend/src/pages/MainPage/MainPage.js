@@ -17,7 +17,6 @@ function MainPage() {
         axios.get(HotRecipeUrl)
             .then(response => {
                 setHotCards(response.data);
-                console.log(' 핫한메인 레시피 카드리스트:',response.data)
             })
             .catch(error => {
                 // console.error(' 핫한메인 레시피 카드리스트 Error fetching data:', error);
@@ -34,8 +33,6 @@ function MainPage() {
                 //console.error('메인 레시피 카드리스트 Error fetching data:', error);
             });
     }, [])
-
-
 
   return (
     <div className="MainPage container">

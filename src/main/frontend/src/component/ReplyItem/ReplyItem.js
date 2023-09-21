@@ -59,11 +59,11 @@ function ReplyItem({ rcpNum, rplNum, userProfile, userNickname, content, regdate
       <div className="recipe_detail_reply_item">
         <div className="image_container">
           {/* 작성자 프로필 */}
-          <img
+          <img 
             src={
               userProfile ? `http://localhost:9999/recipe/image/${userProfile}` : "/images/default_profile.png"
-            }
-            alt="reply thumb"
+            } 
+            alt="reply thumb" 
           />
         </div>
         <div>

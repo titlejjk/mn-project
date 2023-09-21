@@ -11,9 +11,6 @@ const RecipeCard = ({ card, showTitle, showLikeBox }) => {
     const [userNum, setUserNum] = useState(0);
     const [rcpNum, setRcpNum] = useState(card.rcpNum);
     const [isLikedByUser, setIsLikedByUser] = useState(0);
-    //console.log("초기상태 isLikedByUser 상태 : " , isLikedByUser);
-    //console.log("rcpNum: ", card.rcpNum); // card.rcpNum 값 확인
-    //console.log("userNum: ", userNum); // userNum 값 확인
 
     useEffect(() => {
         const newToken = localStorage.getItem('login-token');
@@ -42,7 +39,6 @@ const RecipeCard = ({ card, showTitle, showLikeBox }) => {
                             setIsLikedByUser(liked === 1);  // liked 값이 1인지 확인하여 상태 설정
                             //console.log("좋아요: ", recipe.liked)
                         }
-                    console.log("!!!! Server Response:", response.data);
                 } catch (error) {
                     console.error('좋아요 상태 가져오기 실패:', error);
                 }

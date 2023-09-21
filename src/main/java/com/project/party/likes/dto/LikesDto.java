@@ -14,4 +14,5 @@ public class LikesDto {
     private String createdAt; //좋아요 생성 시인
     private int likeCount;  //좋아요 개수
     private String imageUrl; //이미지 경로
+    private int liked; //좋아요 여부
 }

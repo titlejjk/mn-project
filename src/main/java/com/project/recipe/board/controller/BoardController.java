@@ -49,6 +49,7 @@ public class BoardController {
 
 
     //게시글 작성
+    @Transactional
     @PostMapping("/insert")
     public ResponseEntity<?> insert(@ModelAttribute BoardDto dto,
                                     @RequestPart(value = "subImages", required = false) List<MultipartFile> subImages) {
@@ -67,6 +68,7 @@ public class BoardController {
     }
 
     //게시글 수정
+    @Transactional
     @PostMapping("/update")
     public ResponseEntity<?> update(@ModelAttribute BoardDto dto,
                                     @RequestParam("subImages") List<MultipartFile> subImages) {
@@ -101,6 +103,7 @@ public class BoardController {
             boardList = rcpService.getListWithLikes(keyword, condition, userNum);
         }
         //각 게시물에 대해 해당 사용자가 좋아요를 눌렀는지 확인하고 결과를 추가함
+
         return boardList;
     }
 

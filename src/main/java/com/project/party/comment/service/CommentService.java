@@ -20,3 +20,4 @@ public interface CommentService {
     //나의 댓글 조회
     List<CommentDto> getMyCommentList(int userNum);
 }
+

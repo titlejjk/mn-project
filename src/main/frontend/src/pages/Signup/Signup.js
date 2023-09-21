@@ -52,7 +52,7 @@ const Signup = () => {
       });
       console.log("성공!");
       Swal.fire({
-        text: "멍냥키친의 가족이 되신걸 환영합니❤️",
+        text: "멍냥키친의 가족이 되신걸 환영합니다❤️",
         showCancelButton: false,
         confirmButtonText: "확인",
         showClass: {

@@ -36,10 +36,13 @@ function NoticeUpdate() {
 
     // NoticeDetail 페이지 조회하여 초기값에 넣어주기
     const getList = () => {
-        axios.get("http://localhost:9999/notice/list/" + id)
+        axios.get(`http://localhost:9999/notice/list/${id}`)
             .then(res => {
                 setList(res.data);
                 console.log(res.data);
+
+                setTitle(res.data.title);
+                setContent(res.data.content);
             })
             .catch(error => {
                 console.log(error);
@@ -147,7 +150,7 @@ function NoticeUpdate() {
                     <button
                         className="submit-button"
                         onClick={handleUploadNotice}>
-                        작성
+                        수정
                     </button>
                     <button
                         className="cancel-button"
@@ -196,6 +199,7 @@ function Editor({ title, content, setTitle, setContent }) {
             <div className="title-container">
                 <input
                     className="title"
+                    placeholder="제목을 입력하세요"
                     type="text"
                     ref={quillRef}
                     value={title}

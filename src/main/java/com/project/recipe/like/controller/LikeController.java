@@ -1,11 +1,9 @@
 package com.project.recipe.like.controller;
 
-import com.project.party.likes.dto.LikesDto;
 import com.project.recipe.like.dto.LikeDto;
 import com.project.recipe.like.service.LikeService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -44,12 +42,14 @@ public class LikeController {
     public ResponseEntity<String> toggleLike(@RequestBody LikeDto dto) {
         String result = likeService.toggleLike(dto);
         HttpStatus status = "Like Inserted".equals(result) ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR;
+
         return new ResponseEntity<>(result, status);
     }
 
     //좋아요 개수
     @GetMapping("/count")
     public ResponseEntity<Integer> countLike(@RequestParam int rcpNum) {
+
         int result = likeService.countLike(rcpNum);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -57,6 +57,7 @@ public class LikeController {
     //좋아요 여부
     @GetMapping("/isLiked")
     public ResponseEntity<Integer> isLikedByUser(@RequestBody LikeDto dto) {
+
         int result = likeService.isLikedByUser(dto);
         HttpStatus status = result == 1 ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(result, status);
@@ -70,3 +71,4 @@ public class LikeController {
     }
 
 }
+

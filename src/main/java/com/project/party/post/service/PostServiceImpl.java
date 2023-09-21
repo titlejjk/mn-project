@@ -26,8 +26,8 @@ public class PostServiceImpl implements PostService {
     @Value("${file.location}")
     private String imgPath;
 
-    @Transactional
     @Override
+    @Transactional
     public void insertPost(PostDto postDto) {
         postMapper.insertPost(postDto);
     }
@@ -75,8 +75,8 @@ public class PostServiceImpl implements PostService {
         return postDetail;
     }
 
-    @Transactional
     @Override
+    @Transactional
     public void updatePost(PostDto postDto, MultipartFile image) {
         try {
             //게시글 수정

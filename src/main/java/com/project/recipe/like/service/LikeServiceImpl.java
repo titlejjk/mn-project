@@ -3,7 +3,6 @@ package com.project.recipe.like.service;
 import com.project.recipe.like.dao.LikeMapper;
 import com.project.recipe.like.dto.LikeDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

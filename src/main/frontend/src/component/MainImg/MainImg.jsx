@@ -15,7 +15,6 @@ const MainImg = () => {
                     const firstRecipe = recipes[0];
                     setMostLikedRecipe(firstRecipe);
                 }
-                console.log(recipes)
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);

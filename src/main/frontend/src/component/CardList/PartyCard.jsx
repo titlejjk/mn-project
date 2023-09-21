@@ -10,9 +10,6 @@ const PartyCard = ({ card, showTitle, showLikeBox }) => {
     const [userNum, setUserNum] = useState(0);
     const [postId, setPostId] = useState(card.postId);
     const [isLikedByUser, setIsLikedByUser] = useState(0);
-    console.log("초기상태 isLikedByUser 상태 : " , isLikedByUser);
-    console.log("postId: ", card.postId); // card.rcpNum 값 확인
-    console.log("userNum: ", userNum); // userNum 값 확인
 
     useEffect(() => {
         const newToken = localStorage.getItem('login-token');
@@ -37,9 +34,7 @@ const PartyCard = ({ card, showTitle, showLikeBox }) => {
                 if (party) {
                     const liked = party.liked;
                     setIsLikedByUser(liked === 1);
-                    console.log("현재 like 값: ", liked);
                 }
-                console.log("!!!! Server Response:", response.data);
             } catch (error) {
                 console.error('좋아요 상태 가져오기 실패:', error);
             }

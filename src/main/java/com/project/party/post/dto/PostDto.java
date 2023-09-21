@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class PostDto {
 
     private int postId; //게시글 ID
-    private int userNum; //작성자 ID
+    private Integer userNum; //작성자 ID
     private String title; //게시글 제목
     private String content; //게시글 내용
     private String createdAt;  // 게시물 생성 날짜

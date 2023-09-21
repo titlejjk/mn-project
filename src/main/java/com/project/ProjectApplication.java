@@ -3,24 +3,20 @@ package com.project;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 import java.io.File;
 
 
 @SpringBootApplication
-public class ProjectApplication {
+public class ProjectApplication extends SpringBootServletInitializer {
 
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(ProjectApplication.class);
+	}
 	public static void main(String[] args) {
 		SpringApplication.run(ProjectApplication.class, args);
-		File file = new File("example.txt");
-		String absolutePath = file.getAbsolutePath();
-		System.out.println("Absolute Path: " + absolutePath);
-
-		Package aPackage = Package.getPackage("org.springframework.security");
-		if (aPackage != null) {
-			System.out.println("Spring Security version: " + aPackage.getImplementationVersion());
-		} else {
-			System.out.println("Spring Security is not available.");
-		}
 	}
 }

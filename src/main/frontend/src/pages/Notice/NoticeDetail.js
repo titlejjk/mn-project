@@ -26,7 +26,6 @@ export default function Page() {
             // user 정보에 따라 관리자 여부 확인
             if (decodedToken.roles === 'ADMIN') {
                 setIsAdmin(true);
-                console.log(decodedToken.roles);
             }
         }
     }, []);
@@ -53,7 +52,6 @@ export default function Page() {
         axios.get("http://localhost:9999/notice/list/" + id)
             .then(res => {
                 setList(res.data);
-                console.log(res.data);
             })
             .catch(error => {
                 console.log(error);
@@ -89,11 +87,15 @@ export default function Page() {
             />
             <Divider />
             {isAdmin ? (
-                <div className="notice_detail_edit_container">
+                <div className="notice_edit_container">
+                    {/* 목록으로 이동 */}
+                    <Link className="notice_detail_listbtn" to={"/noticeBoard"}>목록</Link>
+                    <div className="notice_detail_edit_container">
                     <button
                         onClick={() => {
                             navigate(`/noticeUpdate?id=${id}`);
                         }}
+                        className="notice_detail_btn"
                     >
                         수정
                     </button>
@@ -113,15 +115,15 @@ export default function Page() {
                                     });
                             }
                         }}
+                        className="notice_detail_btn"
                     >
                         삭제
                     </button>
+                    </div>
                 </div>
             ) : (
                 ''
             )}
-            {/* 목록으로 이동 */}
-            <Link className="notice_detail_listbtn" to={"/Notice"}>목록</Link>
         </main>
     );
 }

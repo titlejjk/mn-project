@@ -36,8 +36,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
     //게시글 + 메인이미지 저장 처리
-    @Transactional
     @Override
+    @Transactional
     public void saveContent(BoardDto dto) {
         //필수 입력요소가 누락되었을 경우 예외 발생
         if (dto.getTitle() == null || dto.getCookingLevel() == null || dto.getIngredients() == null || dto.getContent() == null) {
@@ -53,8 +53,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
     //게시글 + 메인이미지 수정 처리
-    @Transactional
     @Override
+    @Transactional
     public void updateContent(BoardDto dto, List<MultipartFile> subImages) {
         try {
             //새로운 메인 이미지 가져오기

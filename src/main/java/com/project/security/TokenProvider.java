@@ -28,6 +28,7 @@ public class TokenProvider {
         claims.put("userNum", userDto.getUserNum());
         claims.put("userEmail", userDto.getUserEmail());
         claims.put("userNickname", userDto.getUserNickname());
+        claims.put("userGender", userDto.getUserGender());
         claims.put("userBirthday", userDto.getUserBirthday());
         claims.put("userGender", userDto.getUserGender());
         claims.put("userTypes", userDto.getPetTypes());

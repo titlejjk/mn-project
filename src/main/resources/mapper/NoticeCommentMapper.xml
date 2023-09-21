@@ -44,11 +44,11 @@
     <update id="update" parameterType="com.project.noticecomment.NoticeCommentDto">
         UPDATE notice_comment
         SET
-            created_date = NOW()
-          , content = #{content}
-          , writer = #{writer}
+        created_date = NOW()
+        , content = #{content}
+        , writer = #{writer}
         WHERE
-            id = #{id}
+        id = #{id}
     </update>
 
 
