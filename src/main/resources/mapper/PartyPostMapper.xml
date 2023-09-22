@@ -27,33 +27,35 @@
     <!-- 게시글 목록 조회 -->
     <select id="getList" parameterType="com.project.party.post.dto.PostDto" resultType="com.project.party.post.dto.PostDto">
         SELECT
-            p.post_id AS postId, p.user_num AS userNum, p.title AS title, i.image_url AS imageUrl
+        p.post_id AS postId, p.user_num AS userNum, p.title AS title, i.image_url AS imageUrl
         FROM party_post p
         JOIN user u ON p.user_num = u.user_num
         LEFT JOIN party_image i ON p.post_id = i.post_id
         ORDER BY p.post_id DESC
-        <include refid="searchCondition"/> <!--검색조건 포함-->
+        <include refid="searchCondition"/>
+        LIMIT #{pageSize} OFFSET #{startRowNum}
     </select>
 
     <!--게시글 & 메인 이미지 목록 조회 & 좋아요 여부-->
     <select id="getListWithLikes" parameterType="com.project.party.post.dto.PostDto" resultType="com.project.party.post.dto.PostDto">
         SELECT
-            p.post_id AS postId, p.user_num AS userNum, p.title AS title, i.image_url AS imageUrl,
-            (SELECT COUNT(*) FROM party_like pl WHERE pl.post_id = p.post_id AND pl.user_num = #{userNum}) AS liked
+        p.post_id AS postId, p.user_num AS userNum, p.title AS title, i.image_url AS imageUrl,
+        (SELECT COUNT(*) FROM party_like pl WHERE pl.post_id = p.post_id AND pl.user_num = #{userNum}) AS liked
         FROM party_post p
         JOIN user u ON p.user_num = u.user_num
         LEFT JOIN party_image i ON p.post_id = i.post_id
         ORDER BY p.post_id DESC
-        <include refid="searchCondition"/> <!--검색조건 포함-->
+        <include refid="searchCondition"/>
+        LIMIT #{pageSize} OFFSET #{startRowNum}
     </select>
 
     <!-- 게시글 상세 조회 -->
     <select id="getDetail" resultType="com.project.party.post.dto.PostDto">
         SELECT
-            p.post_id AS postId, p.user_num AS userNum, p.title, p.content,
-            p.created_at AS createdAt, p.updated_at AS updatedAt, p.view_count AS viewCount,
-            u.user_nickname AS userNickname, u.user_email AS userEmail, u.user_profile AS userProfile,
-            i.image_url AS imageUrl
+        p.post_id AS postId, p.user_num AS userNum, p.title, p.content,
+        p.created_at AS createdAt, p.updated_at AS updatedAt, p.view_count AS viewCount,
+        u.user_nickname AS userNickname, u.user_email AS userEmail, u.user_profile AS userProfile,
+        i.image_url AS imageUrl
         FROM party_post p
         JOIN user u ON p.user_num = u.user_num
         JOIN party_image i ON p.post_id = i.post_id
@@ -64,7 +66,7 @@
     <update id="updatePost">
         UPDATE party_post
         SET title = #{title},
-            content = #{content}
+        content = #{content}
         WHERE post_id = #{postId}
     </update>
 
@@ -92,13 +94,20 @@
         ORDER BY p.post_id DESC
     </select>
 
-    <!--사용자 번호로 게시글 번호 조회-->
+    <!-- 사용자 번호로 게시글 번호 조회 -->
     <select id="getPostId" parameterType="int" resultType="int">
         SELECT
-            p.post_id AS postId
+        p.post_id AS postId
         FROM party_post p
         JOIN user u ON p.user_num = u.user_num
         WHERE p.user_num=#{userNum}
+    </select>
+
+    <!-- 전체 게시물 수 조회 -->
+    <select id="getTotalCount" resultType="int">
+        SELECT COUNT(*)
+        FROM party_post p
+        JOIN user u ON p.user_num = u.user_num
     </select>
 
 </mapper>

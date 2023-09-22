@@ -3,6 +3,7 @@ package com.project.party.post.controller;
 import com.project.party.post.dto.PostDto;
 import com.project.party.post.dto.PostImageDto;
 import com.project.party.post.service.PostService;
+import com.project.recipe.board.dto.BoardDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/party")
@@ -55,17 +57,13 @@ public class PostController {
 
     //게시글 목록 조회
     @GetMapping("/list")
-    public ResponseEntity<List<PostDto>> getList(@RequestParam(name = "keyword", required = false) String keyword,
+    public Map<String, Object> getList(@RequestParam(name = "keyword", required = false) String keyword,
                                                  @RequestParam(name = "condition", required = false) String condition,
-                                                 @RequestParam(required = false) Integer userNum) {
-        List<PostDto> postList;
-        if(userNum == null){
-            postList = postService.getList(keyword, condition);
-            postList.forEach(post -> post.setLiked(0));
-        }else{
-            postList = postService.getListWithLikes(keyword, condition, userNum);
-        }
-        return ResponseEntity.ok(postList);
+                                                 @RequestParam(required = false) Integer userNum,
+                                                 @RequestParam(defaultValue = "1") int pageNum,
+                                                 @RequestParam(defaultValue = "6") int pageSize) {
+        Map<String, Object> map = postService.getListWithLikes(keyword, condition, userNum, pageNum, pageSize);
+        return map;
     }
 
     //게시글 상세 조회

@@ -12,7 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -33,38 +36,48 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getList(String keyword, String condition) {
-        PostDto dto = new PostDto();
-        //keyword가 있을 경우 검사
-        if (keyword != null && !"".equals(keyword)) {
-            //검색조건이 "작성자"인 경우
-            if ("userNickname".equals(condition)) {
-                //"작성자" 검색조건이 선택되었을 때 사용자가 입력한 검색키워드를 writer 필드에 저장
-                dto.setUserNickname(keyword);
-            }
-        }
-        //검색조건에 맞는 게시글 목록을 조회
-        List<PostDto> postList = postMapper.getList(dto);
-        //수정된 게시글 목록 반환
-        return postList;
-    }
-
-    @Override
-    public List<PostDto> getListWithLikes(String keyword, String condition, Integer userNum) {
+    public  Map<String, Object> getListWithLikes(String keyword, String condition, Integer userNum, int pageNum, int pageSize) {
         PostDto dto = new PostDto();
         dto.setUserNum(userNum);
-        //keyword가 있을 경우 검사
+
+        int PAGE_DISPLAY_COUNT = 5;
+        int startPageNum = 1 + ((pageNum - 1) / PAGE_DISPLAY_COUNT) * PAGE_DISPLAY_COUNT;
+        int endPageNum = startPageNum + PAGE_DISPLAY_COUNT - 1;
+        // 전체 row 수를 얻어야 합니다. 이 부분을 완성해야 함.
+        int totalRow = postMapper.getTotalCount(dto);
+
+        int totalPageCount = (int) Math.ceil(totalRow / (double) pageSize);
+
+        if (endPageNum > totalPageCount) {
+            endPageNum = totalPageCount;
+        }
+        dto.setStartPageNum(startPageNum);
+        dto.setEndPageNum(endPageNum);
+        dto.setTotalPageCount(totalPageCount);
+        dto.setPageSize(pageSize);
+        dto.setStartRowNum((pageNum - 1) * pageSize);
+
         if (keyword != null && !"".equals(keyword)) {
-            //검색조건이 "작성자"인 경우
             if ("userNickname".equals(condition)) {
-                //"작성자" 검색조건이 선택되었을 때 사용자가 입력한 검색키워드를 writer 필드에 저장
                 dto.setUserNickname(keyword);
             }
         }
-        //검색조건에 맞는 게시글 목록을 조회
-        List<PostDto> postList = postMapper.getListWithLikes(dto);
-        return postList;
+        List<PostDto> postList = new ArrayList<>();
+        if(userNum == null){
+            postList = postMapper.getList(dto);
+        }else{
+            postList = postMapper.getListWithLikes(dto);
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("contents", postList);
+        map.put("startPageNum", startPageNum);
+        map.put("endPageNum", endPageNum);
+        map.put("totalPageCount", totalPageCount);
+        map.put("totalRow", totalRow);
+        return map;
     }
+
 
     @Override
     public PostDto getDetail(int postId) {

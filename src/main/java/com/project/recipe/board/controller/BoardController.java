@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
@@ -92,19 +93,13 @@ public class BoardController {
 
     //전체 게시글 목록
     @GetMapping("/list")
-    public List<BoardDto> getList(@RequestParam(name = "keyword", required = false) String keyword,
-                                  @RequestParam(name = "condition", required = false) String condition,
-                                  @RequestParam(required = false) Integer userNum) {
-        List<BoardDto> boardList;
-        if (userNum == null) {
-            boardList = rcpService.getList(keyword, condition);
-            boardList.forEach(board -> board.setLiked(0));
-        }else{
-            boardList = rcpService.getListWithLikes(keyword, condition, userNum);
-        }
-        //각 게시물에 대해 해당 사용자가 좋아요를 눌렀는지 확인하고 결과를 추가함
-
-        return boardList;
+    public Map<String, Object> getList(@RequestParam(name = "keyword", required = false) String keyword,
+                                       @RequestParam(name = "condition", required = false) String condition,
+                                       @RequestParam(required = false) Integer userNum,
+                                       @RequestParam(defaultValue = "1") int pageNum,
+                                       @RequestParam(defaultValue = "6") int pageSize) {
+        Map<String, Object> map = rcpService.getListWithLikes(keyword, condition, userNum, pageNum, pageSize);
+        return map;
     }
 
     //게시글 상세

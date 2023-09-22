@@ -2,6 +2,7 @@ package com.project.recipe.board.service;
 
 import com.project.exception.CustomException.ImageMissingException;
 import com.project.exception.CustomException.RequiredFieldMissingException;
+import com.project.party.post.dto.PostDto;
 import com.project.recipe.board.dao.BoardMapper;
 import com.project.recipe.board.dto.BoardDto;
 import com.project.recipe.image.sub.dao.SubImgMapper;
@@ -13,7 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -90,41 +94,45 @@ public class BoardServiceImpl implements BoardService {
         rcpMapper.deleteRcp(rcpNum);
     }
 
-    //전체 게시글 목록 조회 메소드
-    @Override
-    public List<BoardDto> getList(String keyword, String condition) {
-        BoardDto dto = new BoardDto();
-        //keyword가 있을 경우 검사
-        if (keyword != null && !"".equals(keyword)) {
-            //검색조건이 "작성자"인 경우
-            if ("title".equals(condition)) {
-                //"작성자" 검색조건이 선택되었을 때 사용자가 입력한 검색키워드를 writer 필드에 저장
-                dto.setTitle(keyword);
-            }
-        }
-        //검색조건에 맞는 게시글 목록을 조회
-        List<BoardDto> rcpList = rcpMapper.getList(dto);
-        //수정된 게시글 목록 반환
-        return rcpList;
-    }
-
-
     //게시글 목록 + 좋아요 조회 메소드
     @Override
-    public List<BoardDto> getListWithLikes(String keyword, String condition, Integer userNum) {
+    public Map<String, Object> getListWithLikes(String keyword, String condition, Integer userNum, int pageNum, int pageSize) {
         BoardDto dto = new BoardDto();
         dto.setUserNum(userNum);
+        int PAGE_DISPLAY_COUNT = 5;
+        int startPageNum = 1 + ((pageNum - 1) / PAGE_DISPLAY_COUNT) * PAGE_DISPLAY_COUNT;
+        int endPageNum = startPageNum + PAGE_DISPLAY_COUNT - 1;
+        int totalRow = rcpMapper.getTotalCount(dto);
+        int totalPageCount = (int) Math.ceil(totalRow / (double) pageSize);
+        if (endPageNum > totalPageCount) {
+            endPageNum = totalPageCount;
+        }
+        dto.setStartPageNum(startPageNum);
+        dto.setEndPageNum(endPageNum);
+        dto.setTotalPageCount(totalPageCount);
+        dto.setPageSize(pageSize);
+        dto.setStartRowNum((pageNum - 1) * pageSize);
         //keyword가 있을 경우 검사
         if (keyword != null && !"".equals(keyword)) {
-            //검색조건이 "작성자"인 경우
+            //검색조건이 "제목"인 경우
             if ("title".equals(condition)) {
                 //"작성자" 검색조건이 선택되었을 때 사용자가 입력한 검색키워드를 writer 필드에 저장
                 dto.setTitle(keyword);
             }
         }
-        //검색조건에 맞는 게시글 목록을 조회
-        List<BoardDto> rcpList = rcpMapper.getListWithLikes(dto);
-        return rcpList;
+        List<BoardDto> rcpList = new ArrayList<>();
+        if(userNum == null){
+            rcpList = rcpMapper.getList(dto);
+        }else{
+            rcpList = rcpMapper.getListWithLikes(dto);
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("contents", rcpList);
+        map.put("startPageNum", startPageNum);
+        map.put("endPageNum", endPageNum);
+        map.put("totalPageCount", totalPageCount);
+        map.put("totalRow", totalRow);
+        return map;
     }
 
     //게시글 상세 조회

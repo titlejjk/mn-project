@@ -5,6 +5,7 @@ import com.project.recipe.board.dto.BoardDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PostService {
     //게시글 생성
@@ -16,11 +17,8 @@ public interface PostService {
     //게시글 삭제
     void deletePost(int postId);
 
-    //전체 게시글 조회
-    List<PostDto> getList(String keyword, String condition);
-
     //전체 게시글 + 좋아요 목록
-    List<PostDto> getListWithLikes(String keyword, String condition, Integer userNum);
+    Map<String, Object> getListWithLikes(String keyword, String condition, Integer userNum, int pageNum, int pageSize);
 
     //하나의 게시글을 조회
     PostDto getDetail(int postId);
