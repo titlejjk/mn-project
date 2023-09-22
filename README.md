@@ -25,32 +25,37 @@ Acorn 아카데미 Team Project "멍냥 프로젝트"
 ## 기술 스택
 
 ---
-<img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=React&logoColor=white" />
-<img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white" />
-<img src="https://img.shields.io/badge/AXIOS-5A29E4?style=flat&logo=AXIOS&logoColor=white" />
-<img src="https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=CSS3&logoColor=white" />
-<img src="https://img.shields.io/badge/javascript-F7DF1E?style=flat&logo=javascript&logoColor=white"/> 
-<img src="https://img.shields.io/badge/slides-E4637C?style=flat&logo=SlickSlide&logoColor=white" />
-<img src="https://img.shields.io/badge/reactrouter-CA4245?style=flat&logo=ReactRouter&logoColor=white" />
-<img src="https://img.shields.io/badge/fontawesome-528DD7?style=flat&logo=FontAwesome&logoColor=white" />
-<img src="https://img.shields.io/badge/visualstudiocode-007ACC?style=flat&logo=visualstudiocode&logoColor=white"/> 
-<img src="https://img.shields.io/badge/adobeillustrator-FF9A00?style=flat&logo=adobeillustrator&logoColor=white"/>
+<div style="display : flex">
+    <img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=React&logoColor=white" />
+    <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white" />
+    <img src="https://img.shields.io/badge/AXIOS-5A29E4?style=flat&logo=AXIOS&logoColor=white" />
+    <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=CSS3&logoColor=white" />
+    <img src="https://img.shields.io/badge/javascript-F7DF1E?style=flat&logo=javascript&logoColor=white"/> 
+    <img src="https://img.shields.io/badge/slides-E4637C?style=flat&logo=SlickSlide&logoColor=white" />
+    <img src="https://img.shields.io/badge/reactrouter-CA4245?style=flat&logo=ReactRouter&logoColor=white" />
+    <img src="https://img.shields.io/badge/fontawesome-528DD7?style=flat&logo=FontAwesome&logoColor=white" />
+    <img src="https://img.shields.io/badge/visualstudiocode-007ACC?style=flat&logo=visualstudiocode&logoColor=white"/> 
+    <img src="https://img.shields.io/badge/adobeillustrator-FF9A00?style=flat&logo=adobeillustrator&logoColor=white"/>
+</div>
 <br/>
-<img src="https://img.shields.io/badge/Java-007396?style=flat&logo=Java&logoColor=white" />
-<img src="https://img.shields.io/badge/mariadb-003545?style=flat&logo=mariadb&logoColor=white"/>
-<img src="https://img.shields.io/badge/springboot-6DB33F?style=flat&logo=springboot&logoColor=white"/> 
-<img src="https://img.shields.io/badge/springsecurity-6DB33F?style=flat&logo=springsecurity&logoColor=white"/> 
-<img src="https://img.shields.io/badge/gradle-02303A?style=flat&logo=gradle&logoColor=white"/>
-<img src="https://img.shields.io/badge/myBatis-181717?style=flat&logo=myBatis&logoColor=white"/> 
-<img src="https://img.shields.io/badge/intellijidea-000000?style=flat&logo=intellijidea&logoColor=white"/> 
+<div style="display : flex">
+    <img src="https://img.shields.io/badge/Java-007396?style=flat&logo=Java&logoColor=white" />
+    <img src="https://img.shields.io/badge/mariadb-003545?style=flat&logo=mariadb&logoColor=white"/>
+    <img src="https://img.shields.io/badge/springboot-6DB33F?style=flat&logo=springboot&logoColor=white"/> 
+    <img src="https://img.shields.io/badge/springsecurity-6DB33F?style=flat&logo=springsecurity&logoColor=white"/> 
+    <img src="https://img.shields.io/badge/gradle-02303A?style=flat&logo=gradle&logoColor=white"/>
+    <img src="https://img.shields.io/badge/myBatis-181717?style=flat&logo=myBatis&logoColor=white"/> 
+    <img src="https://img.shields.io/badge/intellijidea-000000?style=flat&logo=intellijidea&logoColor=white"/> 
+</div>
 <br/>
-<img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white"/> 
-<img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=gitHub&logoColor=white"/> 
-<img src="https://img.shields.io/badge/slack-4A154B?style=flat&logo=slack&logoColor=white"/>
-<img src="https://img.shields.io/badge/jirasoftware-0052CC?style=flat&logo=jirasoftware&logoColor=white"/> 
-<img src="https://img.shields.io/badge/figma-F24E1E?style=flat&logo=figma&logoColor=white"/> 
-<img src="https://img.shields.io/badge/notion-000000?style=flat&logo=notion&logoColor=white"/>
-
+<div style="display : flex">
+    <img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white"/> 
+    <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=gitHub&logoColor=white"/> 
+    <img src="https://img.shields.io/badge/slack-4A154B?style=flat&logo=slack&logoColor=white"/>
+    <img src="https://img.shields.io/badge/jirasoftware-0052CC?style=flat&logo=jirasoftware&logoColor=white"/> 
+    <img src="https://img.shields.io/badge/figma-F24E1E?style=flat&logo=figma&logoColor=white"/> 
+    <img src="https://img.shields.io/badge/notion-000000?style=flat&logo=notion&logoColor=white"/>
+</div>
 
 ### Java 11
 
