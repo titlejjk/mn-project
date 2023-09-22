@@ -1,9 +1,9 @@
-<img src="https://capsule-render.vercel.app/api?type=soft&color=auto&height=200&section=header&text=TeamProject&fontSize=70" />
+<img src="https://capsule-render.vercel.app/api?type=soft&color=auto&height=200&section=header&text=멍냥 키친&fontSize=70" />
 
 # Team Project
-Acorn 아카데미 Team Project 멍냥프로젝트
+Acorn 아카데미 Team Project "멍냥 프로젝트"
 - 프로젝트 주소 : https://github.com/titlejjk/mn-project
-- 일정 계획 : 2023/08/12~2023/09/06 예정
+- 일정 계획 : 2023/08/12~2023/09/22
 - 자원 계획 : FrontEnd 4명 BackEnd 3명
 
 ## 프로젝트 개요
@@ -25,6 +25,33 @@ Acorn 아카데미 Team Project 멍냥프로젝트
 ## 기술 스택
 
 ---
+<img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=React&logoColor=white" />
+<img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white" />
+<img src="https://img.shields.io/badge/AXIOS-5A29E4?style=flat&logo=AXIOS&logoColor=white" />
+<img src="https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=CSS3&logoColor=white" />
+<img src="https://img.shields.io/badge/javascript-F7DF1E?style=flat&logo=javascript&logoColor=white"/> 
+<img src="https://img.shields.io/badge/slides-E4637C?style=flat&logo=SlickSlide&logoColor=white" />
+<img src="https://img.shields.io/badge/reactrouter-CA4245?style=flat&logo=ReactRouter&logoColor=white" />
+<img src="https://img.shields.io/badge/fontawesome-528DD7?style=flat&logo=FontAwesome&logoColor=white" />
+<img src="https://img.shields.io/badge/visualstudiocode-007ACC?style=flat&logo=visualstudiocode&logoColor=white"/> 
+<img src="https://img.shields.io/badge/adobeillustrator-FF9A00?style=flat&logo=adobeillustrator&logoColor=white"/>
+<br/>
+<img src="https://img.shields.io/badge/Java-007396?style=flat&logo=Java&logoColor=white" />
+<img src="https://img.shields.io/badge/mariadb-003545?style=flat&logo=mariadb&logoColor=white"/>
+<img src="https://img.shields.io/badge/springboot-6DB33F?style=flat&logo=springboot&logoColor=white"/> 
+<img src="https://img.shields.io/badge/springsecurity-6DB33F?style=flat&logo=springsecurity&logoColor=white"/> 
+<img src="https://img.shields.io/badge/gradle-02303A?style=flat&logo=gradle&logoColor=white"/>
+<img src="https://img.shields.io/badge/myBatis-181717?style=flat&logo=myBatis&logoColor=white"/> 
+<img src="https://img.shields.io/badge/intellijidea-000000?style=flat&logo=intellijidea&logoColor=white"/> 
+<br/>
+<img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white"/> 
+<img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=gitHub&logoColor=white"/> 
+<img src="https://img.shields.io/badge/slack-4A154B?style=flat&logo=slack&logoColor=white"/>
+<img src="https://img.shields.io/badge/jirasoftware-0052CC?style=flat&logo=jirasoftware&logoColor=white"/> 
+<img src="https://img.shields.io/badge/figma-F24E1E?style=flat&logo=figma&logoColor=white"/> 
+<img src="https://img.shields.io/badge/notion-000000?style=flat&logo=notion&logoColor=white"/>
+
+
 ### Java 11
 
 - 주 프로그래밍 언어로 Java 11을 선택하였습니다.
@@ -64,9 +91,37 @@ Acorn 아카데미 Team Project 멍냥프로젝트
 - Develop : 개발 종료 부분에 대해서만 merge를 진행합니다.
 - Feature : 기능 개발 시 사용합니다.
 
-## 담당 업무 및 역할  
+## 팀원 및 구현기능   
 
 ---
+
+|조준근|김수정|이준규|백민규|이슬아|정혜영|조새은|
+|----|----|----|-----|----|-----|-----|
+|![back1](https://github.com/Saeunnnnni/Saeunnnnni/assets/108113552/79a34f52-78a0-4bf7-81ce-28e6a017be87)|![back3](https://github.com/Saeunnnnni/Saeunnnnni/assets/108113552/470e1c50-0c0d-4c9a-b440-ac63da1adc85)|![back2](https://github.com/Saeunnnnni/Saeunnnnni/assets/108113552/26fec934-aa4f-431d-84f1-ba4820e4556c)|![front3](https://github.com/Saeunnnnni/mn_frontend/assets/108113552/f13c6227-22db-4d95-815e-d3520a98ece9) |![front4](https://github.com/Saeunnnnni/mn_frontend/assets/108113552/4f6aad9c-2a8e-4f9d-924c-6664201c5ffa)|![front2](https://github.com/Saeunnnnni/mn_frontend/assets/108113552/d5f7c15f-2d56-4040-8ad3-4fe85e6815d3)|![front1](https://github.com/Saeunnnnni/mn_frontend/assets/108113552/ec9d0788-c13d-4684-a4d1-75fa88a14466)|
+
+### [백엔드]
+조준근 (조장) 
+- 관리자 및 회원정보 담당
+- 팔로우 기능
+- 요구사항 정의서 작성
+- FlowChart 작성장
+- MQTT
+
+김수정
+- 레시피/축하파티 게시판
+- 이미지 업로드 기능
+- 댓글, 좋아요, 페이징처리 기능
+- 게시글 카테고리 분류
+- 유스케이스 작성
+- README 작성
+
+이준규
+- 공지사항 게시판
+- 파일 업로드 기능
+- 시퀀스 다이어그램 작성
+- 회원관리 기능
+
+
 ### [프론트엔드]
 백민규
 - 공지사항/레시피/축하파티 상세페이지
@@ -89,26 +144,10 @@ Acorn 아카데미 Team Project 멍냥프로젝트
 - 프로젝트 서기
 - Jira 정리 총괄
 - 공지사항/레시피/축하파티 메인페이지
-- 팀 프로젝트 Git 관리 
+- 팀 프로젝트 Git 관리
+- README 작성
 
-### [백엔드]
-김수정
-- 레시피/축하파티 게시판
-- 이미지 업로드 기능
-- 댓글, 좋아요, 검색 기능
-- 게시글 카테고리 분류
-- 유스케이스 작성
 
-이준규 
-- 공지사항 게시판
-- 파일 업로드 기능 
-- 시퀀스 다이어그램 작성
-
-조준근
-- 관리자 및 회원정보 담당
-- 요구사항 정의서 작성
-- 아키텍처 설계
-- MQTT 
 
 ## 주요 클래스 및 로직 설명
 
@@ -146,21 +185,26 @@ Acorn 아카데미 Team Project 멍냥프로젝트
 ---
 - Flowchart
 
-![flowchart](https://github.com/titlejjk/mn-project/blob/main/resources/images/flowchart.png)
-![flowchart](src/main/resources/images/flowchart.png)
-![](https://velog.velcdn.com/images/katejo6011/post/a65bf09f-bdcc-4b13-9157-f19f629f9fb6/image.png)
+![KakaoTalk_20230922_130019247](https://github.com/Saeunnnnni/Saeunnnnni/assets/108113552/21a55915-d0c0-4e0e-9ade-cacab8155a97)
+
+
 - ERD
 
-![erd](https://github.com/titlejjk/mn-project/blob/main/resources/images/erd.png)
-![erd](src/main/resources/images/erd.png)
+![KakaoTalk_20230922_130016120](https://github.com/Saeunnnnni/Saeunnnnni/assets/108113552/b3f0e462-b369-42bf-a43a-2254a9fa45a6)
+
 
 - Usecase
 
-![usecase](https://github.com/titlejjk/mn-project/blob/main/resources/images/usecase.png)
-![flowchart](src/main/resources/images/usecase.png)
+![KakaoTalk_20230922_130022030](https://github.com/Saeunnnnni/Saeunnnnni/assets/108113552/351edbfb-74e7-4036-8658-b2fb234fdbff)
 
 
 ## 화면 설계 
 
 ---
+![KakaoTalk_20230922_130025895](https://github.com/Saeunnnnni/Saeunnnnni/assets/108113552/ea9ff116-eeac-4f3d-8750-9bacf46accd2)
 
+![KakaoTalk_20230922_130025895_01](https://github.com/Saeunnnnni/Saeunnnnni/assets/108113552/e0444cae-b1ee-4850-a87f-e0d2034bd0e5)
+
+![KakaoTalk_20230922_130025895_02](https://github.com/Saeunnnnni/Saeunnnnni/assets/108113552/d6f5cf69-8d21-4deb-b385-0e1efa03459d)
+
+![KakaoTalk_20230922_130025895_03](https://github.com/Saeunnnnni/Saeunnnnni/assets/108113552/1e0721af-c878-4306-8364-2504573666cc)

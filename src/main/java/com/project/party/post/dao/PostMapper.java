@@ -10,14 +10,17 @@ import java.util.List;
 @Mapper
 public interface PostMapper {
 
-    //글을 저장
+    //게시글 저장
     void insertPost(PostDto postDto);
 
-    //여러개의 글을 조회
+    //전체 글을 조회
     List<PostDto> getList(PostDto dto);
 
-    //글 목록 + 좋아요 조회
+    //전체 글 + 좋아요 조회
     List<PostDto> getListWithLikes(PostDto dto);
+
+    //전체 게시글 수 조회
+    int getTotalCount(PostDto dto);
 
     //하나의 글을 조회
     PostDto getDetail(int post_id);
